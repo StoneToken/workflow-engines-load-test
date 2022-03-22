@@ -1,0 +1,76 @@
+<mxfile>
+    <diagram id="vU4OwwwFdvQpz8BwOf0t" name="activiti6 solution">
+        <mxGraphModel dx="1092" dy="791" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="13" value="PostgreSQL" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" parent="1" vertex="1">
+                    <mxGeometry x="520" y="85" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="" style="group" parent="1" vertex="1" connectable="0">
+                    <mxGeometry x="240" y="40" width="200" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="14" vertex="1">
+                    <mxGeometry width="200" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="Java application" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="14" vertex="1">
+                    <mxGeometry x="50" width="110" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="activiti-engine" style="rounded=0;whiteSpace=wrap;html=1;" parent="14" vertex="1">
+                    <mxGeometry x="40" y="20" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="business logic" style="rounded=0;whiteSpace=wrap;html=1;" parent="14" vertex="1">
+                    <mxGeometry x="40" y="70" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="bpmn resouces" style="rounded=0;whiteSpace=wrap;html=1;" parent="14" vertex="1">
+                    <mxGeometry x="40" y="120" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="REST API&lt;br&gt;call" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="15" target="8" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="load-generator" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="95" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="Process&lt;br&gt;state" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="8" target="13" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="stub" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="280" y="280" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="REST API calls" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="8" target="22" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="R_1SpufCOTZG37s_w6kX" name="kogito solution">
+        <mxGraphModel dx="1092" dy="791" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="34f-ecab3Q2svzL-ndCC-0"/>
+                <mxCell id="34f-ecab3Q2svzL-ndCC-1" parent="34f-ecab3Q2svzL-ndCC-0"/>
+                <mxCell id="hG-2t_THVzEyzK3NFsT4-0" value="load-generator" style="rounded=0;whiteSpace=wrap;html=1;" parent="34f-ecab3Q2svzL-ndCC-1" vertex="1">
+                    <mxGeometry x="40" y="95" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="hG-2t_THVzEyzK3NFsT4-1" value="stub" style="rounded=0;whiteSpace=wrap;html=1;" parent="34f-ecab3Q2svzL-ndCC-1" vertex="1">
+                    <mxGeometry x="280" y="280" width="120" height="60" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="5JNW4KDTnOV5PkMuJbB0" name="temporal solution">
+        <mxGraphModel dx="1092" dy="791" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="f8z2w4KTj2-V_YPdUYit-0"/>
+                <mxCell id="f8z2w4KTj2-V_YPdUYit-1" parent="f8z2w4KTj2-V_YPdUYit-0"/>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="oGIw7pAK7PbbKCt1LWrx" name="zeebe solution">
+        <mxGraphModel dx="1092" dy="791" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="y3UlIs8sB1Mg5NNH86oJ-0"/>
+                <mxCell id="y3UlIs8sB1Mg5NNH86oJ-1" parent="y3UlIs8sB1Mg5NNH86oJ-0"/>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
