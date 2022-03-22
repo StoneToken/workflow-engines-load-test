@@ -65,7 +65,7 @@ When running in either Quarkus Development or Native mode, we also leverage the 
 
 Curl for start-stop
 
-```
+```sh
 curl -X 'POST' 'http://localhost:8080/start_stop' -H 'accept: */*' -H 'Content-Type: application/json' -d '{}'
 ```
 
