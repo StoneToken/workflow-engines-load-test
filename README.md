@@ -28,43 +28,47 @@ I will try to compare candidates on performance, resource utilization and stabil
 
 ### Test worflows
 
-#### Start-stop sync
+#### Start-stop
 
 Just start and stop a workflow, no meaningful workload. The workflow is executed synchronously, generator thread is blocked until workflow is completed.
 
-![start-stop](resources/startStop-svg.svg)
+![start-stop](resources/startStop.png)
 
-#### Single REST Task sync
+#### Single REST Task
 
 Just start and stop a workflow, invoke a single REST workload. The workflow is executed synchronously, generator thread is blocked until workflow is completed.
 
-![start-stop](resources/single-svg.svg)
+![start-stop](resources/single.png)
 
-#### Sequential sync
+#### Sequential
 
 Execute a workflow that calls REST APIs in a sequence. The workflow is executed synchronously, generator thread is blocked until workflow is completed.
 
-![sequential-sync](resources/sequential-svg.svg)
+![sequential](resources/sequential.png)
 
-#### Parallel-split sync
+#### Parallel-split
 
 Execute a workflow that calls REST APIs in 5 parallel sequences. The workflow is executed synchronously, generator thread is blocked until workflow is completed.
 
-![parallel-split-sync](resources/parallel-svg.svg)
+![parallel-split](resources/parallel.png)
 
 ### Performance
 
 In these test cases we measure absolute engine performance, the idea is to reach target TPS regardless of resource utilization.
 
-#### Performance case 1 (start-stop sync)
+#### Performance case 1 (start-stop)
 
 Target is 10 000 workflow starts \ sec for 1 minute.
 
-#### Performance case 2 (sequential sync)
+#### Performance case 1 (single)
+
+Target is 10 000 workflow starts \ sec for 1 minute.
+
+#### Performance case 2 (sequential)
 
 Target is 10 000 workflow starts \ sec for 15 minutes.
 
-#### Performance case 3 (parallel-split sync)
+#### Performance case 3 (parallel-split)
 
 Target is 10 000 workflow starts \ sec for 15 minutes.
 
