@@ -151,7 +151,7 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - ./apis:/apis:z
+      - ../stub/apis:/apis:z
     command: /apis/rest.yaml
 
   # task-console:
