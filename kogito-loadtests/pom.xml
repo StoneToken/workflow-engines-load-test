@@ -177,11 +177,11 @@
                         <configuration>
                             <outputFile>${shadeOutputFile}</outputFile>
                             <artifactSet>
-<!--                                <excludes>-->
-<!--                                    <exclude>ch.qos.logback:logback-classic</exclude>-->
-<!--                                    <exclude>ch.qos.logback:logback-core</exclude>-->
-<!--                                    <exclude>org.codehaus.groovy:groovy-all</exclude>-->
-<!--                                </excludes>-->
+                                <excludes>
+                                    <exclude>ch.qos.logback:logback-classic</exclude>
+                                    <exclude>ch.qos.logback:logback-core</exclude>
+                                    <exclude>org.codehaus.groovy:groovy-all</exclude>
+                                </excludes>
                             </artifactSet>
                             <filters>
                                 <filter>
