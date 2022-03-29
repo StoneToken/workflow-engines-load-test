@@ -90,7 +90,7 @@
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_711D7954-D784-4AEC-9D4F-91E8A24A8130_HostInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[localhost]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[api-mock-rest]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_711D7954-D784-4AEC-9D4F-91E8A24A8130_HostInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
