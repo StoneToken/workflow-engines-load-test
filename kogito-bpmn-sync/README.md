@@ -51,6 +51,12 @@ To run the generated native executable, generated in `target/`, execute
 ./target/kogitobpmn-runner
 ```
 
+Build docker image
+
+```sh
+docker build -f src/main/docker/Dockerfile.jvm -t quarkus/kogitobpmn-jvm .
+```
+
 ### OpenAPI (Swagger) documentation
 [Specification at swagger.io](https://swagger.io/docs/specification/about/)
 
