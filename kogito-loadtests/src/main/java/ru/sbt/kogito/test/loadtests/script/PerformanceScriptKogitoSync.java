@@ -1,9 +1,7 @@
 package ru.sbt.kogito.test.loadtests.script;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbt.ltf.annotation.Action;
@@ -20,14 +18,18 @@ import ru.sbt.ltf.runtime.Environment;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Script
 public class PerformanceScriptKogitoSync implements AutoCloseable {
 
-    protected final static Logger LOG = LoggerFactory.getLogger(PerformanceScriptKogitoSync.class);
+    private final static Logger LOG = LoggerFactory.getLogger(PerformanceScriptKogitoSync.class);
 
     private final static String DEFAULT_URL = "http://localhost:8080";
     private final static String DEFAULT_URL_PATH = "/single";
@@ -43,14 +45,23 @@ public class PerformanceScriptKogitoSync implements AutoCloseable {
     @Provided
     private Environment env;
 
-    protected Result doAction(CloseableHttpClient closeableHttpClient, String methodName) {
+    HttpClient httpClient = HttpClient.newBuilder()
+            .version(HttpClient.Version.HTTP_1_1)
+            .connectTimeout(Duration.ofSeconds(10L))
+            .build();
 
-        HttpPost httpPost = new HttpPost(url + urlPath);
-        httpPost.setHeader("Content-Type", "application/json");
+    private static final String METHOD_NAME = "LoadTestKogito_testSync";
 
-        StopWatch stopWatch = gauge.start("Kogito_" + methodName);
+    protected Result doAction(String methodName) {
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .POST()
+                .uri(URI.create(url + urlPath))
+                .setHeader("Content-Type", "application/json")
+                .build();
         try {
-            HttpResponse httpResponse = httpClient.execute(httpPost);
+            StopWatch stopWatch = gauge.start("Kogito_" + methodName);
+            HttpResponse httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             if (httpResponse.getStatusLine().toString().equals("HTTP/1.1 200 ")) {
                 String responseBody =
                         new BufferedReader(
@@ -88,11 +99,6 @@ public class PerformanceScriptKogitoSync implements AutoCloseable {
         LOG.debug("stubURL: {}", stubUrl);
     }
 
-
-    CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-
-    private static final String METHOD_NAME = "LoadTestKogito_testSync";
-
     @Init
     public void init(
             @Parameterized(name = "url", value = "http://10.31.0.5:8080") String url,
@@ -104,12 +110,11 @@ public class PerformanceScriptKogitoSync implements AutoCloseable {
 
     @Action(invocationCount = 10)
     public Result action() {
-        return doAction(httpClient, METHOD_NAME);
+        return doAction(METHOD_NAME);
     }
 
     @End
     @Override
-    public void close() throws Exception {
-        httpClient.close();
+    public void close() {
     }
 }

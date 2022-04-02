@@ -11,7 +11,7 @@
     <properties>
         <!--Версия AssertJ-->
         <assertj.core.version>3.21.0</assertj.core.version>
-        <!--Используем JDK 1.8-->
+        <!--Используем JDK-->
         <jdk.version>11</jdk.version>
 
         <loadrunner.rts.jvm.argLine>-Dfile.encoding=UTF-8</loadrunner.rts.jvm.argLine>

@@ -5,12 +5,12 @@ services:
     image: danielgtaylor/apisprout
     mem_limit: 50m
     ports:
-      - 8000:8000
+      - 7777:7777
     volumes:
       - ./apis:/apis:z
     command: /apis/rest.yaml
-    # networks:
-    #   sberflow-net:
+#    networks:
+#      sberflow-net:
 
 # Эта команда подключит заглушки API к сети с сервисами SberFlow
 # networks:
