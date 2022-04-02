@@ -1,11 +1,8 @@
 package ru.sbt.kogito.test.loadtests.script;
 
-import org.apache.http.HttpResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.sbt.ltf.annotation.Action;
-import ru.sbt.ltf.annotation.End;
 import ru.sbt.ltf.annotation.Init;
 import ru.sbt.ltf.annotation.Parameterized;
 import ru.sbt.ltf.annotation.Provided;
@@ -20,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.http.HttpClient;
+import java.net.http.HttpResponse;
 import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -27,7 +25,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Script
-public class PerformanceScriptKogitoAsync implements AutoCloseable {
+public class PerformanceScriptKogitoAsync {
 
     private final static Logger LOG = LoggerFactory.getLogger(PerformanceScriptKogitoAsync.class);
 
@@ -52,35 +50,27 @@ public class PerformanceScriptKogitoAsync implements AutoCloseable {
 
     private static final String METHOD_NAME = "LoadTestKogito_testSync";
 
-    protected Result doAction(String methodName) {
+    protected Result doAction() {
 
         HttpRequest request = HttpRequest.newBuilder()
-                .POST()
                 .uri(URI.create(url + urlPath))
                 .setHeader("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
         try {
-            StopWatch stopWatch = gauge.start("Kogito_" + methodName);
-            HttpResponse httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            if (httpResponse.getStatusLine().toString().equals("HTTP/1.1 200 ")) {
-                String responseBody =
-                        new BufferedReader(
-                                new InputStreamReader(
-                                        httpResponse
-                                                .getEntity()
-                                                .getContent(), StandardCharsets.UTF_8)
-                        )
-                                .lines()
-                                .collect(Collectors.joining(System.lineSeparator()));
+            StopWatch stopWatch = gauge.start("Kogito_" + METHOD_NAME);
+            HttpResponse<String> httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            if (httpResponse.toString().equals("HTTP/1.1 200 ")) {
+                String responseBody = httpResponse.body();
                 stopWatch.stop(true);
                 LOG.info("result: {}", responseBody);
                 return Result.success();
             } else {
                 stopWatch.stop(false);
-                LOG.error("result: {}", httpResponse.getStatusLine().toString());
-                return Result.error(httpResponse.getStatusLine().toString());
+                LOG.error("result: {}", httpResponse.body());
+                return Result.error(httpResponse.body());
             }
-        } catch (IOException exception) {
+        } catch (IOException | InterruptedException exception) {
             LOG.error("Error, HttpClient: ", exception);
             return Result.error(exception);
         }
@@ -110,11 +100,6 @@ public class PerformanceScriptKogitoAsync implements AutoCloseable {
 
     @Action(invocationCount = 10)
     public Result action() {
-        return doAction(METHOD_NAME);
-    }
-
-    @End
-    @Override
-    public void close() {
+        return doAction();
     }
 }

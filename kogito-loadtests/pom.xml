@@ -10,7 +10,7 @@
 
     <properties>
         <!--Версия AssertJ-->
-        <assertj.core.version>3.21.0</assertj.core.version>
+        <assertj.core.version>3.22.0</assertj.core.version>
         <!--Используем JDK-->
         <jdk.version>11</jdk.version>
 
@@ -20,8 +20,6 @@
         <jmeter.version>5.4.1</jmeter.version>
 
         <httpclient.version>4.5.13</httpclient.version>
-        <maven.compiler.source>${jdk.version}</maven.compiler.source>
-        <maven.compiler.target>${jdk.version}</maven.compiler.target>
         <maven.compiler.version>3.8.4</maven.compiler.version>
 
         <!--Файлы java в кодировке UTF-8-->
@@ -35,10 +33,10 @@
 
         <platform.commons.api.version>3.2.0</platform.commons.api.version>
         <!--Версия Фреймворка-->
-        <ltf.version>2.0.9</ltf.version>
+        <ltf.version>2.2.0</ltf.version>
         <!--Актуальная версия: https://sbt-gitlab.delta.sbrf.ru/lt-framework/ltf/blob/master/CHANGELOG.md -->
         <!--Версия TestNG-->
-        <testng.version>7.4.0</testng.version>
+        <testng.version>7.5</testng.version>
         <maven.shade.plugin.version>3.2.4</maven.shade.plugin.version>
     </properties>
 
@@ -224,6 +222,14 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
             </plugin>
             <!-- endregion-->
         </plugins>
