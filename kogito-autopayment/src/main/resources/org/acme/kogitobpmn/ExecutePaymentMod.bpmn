@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:sbt="http://com.sbt/bpms/modeler" xmlns:tl="http://www.w3.org/2001/XMLSchema" id="bf1676c3-d52c-44ee-959a-b0653c15099f" targetNamespace="http://com.sbt/bpms/modeler" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="9.0.3" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:message id="e8d9259c-97d6-4e65-8261-8de563c3afff" name="ExecutePayment">
+    <bpmn2:extensionElements>
+      <ext:style />
+    </bpmn2:extensionElements>
+  </bpmn2:message>
+  <bpmn2:process id="e18c9a3c-0d99-4cce-8860-67adb8c7e817" name="ExecutePayment" isExecutable="true" sbt:bamProjectId="" sbt:businessFamily="" sbt:externalVersion="" sbt:processOwner.roleCode="" sbt:processOwner.roleDescription="" sbt:processOwner.roleName="">
+    <bpmn2:laneSet id="b026e948-b4ac-4c34-b9a1-df0a9ecc912d" name="New Lane Set ">
+      <bpmn2:lane id="f79419fc-8157-4945-87bd-25a8f4b744f6" name="BPM" sbt:Role.roleCode="" sbt:Role.roleDescription="" sbt:Role.roleName="" sbt:managerRole.roleCode="" sbt:managerRole.roleDescription="" sbt:managerRole.roleName="">
+        <bpmn2:flowNodeRef>fc00a548-8700-40cc-a213-caedd13e6c93</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>aa6a1c93-66c8-450e-85a0-1d2a92a6a2f5</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>a5d7164b-0289-4438-bfd6-17939b25deb6</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>afd305a2-280f-45bd-8d94-36d24ab040a1</bpmn2:flowNodeRef>
+      </bpmn2:lane>
+    </bpmn2:laneSet>
+    <bpmn2:startEvent id="fc00a548-8700-40cc-a213-caedd13e6c93">
+      <bpmn2:outgoing>cb709d80-2135-4e55-aa5d-870bf055e497</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:task id="aa6a1c93-66c8-450e-85a0-1d2a92a6a2f5" name="Исполнение платежа" sbt:apiSource="file" sbt:buildingBlockId="" sbt:initialUrl="http://localhost/at-api-payments/v1/payment/{executionAttemptId}:execute" sbt:methodName="post" sbt:outputMapping="expression" sbt:payloadType="map" sbt:retryPolicyModelDescription="" sbt:retryPolicyModelId="" sbt:sbtType="com.sbt.bpms.modeler.plugin.marker.RestTask" sbt:timeout="PT10S" sbt:url="http://at-payments-ms-service:13060/at-api-payments/v1/payment/{executionAttemptId}:execute" sbt:serviceType="buildingBlock">
+      <bpmn2:extensionElements>
+        <sbt:inputParamList>
+          <sbt:inputParam id="62e6561c-4515-4f50-bd20-de112f7d5775">
+            <sbt:name>executionAttemptId</sbt:name>
+            <sbt:type text="required string (long)">required string (long)</sbt:type>
+            <sbt:variableName text="${execution.getVariable(&#34;executionAttemptId&#34;)}">${execution.getVariable("executionAttemptId")}</sbt:variableName>
+            <sbt:inType>path</sbt:inType>
+          </sbt:inputParam>
+          <sbt:inputParam id="3760c4f8-44c7-4bd4-ad1f-eddd98fc71ef">
+            <sbt:name>processId</sbt:name>
+            <sbt:type text="string">string</sbt:type>
+            <sbt:variableName text="${execution.getProcessInstanceId()}">${execution.getProcessInstanceId()}</sbt:variableName>
+            <sbt:inType>requestBody</sbt:inType>
+          </sbt:inputParam>
+          <sbt:inputParam id="3a9cb127-570b-4de7-825b-1192906d3e28">
+            <sbt:name>subscriptionName</sbt:name>
+            <sbt:type text="string">string</sbt:type>
+            <sbt:variableName text="${execution.getVariable(&#34;subscriptionName&#34;)}">${execution.getVariable("subscriptionName")}</sbt:variableName>
+            <sbt:inType>requestBody</sbt:inType>
+          </sbt:inputParam>
+        </sbt:inputParamList>
+        <sbt:responseParamList>
+          <sbt:responseParam id="a6d91170-d7c4-4819-80b6-dc38d916fa29">
+            <sbt:httpCode>200</sbt:httpCode>
+          </sbt:responseParam>
+          <sbt:responseParam id="fc0d4cf4-a5a4-4c61-bfd8-27bdf8ca4065">
+            <sbt:httpCode>400</sbt:httpCode>
+            <sbt:contentType>application/json</sbt:contentType>
+            <sbt:type>object (code: required integer (int32), message: string, details: oneOf: Schema BadRequest)</sbt:type>
+          </sbt:responseParam>
+          <sbt:responseParam id="ff66840b-c388-4e27-af81-9bac29911205">
+            <sbt:httpCode>404</sbt:httpCode>
+            <sbt:contentType>application/json</sbt:contentType>
+            <sbt:type>object (code: required integer (int32), message: string, details: oneOf: Schema ResourceInfo)</sbt:type>
+          </sbt:responseParam>
+        </sbt:responseParamList>
+        <sbt:httpHeaderList>
+          <sbt:httpHeader id="e57e06fe-796b-452d-942a-7bf45e04b562">
+            <sbt:name>Content-Type</sbt:name>
+            <sbt:value>application/json</sbt:value>
+          </sbt:httpHeader>
+        </sbt:httpHeaderList>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>cb709d80-2135-4e55-aa5d-870bf055e497</bpmn2:incoming>
+      <bpmn2:outgoing>b0bd2db9-3ee0-488e-9837-ccc9b05861c3</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="cb709d80-2135-4e55-aa5d-870bf055e497" sourceRef="fc00a548-8700-40cc-a213-caedd13e6c93" targetRef="aa6a1c93-66c8-450e-85a0-1d2a92a6a2f5" />
+    <bpmn2:intermediateCatchEvent id="a5d7164b-0289-4438-bfd6-17939b25deb6" name="Получен ответ на запрос" sbt:marker.type="Markable" sbt:sbtType="com.sbt.bpms.modeler.plugin.marker.markableIntermediateCatchEvent">
+      <bpmn2:incoming>b0bd2db9-3ee0-488e-9837-ccc9b05861c3</bpmn2:incoming>
+      <bpmn2:outgoing>ba29a3f8-a00c-4d08-9392-ac94ae14ca7a</bpmn2:outgoing>
+      <bpmn2:messageEventDefinition id="b98746ed-ea70-4e84-bba5-ca9ba4741d63" messageRef="e8d9259c-97d6-4e65-8261-8de563c3afff" />
+    </bpmn2:intermediateCatchEvent>
+    <bpmn2:endEvent id="afd305a2-280f-45bd-8d94-36d24ab040a1" sbt:marker.type="Markable" sbt:sbtType="com.sbt.bpms.modeler.plugin.marker.markableEndEvent">
+      <bpmn2:incoming>ba29a3f8-a00c-4d08-9392-ac94ae14ca7a</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="ba29a3f8-a00c-4d08-9392-ac94ae14ca7a" sourceRef="a5d7164b-0289-4438-bfd6-17939b25deb6" targetRef="afd305a2-280f-45bd-8d94-36d24ab040a1" />
+    <bpmn2:sequenceFlow id="b0bd2db9-3ee0-488e-9837-ccc9b05861c3" sourceRef="aa6a1c93-66c8-450e-85a0-1d2a92a6a2f5" targetRef="a5d7164b-0289-4438-bfd6-17939b25deb6" />
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="d1a9b1ef-0399-434c-9cbc-9f16ac877fb7">
+    <bpmndi:BPMNPlane id="c388482b-e573-4a60-8f6a-ac2ba3bda636" bpmnElement="e18c9a3c-0d99-4cce-8860-67adb8c7e817">
+      <bpmndi:BPMNShape id="a0cfca7c-c514-4c8b-80fe-5b699dd86b4c" bpmnElement="f79419fc-8157-4945-87bd-25a8f4b744f6" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="751" height="401" />
+        <bpmndi:BPMNLabel id="f618af8d-f33a-4757-8034-5c80ff6358c3" labelStyle="b16b6db2-ce15-41a1-9c2b-19ec1634c160">
+          <dc:Bounds x="56" y="205" width="17" height="31" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="ac5d5b60-0754-4a69-8183-f43908bb997a" bpmnElement="b0bd2db9-3ee0-488e-9837-ccc9b05861c3" sourceElement="b4b8011b-bf40-4e0b-9b85-98666f7cae01" targetElement="d57e6945-e968-4a9b-bb68-b8d1c04fa2fa">
+        <di:waypoint x="501" y="278" />
+        <di:waypoint x="550" y="278" />
+        <di:waypoint x="600" y="278" />
+        <bpmndi:BPMNLabel id="bb2ae3e9-45bb-4df4-b93c-4dfd60e4df57" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="b5bd891f-4873-4168-b4a1-1aa6c9e2c5a8" bpmnElement="ba29a3f8-a00c-4d08-9392-ac94ae14ca7a" sourceElement="d57e6945-e968-4a9b-bb68-b8d1c04fa2fa" targetElement="efbe0653-d5e2-4b84-bc77-bbce21e57cc1">
+        <di:waypoint x="636" y="278" />
+        <di:waypoint x="693" y="278" />
+        <di:waypoint x="750" y="278" />
+        <bpmndi:BPMNLabel id="c2d9c58c-fcbf-4f9c-ae3d-8ded2e2a7d4a" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="b23b13ae-c61c-4e38-980e-2100ffa21008" bpmnElement="cb709d80-2135-4e55-aa5d-870bf055e497" sourceElement="be2319cd-581f-492a-9473-a078b4f9f5aa" targetElement="b4b8011b-bf40-4e0b-9b85-98666f7cae01">
+        <di:waypoint x="286" y="278" />
+        <di:waypoint x="338" y="278" />
+        <di:waypoint x="391" y="278" />
+        <bpmndi:BPMNLabel id="ae21c129-f312-437e-85d5-36da65a5d642" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="be2319cd-581f-492a-9473-a078b4f9f5aa" bpmnElement="fc00a548-8700-40cc-a213-caedd13e6c93">
+        <dc:Bounds x="250" y="260" width="36" height="36" />
+        <bpmndi:BPMNLabel id="fe12d18e-cb82-440e-9b3e-a255c060f0c9" labelStyle="b16b6db2-ce15-41a1-9c2b-19ec1634c160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="b4b8011b-bf40-4e0b-9b85-98666f7cae01" bpmnElement="aa6a1c93-66c8-450e-85a0-1d2a92a6a2f5" isExpanded="true">
+        <dc:Bounds x="391" y="244" width="110" height="68" />
+        <bpmndi:BPMNLabel id="c48e64ad-48d1-41da-ae8e-2debc5b7f60e" labelStyle="b16b6db2-ce15-41a1-9c2b-19ec1634c160">
+          <dc:Bounds x="402" y="261" width="87" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d57e6945-e968-4a9b-bb68-b8d1c04fa2fa" bpmnElement="a5d7164b-0289-4438-bfd6-17939b25deb6">
+        <dc:Bounds x="600" y="260" width="36" height="36" />
+        <bpmndi:BPMNLabel id="dc3c77c0-15b6-4ca4-8360-2056fc174d08" labelStyle="b16b6db2-ce15-41a1-9c2b-19ec1634c160">
+          <dc:Bounds x="581" y="296" width="75" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="efbe0653-d5e2-4b84-bc77-bbce21e57cc1" bpmnElement="afd305a2-280f-45bd-8d94-36d24ab040a1">
+        <dc:Bounds x="750" y="260" width="36" height="36" />
+        <bpmndi:BPMNLabel id="f3c25ece-ebef-4b3d-84bc-1d401c896e82" labelStyle="b16b6db2-ce15-41a1-9c2b-19ec1634c160" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="b16b6db2-ce15-41a1-9c2b-19ec1634c160">
+      <dc:Font name="arial" size="9" />
+    </bpmndi:BPMNLabelStyle>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
