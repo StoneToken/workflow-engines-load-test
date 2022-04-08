@@ -1,4 +1,5 @@
 ## <a name="b3a04993-3d9d-4333-980a-96025557c18a"></a> b3a04993-3d9d-4333-980a-96025557c18a (TestCase_RestTask1)
+Модель с шагом Rest Task  
 ![alt text](../png/TestCase_RestTask1.PNG "TestCase_RestTask1")
 
 ### 01 Start Event

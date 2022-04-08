@@ -1,4 +1,5 @@
 ## <a name="d886f397-e962-46fc-bed2-8676c962b770"></a> d886f397-e962-46fc-bed2-8676c962b770 (TestCase_RestTask7_Sequential)
+Модель с семью последовательно выполняющимися шагами Rest Task  
 ![alt text](../png/TestCase_RestTask7_Sequential.PNG "TestCase_RestTask7_Sequential")
 
 ### 01 Start Event

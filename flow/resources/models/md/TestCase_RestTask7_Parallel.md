@@ -1,4 +1,5 @@
 ## <a name="deff117e-56cb-4068-b216-74d5b6e933d6"></a> deff117e-56cb-4068-b216-74d5b6e933d6 (TestCase_RestTask7_Parallel)
+Модель с семью параллельно выполняющимися шагами Rest Task  
 ![alt text](../png/TestCase_RestTask7_Parallel.PNG "TestCase_RestTask7_Parallel")
 
 ### 01 Start Event
