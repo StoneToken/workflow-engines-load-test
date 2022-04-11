@@ -39,7 +39,10 @@
 |Метрики Engine (General/SberFlow-Engine metrics)|http://srv-0-132.pc.dev.sbt:3000/d/_tbFz0uMz/sberflow-engine-metrics?orgId=1&refresh=1m&var-datasource=Prometheus-engine&var-cluster=&var-namespace=bpmx-lt&from=now-1h&to=now|
 
 ## Отчет
-https://confluence.sberbank.ru/pages/viewpage.action?pageId=7349469257
+|Пространство|Ссылка|
+| :--- | :--- |
+|Sigma|https://confluence.sberbank.ru/pages/viewpage.action?pageId=7349469257|
+|DZO|https://dzo.sw.sbc.space/wiki/pages/viewpage.action?pageId=34254946|
 
 ### Сравнительная таблица
 Все показатели, полученные в ходе тестирования, характерны для модели процесса и профиля используемых в данном тесте.  
