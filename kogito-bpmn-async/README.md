@@ -7,14 +7,16 @@
 ### Prerequisites
 
 You will need:
-  - Java 11+ installed
-  - Environment variable JAVA_HOME set accordingly
-  - Maven 3.8.1+ installed
+
+- Java 11+ installed
+- Environment variable JAVA_HOME set accordingly
+- Maven 3.8.1+ installed
 
 When using native image compilation, you will also need:
-  - GraalVM 19.1+ installed
-  - Environment variable GRAALVM_HOME set accordingly
-  - Note that GraalVM native image compilation typically requires other packages (glibc-devel, zlib-devel and gcc) to be installed too, please refer to GraalVM installation documentation for more details.
+
+- GraalVM 19.1+ installed
+- Environment variable GRAALVM_HOME set accordingly
+- Note that GraalVM native image compilation typically requires other packages (glibc-devel, zlib-devel and gcc) to be installed too, please refer to GraalVM installation documentation for more details.
 
 ### Compile and Run in Local Dev Mode
 
@@ -39,6 +41,7 @@ java -jar target\quarkus-app\quarkus-run.jar
 ```
 
 ### Package and Run using Local Native Image
+
 Note that this requires GRAALVM_HOME to point to a valid GraalVM installation
 
 ```sh
@@ -51,7 +54,14 @@ To run the generated native executable, generated in `target/`, execute
 ./target/kogitobpmn-runner
 ```
 
+### Build docker image
+
+```sh
+docker build -f src/main/docker/Dockerfile.jvm -t quarkus/kogitobpmn-jvm .
+```
+
 ### OpenAPI (Swagger) documentation
+
 [Specification at swagger.io](https://swagger.io/docs/specification/about/)
 
 You can take a look at the [OpenAPI definition](http://localhost:8080/openapi?format=json) - automatically generated and included in this service - to determine all available operations exposed by this service. For easy readability you can visualize the OpenAPI definition file using a UI tool like for example available [Swagger UI](https://editor.swagger.io).
@@ -62,6 +72,12 @@ When running in either Quarkus Development or Native mode, we also leverage the 
 
 
 ### Start load test
+
+Start docker-compose
+
+```sh
+docker-compose -f docker-compose/docker-compose.yml up -d
+```
 
 Curl for start-stop
 
@@ -86,6 +102,8 @@ Curl for parallel
 ```sh
 curl -X POST -H 'Content-Type:application/json' -H 'Accept:application/json' -d '{"username" : "test"}' http://localhost:8080/parallel
 ```
+
+Prometheus metrics available at `host/q/metrics`
 
 ## Deploying with Kogito Operator
 

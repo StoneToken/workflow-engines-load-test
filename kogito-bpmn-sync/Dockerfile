@@ -19,6 +19,6 @@ ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jb
 ENV AB_ENABLED=jmx_exporter
 
 EXPOSE 8080
-COPY ../../../target /*.* /home/kogito/bin/
+COPY target /*.* /home/kogito/bin/
 
 ENTRYPOINT ["java","-jar","/home/kogito/bin/quarkus-app/quarkus-run.jar"]

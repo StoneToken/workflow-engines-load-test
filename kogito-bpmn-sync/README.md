@@ -16,6 +16,10 @@ When using native image compilation, you will also need:
   - Environment variable GRAALVM_HOME set accordingly
   - Note that GraalVM native image compilation typically requires other packages (glibc-devel, zlib-devel and gcc) to be installed too, please refer to GraalVM installation documentation for more details.
 
+### Architecture
+
+![compose architecture](docs/images/docker-compose.png)
+
 ### Compile and Run in Local Dev Mode
 
 ```sh
@@ -51,6 +55,12 @@ To run the generated native executable, generated in `target/`, execute
 ./target/kogitobpmn-runner
 ```
 
+Build docker image
+
+```sh
+docker build -f src/main/docker/Dockerfile.jvm -t quarkus/kogitobpmn-jvm .
+```
+
 ### OpenAPI (Swagger) documentation
 [Specification at swagger.io](https://swagger.io/docs/specification/about/)
 
@@ -62,6 +72,12 @@ When running in either Quarkus Development or Native mode, we also leverage the 
 
 
 ### Start load test
+
+Start docker-compose
+
+```sh
+docker-compose -f docker-compose/docker-compose.yml up -d
+```
 
 Curl for start-stop
 
@@ -86,6 +102,8 @@ Curl for parallel
 ```sh
 curl -X POST -H 'Content-Type:application/json' -H 'Accept:application/json' -d '{"username" : "test"}' http://localhost:8080/parallel
 ```
+
+Prometheus metrics available at `host/q/metrics`
 
 ## Deploying with Kogito Operator
 
