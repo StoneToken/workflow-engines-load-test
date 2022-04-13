@@ -16,6 +16,10 @@ When using native image compilation, you will also need:
   - Environment variable GRAALVM_HOME set accordingly
   - Note that GraalVM native image compilation typically requires other packages (glibc-devel, zlib-devel and gcc) to be installed too, please refer to GraalVM installation documentation for more details.
 
+### Architecture
+
+![compose architecture](docs/images/docker-compose.png)
+
 ### Compile and Run in Local Dev Mode
 
 ```sh
@@ -68,6 +72,12 @@ When running in either Quarkus Development or Native mode, we also leverage the 
 
 
 ### Start load test
+
+Start docker-compose
+
+```sh
+docker-compose up -d -f docker-compose/docker-compose.yml
+```
 
 Curl for start-stop
 
