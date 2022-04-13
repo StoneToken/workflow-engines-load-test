@@ -75,4 +75,5 @@ settings.xml
 
 ### m2e ###
 .classpath
-.project
+
+${project.build.directory}/
