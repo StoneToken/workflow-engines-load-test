@@ -73,6 +73,12 @@ When running in either Quarkus Development or Native mode, we also leverage the 
 
 ### Start load test
 
+Start docker-compose
+
+```sh
+docker-compose -f docker-compose/docker-compose.yml up -d
+```
+
 Curl for start-stop
 
 ```sh
@@ -96,6 +102,8 @@ Curl for parallel
 ```sh
 curl -X POST -H 'Content-Type:application/json' -H 'Accept:application/json' -d '{"username" : "test"}' http://localhost:8080/parallel
 ```
+
+Prometheus metrics available at `host/q/metrics`
 
 ## Deploying with Kogito Operator
 

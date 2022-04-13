@@ -74,7 +74,7 @@ services:
 
   kogito-bpmn-sync:
     container_name: kogito-bpmn-sync
-    image: kogito-bpmn-sync:0.1
+    image: kogito-bpmn-sync:0.2
     mem_limit: 200m
     ports:
       - 8080:8080
