@@ -31,6 +31,11 @@ tags:
       description: Find out more about our store
       url: 'http://swagger.io'
 paths:
+  /healthz:
+    get:
+      responses:
+        '200':
+          description: successful probe
   /pet:
     post:
       tags:

@@ -5,7 +5,7 @@ services:
     image: danielgtaylor/apisprout
     mem_limit: 50m
     ports:
-      - 8000:8000
+      - "8000:8000"
     volumes:
       - ./apis:/apis:z
     command: /apis/rest.yaml
