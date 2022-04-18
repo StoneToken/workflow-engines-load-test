@@ -1,9 +1,86 @@
+# MacOS
+.DS_Store
+
+# Created by https://www.gitignore.io/api/intellij,eclipse,python,maven,m2e
+
+### Intellij ###
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
+
+*.iml
+
+## Directory-based project format:
+.idea/
+# if you remove the above rule, at least ignore the following:
+
+# User-specific stuff:
+# .idea/workspace.xml
+# .idea/tasks.xml
+# .idea/dictionaries
+# .idea/shelf
+
+# Sensitive or high-churn files:
+# .idea/dataSources.ids
+# .idea/dataSources.xml
+# .idea/sqlDataSources.xml
+# .idea/dynamic.xml
+# .idea/uiDesigner.xml
+
+# Gradle:
+# .idea/gradle.xml
+# .idea/libraries
+
+## File-based project format:
+*.ipr
+*.iws
+
+## Plugin-specific files:
+
+# IntelliJ
+/out/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+
+### Eclipse ###
+*.pydevproject
+.metadata
+.gradle
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+
+# Eclipse Core
+.project
+
+# Java annotation processor (APT)
+.factorypath
+
+### Maven ###
 target/
-target
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+settings.xml
+
+### m2e ###
+.classpath
+
+${project.build.directory}/
+
+# .cache
 kogito-bpmn-sync/docker-compose/.cache/fontconfig/5af59a81-2145-4e3d-ab75-94df654cfb31-le64.cache-7
 kogito-bpmn-sync/docker-compose/.cache/fontconfig/5ca8086aeacc9c68e81a71e7ef846b3b-le64.cache-7
 kogito-bpmn-sync/docker-compose/.cache/fontconfig/43f8fe80-95de-4801-9690-76a60a031eb3-le64.cache-7
 kogito-bpmn-sync/docker-compose/.cache/fontconfig/CACHEDIR.TAG
 kogito-bpmn-sync/docker-compose/.cache/fontconfig/d2be6232-ff87-4389-838a-9980410315a8-le64.cache-7
-.idea/
-.vscode/settings.json

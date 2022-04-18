@@ -4,10 +4,9 @@ metadata:
   name: kogitobpmn
 spec:
   type: RemoteSource
-  #env:
-  # env can be used to set variables during build
-  #- name: MY_CUSTOM_ENV
-  #  value: "my value"
+  env:
+  - name: CUSTOM_ENV
+    value: "env_value"
   gitSource:
     contextDir: kogitobpmn
   #TODO:  uri: 'https://github.com/kiegroup/kogito-examples'
