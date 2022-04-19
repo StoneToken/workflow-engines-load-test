@@ -18,10 +18,16 @@ docker-compose up -d
 # Create namespace
 tctl --ns test-namespace namespace register -rd 1
 
+# Start workflow with CLI
+tctl workflow run --tq REST_TASK_QUEUE --wt Sequential --et 60 -i '"test"' -i 5
+
+# view help messages for workflow run
+tctl workflow run -h
+
 # Run worker
 go run worker/main.go
 
-# Run workflow
+# Start workflow with client
 go run start/main.go
 
-``` 
+```
