@@ -20,6 +20,7 @@ func main() {
 	w := worker.New(c, app.RestTaskQueue, worker.Options{})
 	w.RegisterWorkflow(app.Single)
 	w.RegisterWorkflow(app.Sequential)
+	w.RegisterWorkflow(app.Parallel)
 	w.RegisterActivity(app.RestTask)
 	// Start listening to the Task Queue
 	err = w.Run(worker.InterruptCh())

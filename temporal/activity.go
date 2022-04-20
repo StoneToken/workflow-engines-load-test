@@ -7,17 +7,6 @@ import (
 	"net/http"
 )
 
-// type User struct {
-//     id int
-//     username string
-//     firstName string
-//     lastName string
-//     email string
-//     password string
-//     phone string
-//     userStatus int
-// }
-
 func RestTask(name string) (string, error) {
 
 	url := "http://localhost:8000/user/" + name
