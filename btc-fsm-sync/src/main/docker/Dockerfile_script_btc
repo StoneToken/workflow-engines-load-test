@@ -5,8 +5,7 @@ ENV LANG en_US.UTF-8
 USER root
 
 ADD target/btc-fsm-sync-1.0.0.war /app/scripts/
-
-USER jboss
+ADD src/main/docker/package.yaml /app/config/
 
 WORKDIR /app
 

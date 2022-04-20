@@ -52,10 +52,9 @@
     <!--   Remote REST Service -->
     <bean factory-bean="configFactory" factory-method="declareRemoteRestService">
         <property name="serviceName" value="remoteRestService"/>
-        <property name="url" value="${rest-service-url}"/>
-        <property name="method" value="POST"/>
+        <property name="url" value="${rest-service-url}/user/:username"/>
+        <property name="method" value="GET"/>
         <property name="replyType" value="btc.fsm.type.stub.RestReply"/>
         <property name="errorType" value="btc.fsm.type.stub.RestError"/>
-        <property name="payloadFieldName" value="username"/>
     </bean>
 </beans>

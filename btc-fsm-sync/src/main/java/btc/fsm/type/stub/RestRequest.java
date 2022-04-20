@@ -26,7 +26,7 @@ public class RestRequest implements RequestMessage {
     @NotNull
     @Override
     public Class<?>[] getFieldTypes() {
-        return new Class[]{User.class};
+        return new Class[]{String.class};
     }
 
     @NotNull
