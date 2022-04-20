@@ -9,11 +9,44 @@
     <bean id="configFactory" factory-bean="configFactoryBinder" factory-method="getInstance">
         <property name="keepScriptInstanceState" value="true"/>
     </bean>
-    
+    <!--   Json-rpc Servers-->
+    <bean factory-bean="configFactory" factory-method="declareJsonRpcServerMethod">
+        <property name="method" value="start_stop"/>
+        <property name="inputType" value="btc.fsm.type.service.JsonRpcRequest"/>
+        <property name="targetScript" value="start_stop"/>
+    </bean>
+    <bean factory-bean="configFactory" factory-method="declareJsonRpcServerMethod">
+        <property name="method" value="single"/>
+        <property name="inputType" value="btc.fsm.type.service.JsonRpcRequest"/>
+        <property name="targetScript" value="single"/>
+    </bean>
+    <bean factory-bean="configFactory" factory-method="declareJsonRpcServerMethod">
+        <property name="method" value="sequential"/>
+        <property name="inputType" value="btc.fsm.type.service.JsonRpcRequest"/>
+        <property name="targetScript" value="sequential"/>
+    </bean>
+    <bean factory-bean="configFactory" factory-method="declareJsonRpcServerMethod">
+        <property name="method" value="parallel"/>
+        <property name="inputType" value="btc.fsm.type.service.JsonRpcRequest"/>
+        <property name="targetScript" value="parallel"/>
+    </bean>
+
+    <!--   FSM-Scripts -->
     <bean factory-bean="configFactory" factory-method="declareScript">
-        <constructor-arg name="serviceName" value="LoadTest4gSelfApi.test(ComplexObject,String,long,long)"/>
-        <constructor-arg name="script"
-                         value="sbp.ts.faas.btc.test.packages.loadtests.g4.script.fsm.PerformanceTestFSM"/>
+        <constructor-arg name="serviceName" value="start_stop"/>
+        <constructor-arg name="script" value="btc.fsm.script.StartStopFSM"/>
+    </bean>
+    <bean factory-bean="configFactory" factory-method="declareScript">
+        <constructor-arg name="serviceName" value="single"/>
+        <constructor-arg name="script" value="btc.fsm.script.SingleFSM"/>
+    </bean>
+    <bean factory-bean="configFactory" factory-method="declareScript">
+        <constructor-arg name="serviceName" value="sequential"/>
+        <constructor-arg name="script" value="btc.fsm.script.SequentialFSM"/>
+    </bean>
+    <bean factory-bean="configFactory" factory-method="declareScript">
+        <constructor-arg name="serviceName" value="parallel"/>
+        <constructor-arg name="script" value="btc.fsm.script.ParallelFSM"/>
     </bean>
 
     <!--   Remote REST Service -->
@@ -21,10 +54,8 @@
         <property name="serviceName" value="remoteRestService"/>
         <property name="url" value="${rest-service-url}"/>
         <property name="method" value="POST"/>
-        <property name="replyType"
-                  value="btc.fsm.type.stub.RestReply"/>
-        <property name="errorType"
-                  value="btc.fsm.type.stub.RestError"/>
+        <property name="replyType" value="btc.fsm.type.stub.RestReply"/>
+        <property name="errorType" value="btc.fsm.type.stub.RestError"/>
         <property name="payloadFieldName" value="username"/>
     </bean>
 </beans>

@@ -10,12 +10,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class JsonRpcTestRequest implements RequestMessage {
+public class JsonRpcRequest implements RequestMessage {
 
     private final Map<String, String> headers;
     private final String username;
 
-    public JsonRpcTestRequest(
+    public JsonRpcRequest(
       @NotNull Map<String, String> headers,
       @Nullable String username
     ) {
@@ -59,8 +59,8 @@ public class JsonRpcTestRequest implements RequestMessage {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof JsonRpcTestRequest)) return false;
-        JsonRpcTestRequest that = (JsonRpcTestRequest) o;
+        if (!(o instanceof JsonRpcRequest)) return false;
+        JsonRpcRequest that = (JsonRpcRequest) o;
         return
           headers.equals(that.headers) &&
           Objects.equals(username, that.username);
@@ -73,7 +73,7 @@ public class JsonRpcTestRequest implements RequestMessage {
 
     public String toString() {
         return
-          "{\"className\":\"JsonRpcTestRequest\""
+          "{\"className\":\"JsonRpcRequest\""
             + ",\"headers\":\"" + headers + "\""
             + ",\"username\":\"" + username + "\""
             + "}";

@@ -6,7 +6,7 @@ USER root
 
 ADD target/btc-fsm-sync-1.0.0.war /app/scripts/
 
-# USER jboss
+USER jboss
 
 WORKDIR /app
 
