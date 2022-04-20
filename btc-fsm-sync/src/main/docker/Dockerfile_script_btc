@@ -1,0 +1,13 @@
+FROM dzo.sw.sbc.space/sbt_dev/ci90000047_btc_dev/btc:5.4.0
+# Fix locale
+ENV LANG en_US.UTF-8
+
+USER root
+
+ADD target/btc-fsm-sync-1.0.0.war /app/scripts/
+
+# USER jboss
+
+WORKDIR /app
+
+ENTRYPOINT java $JAVA_OPTS "org.springframework.boot.loader.JarLauncher" --orc.script.containers.location=/app/scripts --spring.config.location=/app/config/core.yaml  --spring.config.additional-location=/app/config/package.yaml

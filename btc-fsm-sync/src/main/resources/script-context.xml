@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+    <bean id="configFactoryBinder" class="ru.sbt.integration.orchestration.fsmcore.config.ConfigurationFactoryBinder"/>
+    <bean id="configFactory" factory-bean="configFactoryBinder" factory-method="getInstance">
+        <property name="keepScriptInstanceState" value="true"/>
+    </bean>
+    
+    <bean factory-bean="configFactory" factory-method="declareScript">
+        <constructor-arg name="serviceName" value="LoadTest4gSelfApi.test(ComplexObject,String,long,long)"/>
+        <constructor-arg name="script"
+                         value="sbp.ts.faas.btc.test.packages.loadtests.g4.script.fsm.PerformanceTestFSM"/>
+    </bean>
+
+    <!--   Remote REST Service -->
+    <bean factory-bean="configFactory" factory-method="declareRemoteRestService">
+        <property name="serviceName" value="remoteRestService"/>
+        <property name="url" value="${rest-service-url}"/>
+        <property name="method" value="POST"/>
+        <property name="replyType"
+                  value="btc.fsm.type.stub.RestReply"/>
+        <property name="errorType"
+                  value="btc.fsm.type.stub.RestError"/>
+        <property name="payloadFieldName" value="username"/>
+    </bean>
+</beans>

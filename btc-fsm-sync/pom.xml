@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>sbp.ts.faas.btc.test.packages.loadtests.forkogito.script.fsm</groupId>
+    <artifactId>btc-fsm-sync</artifactId>
+    <version>1.0.0</version>
+    <packaging>war</packaging>
+
+    <!--        regionProperties-->
+    <properties>
+        <fsm.version>1.28.0</fsm.version>
+        <jdk.version>8</jdk.version>
+        <maven.compiler.source>${jdk.version}</maven.compiler.source>
+        <maven.compiler.target>${jdk.version}</maven.compiler.target>
+        <maven.compiler.version>3.8.1</maven.compiler.version>
+        <maven.war.version>3.2.0</maven.war.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <!--        endregion-->
+    <!-- regionDependencies-->
+    <dependencies>
+
+        <!--        regionFSMcore-->
+        <dependency>
+            <groupId>sbp.ts.orc</groupId>
+            <artifactId>fsmcore</artifactId>
+            <version>${fsm.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--        endregion-->
+    </dependencies>
+    <!-- endregion-->
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <!-- regionPlugins-->
+        <plugins>
+            <!-- regionMavenCompilerPlugin-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
+                <configuration>
+                    <annotationProcessors>
+                        <annotationProcessor>
+                            ru.sbt.integration.orchestration.fsmcore.TransitionAnnotationProcessor
+                        </annotationProcessor>
+                    </annotationProcessors>
+                </configuration>
+            </plugin>
+            <!-- endregion-->
+            <!-- regionMavenWarPlugin-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven.war.version}</version>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <filtering>true</filtering>
+                            <directory>src/main/webapp</directory>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            <!-- endregion-->
+        </plugins>
+        <!-- endregion-->
+    </build>
+
+</project>

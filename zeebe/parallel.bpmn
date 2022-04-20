@@ -8,7 +8,7 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="http" retries="3" />
         <zeebe:taskHeaders>
-          <zeebe:header key="url" value="http://api-mock-rest:8000/user/{{username}}" />
+          <zeebe:header key="url" value="http://api-mock-rest:8000/username/{{username}}" />
         </zeebe:taskHeaders>
         <zeebe:ioMapping>
           <zeebe:output source="= body" target="body1" />
@@ -32,7 +32,7 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="http" retries="3" />
         <zeebe:taskHeaders>
-          <zeebe:header key="url" value="http://api-mock-rest:8000/user/{{username}}" />
+          <zeebe:header key="url" value="http://api-mock-rest:8000/username/{{username}}" />
         </zeebe:taskHeaders>
         <zeebe:ioMapping>
           <zeebe:output source="= body" target="body2" />
@@ -45,7 +45,7 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="http" retries="3" />
         <zeebe:taskHeaders>
-          <zeebe:header key="url" value="http://api-mock-rest:8000/user/{{username}}" />
+          <zeebe:header key="url" value="http://api-mock-rest:8000/username/{{username}}" />
         </zeebe:taskHeaders>
         <zeebe:ioMapping>
           <zeebe:output source="= body" target="body3" />
@@ -58,7 +58,7 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="http" retries="3" />
         <zeebe:taskHeaders>
-          <zeebe:header key="url" value="http://api-mock-rest:8000/user/{{username}}" />
+          <zeebe:header key="url" value="http://api-mock-rest:8000/username/{{username}}" />
         </zeebe:taskHeaders>
         <zeebe:ioMapping>
           <zeebe:output source="= body" target="body4" />
@@ -71,7 +71,7 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="http" retries="3" />
         <zeebe:taskHeaders>
-          <zeebe:header key="url" value="http://api-mock-rest:8000/user/{{username}}" />
+          <zeebe:header key="url" value="http://api-mock-rest:8000/username/{{username}}" />
         </zeebe:taskHeaders>
         <zeebe:ioMapping>
           <zeebe:output source="= body" target="body5" />
@@ -84,7 +84,7 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="http" retries="3" />
         <zeebe:taskHeaders>
-          <zeebe:header key="url" value="http://api-mock-rest:8000/user/{{username}}" />
+          <zeebe:header key="url" value="http://api-mock-rest:8000/username/{{username}}" />
         </zeebe:taskHeaders>
         <zeebe:ioMapping>
           <zeebe:output source="= body" target="body6" />
@@ -97,7 +97,7 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="http" retries="3" />
         <zeebe:taskHeaders>
-          <zeebe:header key="url" value="http://api-mock-rest:8000/user/{{username}}" />
+          <zeebe:header key="url" value="http://api-mock-rest:8000/username/{{username}}" />
         </zeebe:taskHeaders>
         <zeebe:ioMapping>
           <zeebe:output source="= body" target="body7" />

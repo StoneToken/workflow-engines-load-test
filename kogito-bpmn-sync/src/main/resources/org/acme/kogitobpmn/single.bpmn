@@ -11,7 +11,7 @@
     <bpmn2:extensionElements>
       <drools:import name="org.acme.kogitobpmn.User"/>
     </bpmn2:extensionElements>
-    <bpmn2:property id="user" itemSubjectRef="_userItem" name="user">
+    <bpmn2:property id="username" itemSubjectRef="_userItem" name="username">
       <bpmn2:extensionElements>
         <drools:metaData name="customTags">
           <drools:metaValue><![CDATA[output]]></drools:metaValue>
@@ -65,7 +65,7 @@
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_711D7954-D784-4AEC-9D4F-91E8A24A8130_UrlInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/user/{username}]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/username/{username}]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_711D7954-D784-4AEC-9D4F-91E8A24A8130_UrlInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -96,7 +96,7 @@
       </bpmn2:dataInputAssociation>
       <bpmn2:dataOutputAssociation>
         <bpmn2:sourceRef>_711D7954-D784-4AEC-9D4F-91E8A24A8130_ResultOutputX</bpmn2:sourceRef>
-        <bpmn2:targetRef>user</bpmn2:targetRef>
+        <bpmn2:targetRef>username</bpmn2:targetRef>
       </bpmn2:dataOutputAssociation>
     </bpmn2:task>
     <bpmn2:startEvent id="_2DF8E07B-6161-43BC-9BD2-61A3FB88DC3C">
