@@ -2,6 +2,10 @@
 
 ## Design
 
+### Architecture
+
+![docker-compose.png](docker-compose.png)
+
 Go get camunda modeler at <https://docs.camunda.io/docs/components/modeler/desktop-modeler/install-the-modeler/>.
 
 Go get zeebe at <https://github.com/camunda-cloud/zeebe/releases> and docker-compose at <https://github.com/camunda-cloud/camunda-cloud-get-started/tree/master>.
