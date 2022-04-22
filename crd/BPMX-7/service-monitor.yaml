@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: kogito-service
+  name: kogito-service
+  namespace: kogito-operator-system
+spec:
+  endpoints:
+  - path: /q/metrics
+    targetPort: 8080
+    scheme: http
+  namespaceSelector:
+    matchNames:
+    - kogito-operator-system
+  selector:
+    matchLabels:
+      app: kogito-service

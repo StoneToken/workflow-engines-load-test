@@ -1,0 +1,21 @@
+apiVersion: app.kiegroup.org/v1beta1
+kind: KogitoInfra
+metadata:
+ name: kogito-keycloak-infra
+spec:
+ resource:
+  envs:
+   - name: -Dkogito.consoles.keycloak.config.realm
+     value: <keycloak_realm>
+   - name: -Dkogito.consoles.keycloak.config.url
+     value: <keycloak_url>
+   - name: -Dkogito.consoles.keycloak.config.client-id
+     value: <keyloak_console_client_id>
+   - name: -Dkogito.consoles.keycloak.config.health-check-url
+     value: <keycloak_health_check_url>
+   - name: -Dkogito.consoles.keycloak.config.disable-health-check
+     value: <keyloak_disable_health_check_flag>
+   - name: -Dkogito.consoles.keycloak.config.update-token-validity
+     value: <keycloak_update_token_validity>
+   - name: -Dkogito.svg.folder.path
+     value: /home/kogito/data/svg

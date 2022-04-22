@@ -1,0 +1,9 @@
+apiVersion: infinispan.org/v1
+kind: Infinispan
+metadata:
+  name: kogito-infinispan
+spec:
+  replicas: 2
+  image: dzo.sw.sbc.space/sbt_dev/ci90000011_bpmx_dev/infinispan/server:13.0.8.Final
+  service:
+    type: DataGrid

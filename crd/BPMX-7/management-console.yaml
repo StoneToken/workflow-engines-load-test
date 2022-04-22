@@ -1,0 +1,30 @@
+
+   
+apiVersion: app.kiegroup.org/v1beta1
+kind: KogitoSupportingService
+metadata:
+  name: management-console
+spec:
+  serviceType: MgmtConsole
+  replicas: 1
+  image: dzo.sw.sbc.space/sbt_dev/ci90000011_bpmx_dev/kogito-management-console:1.18
+  env:
+    - name: KOGITO_DATAINDEX_HTTP_URL
+      value: http://10.31.0.5:30008/graphql
+    - name: KOGITO_DATAINDEX_WS_URL
+      value: ws://10.31.0.5:30008
+    - name: kogito.consoles.keycloak.config.realm
+      value: kogito
+    - name: kogito.consoles.keycloak.config.url
+      value: https://10.31.0.5:31711/auth
+    - name: kogito.consoles.keycloak.config.client-id
+      value: kogito-console-quarkus
+    - name: kogito.consoles.keycloak.config.health-check-url
+      value: https://10.31.0.5:31711/auth/realms/kogito/.well-known/openid-configuration
+    - name: kogito.consoles.keycloak.config.disable-health-check
+      value: "false"
+    - name: kogito.consoles.keycloak.config.update-token-validity
+      value: "30"
+    - name: kogito.svg.folder.path
+      value: /home/kogito/data/svg
+
