@@ -43,7 +43,7 @@
   <bpmn2:itemDefinition id="__E926A3D4-BC52-45B7-9AE0-7D3F0B38EE14_UrlInputXItem" structureRef="String"/>
   <bpmn2:itemDefinition id="__E926A3D4-BC52-45B7-9AE0-7D3F0B38EE14_usernameInputXItem" structureRef="String"/>
   <bpmn2:itemDefinition id="__E926A3D4-BC52-45B7-9AE0-7D3F0B38EE14_ResultOutputXItem" structureRef="java.lang.Object"/>
-  <bpmn2:process id="parallel" drools:packageName="com.example" drools:version="1.0" drools:adHoc="false" name="parallel" isExecutable="true" processType="Public">
+  <bpmn2:process id="parallel" drools:packageName="org.acme.kogitobpmn" drools:version="1.0" drools:adHoc="false" name="parallel" isExecutable="true" processType="Public">
     <bpmn2:extensionElements>
       <drools:import name="org.acme.kogitobpmn.User"/>
     </bpmn2:extensionElements>
