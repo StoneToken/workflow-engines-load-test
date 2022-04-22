@@ -8,10 +8,22 @@ services:
     mem_limit: 512m
     ports:
       - "8080:8080"
-#    networks:
-#      btc-net:
+    networks:
+      btc-net:
+
+  api-mock-rest:
+    container_name: api-mock-rest
+    image: danielgtaylor/apisprout
+    mem_limit: 50m
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./apis:/apis:z
+    command: /apis/rest.yaml
+    networks:
+      btc-net:
 #
 #  # Эта команда подключит заглушки API к сети с сервисами btc
-#networks:
-#  btc-net:
-#    name: btc-net
+networks:
+  btc-net:
+    name: btc-net
