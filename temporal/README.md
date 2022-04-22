@@ -8,7 +8,7 @@
 # Prepare environment
 alias tctl="docker exec temporal-admin-tools tctl"
 
-```если вы уже проходили эту ошибку, то с
+```
 
 ## Runtime
 
