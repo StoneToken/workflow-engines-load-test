@@ -26,6 +26,13 @@ public class User {
     private String phone;
     private int userStatus;
 
+    @Override
+    public String toString() {
+        return "User [email=" + email + ", firstName=" + firstName + ", id=" + id + ", lastName=" + lastName
+                + ", password=" + password + ", phone=" + phone + ", userStatus=" + userStatus + ", username="
+                + username + "]";
+    }
+
     public long getId() {
         return id;
     }

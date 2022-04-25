@@ -43,7 +43,7 @@
   <bpmn2:itemDefinition id="__E926A3D4-BC52-45B7-9AE0-7D3F0B38EE14_UrlInputXItem" structureRef="String"/>
   <bpmn2:itemDefinition id="__E926A3D4-BC52-45B7-9AE0-7D3F0B38EE14_usernameInputXItem" structureRef="String"/>
   <bpmn2:itemDefinition id="__E926A3D4-BC52-45B7-9AE0-7D3F0B38EE14_ResultOutputXItem" structureRef="java.lang.Object"/>
-  <bpmn2:process id="parallel" drools:packageName="com.example" drools:version="1.0" drools:adHoc="false" name="parallel" isExecutable="true" processType="Public">
+  <bpmn2:process id="parallel" drools:packageName="org.acme.kogitobpmn" drools:version="1.0" drools:adHoc="false" name="parallel" isExecutable="true" processType="Public">
     <bpmn2:extensionElements>
       <drools:import name="org.acme.kogitobpmn.User"/>
     </bpmn2:extensionElements>
@@ -185,7 +185,7 @@
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_E926A3D4-BC52-45B7-9AE0-7D3F0B38EE14_HostInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[localhost]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[api-mock-rest]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_E926A3D4-BC52-45B7-9AE0-7D3F0B38EE14_HostInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -248,7 +248,7 @@
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_44F2E1DF-9A8A-480B-88C1-D3799693F4A5_HostInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[localhost]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[api-mock-rest]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_44F2E1DF-9A8A-480B-88C1-D3799693F4A5_HostInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -311,7 +311,7 @@
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_602344F0-B6CA-4E2E-95BD-600DC6CACAC0_HostInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[localhost]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[api-mock-rest]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_602344F0-B6CA-4E2E-95BD-600DC6CACAC0_HostInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -374,7 +374,7 @@
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_880DE50B-DDDA-4B59-AFFA-95688BF79F61_HostInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[localhost]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[api-mock-rest]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_880DE50B-DDDA-4B59-AFFA-95688BF79F61_HostInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -437,7 +437,7 @@
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_1508CB53-F53D-469F-B80A-DEBCCE94F0F0_HostInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[localhost]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[api-mock-rest]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_1508CB53-F53D-469F-B80A-DEBCCE94F0F0_HostInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -500,7 +500,7 @@
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_4858BCD6-DD22-4246-8972-E4DC081B09E4_HostInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[localhost]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[api-mock-rest]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_4858BCD6-DD22-4246-8972-E4DC081B09E4_HostInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -573,7 +573,7 @@
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_32BECFAB-7420-469E-A16D-021BC9D08B62_HostInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[localhost]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[api-mock-rest]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_32BECFAB-7420-469E-A16D-021BC9D08B62_HostInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
