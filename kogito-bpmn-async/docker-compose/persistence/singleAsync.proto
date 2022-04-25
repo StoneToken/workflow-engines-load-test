@@ -12,7 +12,7 @@ message SingleAsync {
 	optional string id = 1; 
 	/* @Field(index = Index.NO, store = Store.YES) @SortableField
  @VariableInfo(tags="output") */ 
-	optional User username = 2;
+	optional User user = 2;
 	/* @Field(index = Index.NO, store = Store.YES) @SortableField
  @VariableInfo(tags="input,required") */ 
 	optional string username = 3; 

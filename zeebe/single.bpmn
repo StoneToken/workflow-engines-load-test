@@ -13,7 +13,7 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="http" retries="3" />
         <zeebe:taskHeaders>
-          <zeebe:header key="url" value="http://api-mock-rest:8000/username/{{username}}" />
+          <zeebe:header key="url" value="http://api-mock-rest:8000/user/{{username}}" />
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1o2lpr6</bpmn:incoming>

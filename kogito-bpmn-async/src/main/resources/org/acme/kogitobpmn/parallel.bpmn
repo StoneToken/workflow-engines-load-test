@@ -152,13 +152,13 @@
       </bpmn2:extensionElements>
       <bpmn2:incoming>_B6028C26-99BE-4844-A046-6CF80D997509</bpmn2:incoming>
       <bpmn2:outgoing>_A7D958A7-B9B2-44EA-A6D3-F6950C7F1086</bpmn2:outgoing>
-      <bpmn2:script>System.out.println("Processing username " + user1 + ", First: " + user1.getFirstName() + ", Last: " + user1.getLastName());
-System.out.println("Processing username " + user2 + ", First: " + user2.getFirstName() + ", Last: " + user2.getLastName());
-System.out.println("Processing username " + user3 + ", First: " + user3.getFirstName() + ", Last: " + user3.getLastName());
-System.out.println("Processing username " + user4 + ", First: " + user4.getFirstName() + ", Last: " + user4.getLastName());
-System.out.println("Processing username " + user5 + ", First: " + user5.getFirstName() + ", Last: " + user5.getLastName());
-System.out.println("Processing username " + user6 + ", First: " + user6.getFirstName() + ", Last: " + user6.getLastName());
-System.out.println("Processing username " + user7 + ", First: " + user7.getFirstName() + ", Last: " + user7.getLastName());</bpmn2:script>
+      <bpmn2:script>System.out.println("Processing user " + user1 + ", First: " + user1.getFirstName() + ", Last: " + user1.getLastName());
+System.out.println("Processing user " + user2 + ", First: " + user2.getFirstName() + ", Last: " + user2.getLastName());
+System.out.println("Processing user " + user3 + ", First: " + user3.getFirstName() + ", Last: " + user3.getLastName());
+System.out.println("Processing user " + user4 + ", First: " + user4.getFirstName() + ", Last: " + user4.getLastName());
+System.out.println("Processing user " + user5 + ", First: " + user5.getFirstName() + ", Last: " + user5.getLastName());
+System.out.println("Processing user " + user6 + ", First: " + user6.getFirstName() + ", Last: " + user6.getLastName());
+System.out.println("Processing user " + user7 + ", First: " + user7.getFirstName() + ", Last: " + user7.getLastName());</bpmn2:script>
     </bpmn2:scriptTask>
     <bpmn2:endEvent id="_55BDA0A1-72C4-4234-BA5E-94AF61C68649">
       <bpmn2:incoming>_A7D958A7-B9B2-44EA-A6D3-F6950C7F1086</bpmn2:incoming>
@@ -219,7 +219,7 @@ System.out.println("Processing username " + user7 + ", First: " + user7.getFirst
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_E926A3D4-BC52-45B7-9AE0-7D3F0B38EE14_UrlInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/username/{username}]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/user/{username}]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_E926A3D4-BC52-45B7-9AE0-7D3F0B38EE14_UrlInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -285,7 +285,7 @@ System.out.println("Processing username " + user7 + ", First: " + user7.getFirst
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_44F2E1DF-9A8A-480B-88C1-D3799693F4A5_UrlInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/username/{username}]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/user/{username}]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_44F2E1DF-9A8A-480B-88C1-D3799693F4A5_UrlInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -351,7 +351,7 @@ System.out.println("Processing username " + user7 + ", First: " + user7.getFirst
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_602344F0-B6CA-4E2E-95BD-600DC6CACAC0_UrlInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/username/{username}]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/user/{username}]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_602344F0-B6CA-4E2E-95BD-600DC6CACAC0_UrlInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -417,7 +417,7 @@ System.out.println("Processing username " + user7 + ", First: " + user7.getFirst
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_880DE50B-DDDA-4B59-AFFA-95688BF79F61_UrlInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/username/{username}]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/user/{username}]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_880DE50B-DDDA-4B59-AFFA-95688BF79F61_UrlInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -483,7 +483,7 @@ System.out.println("Processing username " + user7 + ", First: " + user7.getFirst
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_1508CB53-F53D-469F-B80A-DEBCCE94F0F0_UrlInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/username/{username}]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/user/{username}]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_1508CB53-F53D-469F-B80A-DEBCCE94F0F0_UrlInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -549,7 +549,7 @@ System.out.println("Processing username " + user7 + ", First: " + user7.getFirst
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_4858BCD6-DD22-4246-8972-E4DC081B09E4_UrlInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/username/{username}]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/user/{username}]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_4858BCD6-DD22-4246-8972-E4DC081B09E4_UrlInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -625,7 +625,7 @@ System.out.println("Processing username " + user7 + ", First: " + user7.getFirst
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_32BECFAB-7420-469E-A16D-021BC9D08B62_UrlInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/username/{username}]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/user/{username}]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_32BECFAB-7420-469E-A16D-021BC9D08B62_UrlInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>

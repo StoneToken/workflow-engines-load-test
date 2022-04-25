@@ -11,7 +11,7 @@
     <bpmn2:extensionElements>
       <drools:import name="org.acme.kogitobpmn.User"/>
     </bpmn2:extensionElements>
-    <bpmn2:property id="username" itemSubjectRef="_userItem" name="username">
+    <bpmn2:property id="user" itemSubjectRef="_userItem" name="user">
       <bpmn2:extensionElements>
         <drools:metaData name="customTags">
           <drools:metaValue><![CDATA[output]]></drools:metaValue>
@@ -34,15 +34,15 @@
         </drools:metaData>
       </bpmn2:extensionElements>
     </bpmn2:sequenceFlow>
-    <bpmn2:scriptTask id="_EE7F083E-1113-49BB-962D-4A10479350F1" name="Log username" scriptFormat="http://www.java.com/java">
+    <bpmn2:scriptTask id="_EE7F083E-1113-49BB-962D-4A10479350F1" name="Log user" scriptFormat="http://www.java.com/java">
       <bpmn2:extensionElements>
         <drools:metaData name="elementname">
-          <drools:metaValue><![CDATA[Log username]]></drools:metaValue>
+          <drools:metaValue><![CDATA[Log user]]></drools:metaValue>
         </drools:metaData>
       </bpmn2:extensionElements>
       <bpmn2:incoming>_54D74D3C-C438-4D4C-92D2-F0B52BCCEA61</bpmn2:incoming>
       <bpmn2:outgoing>_82441AA0-7CFB-4E6E-B7C7-650D57617CF5</bpmn2:outgoing>
-      <bpmn2:script>System.out.println("Processing username " + username + ", First: " + username.getFirstName() + ", Last: " + username.getLastName());</bpmn2:script>
+      <bpmn2:script>System.out.println("Processing user " + user + ", First: " + user.getFirstName() + ", Last: " + user.getLastName());</bpmn2:script>
     </bpmn2:scriptTask>
     <bpmn2:endEvent id="_66CA8910-177E-4600-B06A-94400A9F7783">
       <bpmn2:incoming>_82441AA0-7CFB-4E6E-B7C7-650D57617CF5</bpmn2:incoming>
@@ -79,7 +79,7 @@
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_711D7954-D784-4AEC-9D4F-91E8A24A8130_UrlInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/username/{username}]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/user/{username}]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_711D7954-D784-4AEC-9D4F-91E8A24A8130_UrlInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -110,7 +110,7 @@
       </bpmn2:dataInputAssociation>
       <bpmn2:dataOutputAssociation>
         <bpmn2:sourceRef>_711D7954-D784-4AEC-9D4F-91E8A24A8130_ResultOutputX</bpmn2:sourceRef>
-        <bpmn2:targetRef>username</bpmn2:targetRef>
+        <bpmn2:targetRef>user</bpmn2:targetRef>
       </bpmn2:dataOutputAssociation>
     </bpmn2:task>
     <bpmn2:startEvent id="_2DF8E07B-6161-43BC-9BD2-61A3FB88DC3C">
