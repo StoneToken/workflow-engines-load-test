@@ -1,0 +1,290 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <mirrors>
+        <mirror>
+            <id>central-sigma</id>
+            <name>Mirror of public repositories sigma</name>
+            <url>http://nexus.sigma.sbrf.ru:8099/nexus/content/groups/public/</url>
+            <mirrorOf>central-sigma</mirrorOf>
+        </mirror>
+
+        <mirror>
+            <id>central-alpha</id>
+            <name>Mirror of public repositories alpha</name>
+            <url>http://sbtnexus.delta.sbrf.ru:8081/nexus/content/groups/public/</url>
+            <mirrorOf>central-alpha</mirrorOf>
+        </mirror>
+
+        <mirror>
+            <id>central-sbercloud</id>
+            <name>Mirror of public repositories in sbercloud</name>
+            <url>https://dzo.sw.sbc.space/nexus-ci/repository/maven-public/</url>
+            <mirrorOf>central-sbercloud</mirrorOf>
+        </mirror>
+    </mirrors>
+
+    <profiles>
+        <profile>
+            <id>nexus-sigma</id>
+
+            <repositories>
+                <repository>
+                    <id>internal-sigma</id>
+                    <name>All repositories internal</name>
+                    <url>https://nexus.sigma.sbrf.ru/nexus/content/groups/internal</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>ontabs-sigma</id>
+                    <name>All repositories ontabs</name>
+                    <url>https://nexus.sigma.sbrf.ru/nexus/content/repositories/ONTABS_release/</url>
+                </repository>
+                <repository>
+                    <id>platform-sigma</id>
+                    <name>All repositories platform</name>
+                    <url>https://nexus.sigma.sbrf.ru/nexus/service/local/repositories/Platform_release/</url>
+                </repository>
+                <repository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>central-sigma</id>
+                    <url>https://repo.maven.apache.org/maven2/</url>
+                </repository>
+            </repositories>
+
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>sbt-sigma</id>
+                    <url>https://nexus.sigma.sbrf.ru/nexus/content/groups/internal/</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>ontabs-sigma</id>
+                    <name>repositories ontabs</name>
+                    <url>https://nexus.sigma.sbrf.ru/nexus/content/repositories/ONTABS_release/</url>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>platform-sigma</id>
+                    <name>repositories platform</name>
+                    <url>https://nexus.sigma.sbrf.ru/nexus/content/repositories/Platform_release/</url>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>repository01-sigma</id>
+                    <name>repositories sonatype-public-grid_proxy</name>
+                    <url>https://nexus.sigma.sbrf.ru/nexus/service/local/repositories/sonatype-public-grid_proxy/</url>
+                </pluginRepository>
+                <pluginRepository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>central-sigma</id>
+                    <url>https://repo.maven.apache.org/maven2/</url>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+
+        <profile>
+            <id>nexus-alpha</id>
+
+            <repositories>
+                <repository>
+                    <id>internal-alpha</id>
+                    <name>All repositories internal</name>
+                    <url>http://sbtnexus.delta.sbrf.ru:8081/nexus/content/groups/internal/</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>inside-alpha</id>
+                    <name>All repositories internal</name>
+                    <url>http://sbtnexus.delta.sbrf.ru:8081/nexus/content/groups/inside/</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>ontabs-alpha</id>
+                    <name>All repositories ontabs</name>
+                    <url>http://sbtnexus.delta.sbrf.ru:8081/nexus/content/groups/ONTABS_group/</url>
+                </repository>
+                <repository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>central-alpha</id>
+                    <url>https://repo.maven.apache.org/maven2/</url>
+                </repository>
+            </repositories>
+
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>internal-alpha</id>
+                    <url>http://sbtnexus.delta.sbrf.ru:8081/nexus/content/groups/internal/</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>ontabs-alpha</id>
+                    <url>http://sbtnexus.delta.sbrf.ru:8081/nexus/content/groups/ONTABS_group/</url>
+                </pluginRepository>
+                <pluginRepository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>central-alpha</id>
+                    <url>https://repo.maven.apache.org/maven2/</url>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+
+        <profile>
+            <id>nexus-sbercloud</id>
+
+            <repositories>
+                <repository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>sbercloud</id>
+                    <url>https://dzo.sw.sbc.space/nexus-ci/repository/sbt_maven/</url>
+                </repository>
+                <repository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>central-sbercloud</id>
+                    <url>https://repo.maven.apache.org/maven2/</url>
+                </repository>
+            </repositories>
+
+            <pluginRepositories>
+                <pluginRepository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>sbercloud</id>
+                    <url>https://dzo.sw.sbc.space/nexus-ci/repository/sbt_maven/</url>
+                </pluginRepository>
+                <pluginRepository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>central-sbercloud</id>
+                    <url>https://repo.maven.apache.org/maven2/</url>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
+
+    <servers>
+
+        <server>
+            <id>central-alpha</id>
+            <username>${env.SBT_NEXUS_ALPHA_LOGIN}</username>
+            <password>${env.SBT_NEXUS_ALPHA_PASS}</password>
+        </server>
+
+        <server>
+            <id>internal-alpha</id>
+            <username>${env.SBT_NEXUS_ALPHA_LOGIN}</username>
+            <password>${env.SBT_NEXUS_ALPHA_PASS}</password>
+        </server>
+
+        <server>
+            <id>inside-alpha</id>
+            <username>${env.SBT_NEXUS_ALPHA_LOGIN}</username>
+            <password>${env.SBT_NEXUS_ALPHA_PASS}</password>
+        </server>
+
+        <server>
+            <id>ontabs-alpha</id>
+            <username>${env.SBT_NEXUS_ALPHA_LOGIN}</username>
+            <password>${env.SBT_NEXUS_ALPHA_PASS}</password>
+        </server>
+
+        <server>
+            <id>pprb-dev-alpha</id>
+            <username>${env.SBT_NEXUS_ALPHA_LOGIN}</username>
+            <password>${env.SBT_NEXUS_ALPHA_PASS}</password>
+        </server>
+
+
+
+        <server>
+            <id>central-sigma</id>
+            <username>${env.SBT_NEXUS_SIGMA_LOGIN}</username>
+            <password>${env.SBT_NEXUS_SIGMA_PASS}</password>
+        </server>
+
+        <server>
+            <id>sbt-sigma</id>
+            <username>${env.SBT_NEXUS_SIGMA_LOGIN}</username>
+            <password>${env.SBT_NEXUS_SIGMA_PASS}</password>
+            <configuration>
+                <httpConfiguration>
+                    <all>
+                        <usePreemptive>true</usePreemptive>
+                    </all>
+                </httpConfiguration>
+            </configuration>
+        </server>
+
+        <server>
+            <id>ontabs-sigma</id>
+            <username>${env.SBT_NEXUS_SIGMA_LOGIN}</username>
+            <password>${env.SBT_NEXUS_SIGMA_PASS}</password>
+        </server>
+
+        <server>
+            <id>platform-sigma</id>
+            <username>${env.SBT_NEXUS_SIGMA_LOGIN}</username>
+            <password>${env.SBT_NEXUS_SIGMA_PASS}</password>
+        </server>
+
+        <server>
+            <id>repository01-sigma</id>
+            <username>${env.SBT_NEXUS_SIGMA_LOGIN}</username>
+            <password>${env.SBT_NEXUS_SIGMA_PASS}</password>
+        </server>
+
+        <server>
+            <id>internal-sigma</id>
+            <username>${env.SBT_NEXUS_SIGMA_LOGIN}</username>
+            <password>${env.SBT_NEXUS_SIGMA_PASS}</password>
+            <configuration>
+                <httpConfiguration>
+                    <all>
+                        <usePreemptive>true</usePreemptive>
+                    </all>
+                </httpConfiguration>
+            </configuration>
+        </server>
+
+
+
+        <server>
+            <id>sbercloud</id>
+            <username>${env.SBT_NEXUS_SBERCLOUD_LOGIN}</username>
+            <password>${env.SBT_NEXUS_SBERCLOUD_PASS}</password>
+        </server>
+        <server>
+            <id>central-sbercloud</id>
+            <username>${env.SBT_NEXUS_SBERCLOUD_LOGIN}</username>
+            <password>${env.SBT_NEXUS_SBERCLOUD_PASS}</password>
+        </server>
+
+    </servers>
+</settings>

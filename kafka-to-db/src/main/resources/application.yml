@@ -1,0 +1,59 @@
+module.id: kafka-to-db
+artifact.id: kafka-to-db
+
+logging:
+  level:
+    ROOT: INFO
+
+server:
+  port: 8088
+
+spring:
+  # параметры подключения к kafka broker (see: org.springframework.boot.autoconfigure.kafka.KafkaProperties)
+  kafka:
+    # sigma
+#    bootstrap-servers: 10.53.66.140:9193
+
+    # dzo
+    bootstrap-servers: 10.31.0.5:31543
+
+    eventsTopic: kogito-processinstances-events
+
+    listener:
+      concurency: 3
+    consumer:
+      groupId: kogito_to_db
+      client-id: kogito_to_db
+      enable-auto-commit: true
+      auto-offset-reset: earliest
+
+      properties:
+        spring.json.use.type.headers: false
+        # макс. задержка между запросами к брокеру
+        max.poll.interval.ms': 35000
+        # ttl сессии
+        session.timeout.ms: 30000
+  json:
+    use:
+      type:
+        headers: false
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web.exposure.include: health,metrics,threaddump,prometheus
+  endpoint:
+    metrics.enabled: true
+    health:
+      enabled: true
+      probes:
+        enabled: true
+      show-details: when_authorized
+    threaddump.enabled: true
+    prometheus.enabled: true
+
+database:
+  driverClassName: org.postgresql.Driver
+  jdbcUrl: jdbc:postgresql://10.31.0.130:5433/bdengine
+  username: BPMS
+  password: QTQ4Ql57fVUtNTxMSHZnPQ==
