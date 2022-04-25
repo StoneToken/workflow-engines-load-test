@@ -15,6 +15,7 @@ services:
       - temporal-network
     expose:
       - 9200
+
   postgresql:
     container_name: temporal-postgresql
     environment:
@@ -25,6 +26,7 @@ services:
       - temporal-network
     expose:
       - 5432
+
   temporal:
     container_name: temporal
     depends_on:
@@ -47,6 +49,7 @@ services:
       - 7233:7233
     volumes:
       - ./dynamicconfig:/etc/temporal/config/dynamicconfig:z
+
   temporal-admin-tools:
     container_name: temporal-admin-tools
     depends_on:
@@ -58,6 +61,7 @@ services:
       - temporal-network
     stdin_open: true
     tty: true
+
   temporal-ui:
     container_name: temporal-ui
     depends_on:
@@ -70,6 +74,7 @@ services:
       - temporal-network
     ports:
       - 8080:8080
+
   temporal-web:
     container_name: temporal-web
     depends_on:
@@ -92,6 +97,18 @@ services:
     volumes:
       - ../../stub/apis:/apis:z
     command: /apis/rest.yaml
+    networks:
+      - temporal-network
+
+  temporal-worker:
+    container_name: temporal-worker
+    image: temporal-worker:0.1
+    mem_limit: 50m
+    environment:
+      - TEMPORAL_SERVER_URL=temporal:7233
+      - TEMPORAL_API_URL=http://api-mock-rest:8000/user/
+    depends_on:
+      - temporal
     networks:
       - temporal-network
 

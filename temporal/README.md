@@ -10,6 +10,14 @@ alias tctl="docker exec temporal-admin-tools tctl"
 
 ```
 
+## Build
+
+Build temporal worker container
+
+```sh
+docker build -t temporal-worker:0.1 .
+```
+
 ## Runtime
 
 ```sh
@@ -21,7 +29,7 @@ tctl --ns test-namespace namespace register -rd 1
 # view help messages for workflow run
 tctl workflow run -h
 
-# Run worker
+# Run worker (local run)
 go run worker/main.go
 
 # Start workflow with client (local run)

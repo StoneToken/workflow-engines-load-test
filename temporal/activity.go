@@ -5,11 +5,13 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 )
 
 func RestTask(name string) (string, error) {
 
-	url := "http://localhost:8000/user/" + name
+	// Default value "http://localhost:8000/user/"
+	url := os.Getenv("TEMPORAL_API_URL")  + name
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Fatalln(err)

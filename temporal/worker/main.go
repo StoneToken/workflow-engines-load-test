@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"go.temporal.io/sdk/client"
 	"go.temporal.io/sdk/worker"
@@ -11,7 +12,8 @@ import (
 
 func main() {
 	// Create the client object just once per process
-	c, err := client.NewClient(client.Options{})
+	// Default temporal server URL localhost:7233
+	c, err := client.NewClient(client.Options{HostPort: os.Getenv("TEMPORAL_SERVER_URL")})
 	if err != nil {
 		log.Fatalln("unable to create Temporal client", err)
 	}
