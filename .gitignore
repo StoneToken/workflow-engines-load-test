@@ -84,4 +84,8 @@ kogito-bpmn-sync/docker-compose/.cache/fontconfig/5ca8086aeacc9c68e81a71e7ef846b
 kogito-bpmn-sync/docker-compose/.cache/fontconfig/43f8fe80-95de-4801-9690-76a60a031eb3-le64.cache-7
 kogito-bpmn-sync/docker-compose/.cache/fontconfig/CACHEDIR.TAG
 kogito-bpmn-sync/docker-compose/.cache/fontconfig/d2be6232-ff87-4389-838a-9980410315a8-le64.cache-7
+target
+fontconfig/
+.idea/
 .vscode/settings.json
+fontconfig
