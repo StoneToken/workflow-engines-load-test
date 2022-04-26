@@ -67,39 +67,94 @@ docker build -f src/main/docker/Dockerfile.jvm -t quarkus/kogitobpmn-jvm .
 
 ### OpenAPI (Swagger) documentation
 
-[Specification at swagger.io](https://swagger.io/docs/specification/about/)
+When running in either Quarkus Development or Native mode, we also leverage the [Quarkus OpenAPI extension](https://quarkus.io/guides/openapi-swaggerui#use-swagger-ui-for-development) that exposes [Swagger UI](http://localhost:8080/q/swagger-ui/) that you can use to look at available REST endpoints and send test requests.
 
-You can take a look at the [OpenAPI definition](http://localhost:8080/openapi?format=json) - automatically generated and included in this service - to determine all available operations exposed by this service. For easy readability you can visualize the OpenAPI definition file using a UI tool like for example available [Swagger UI](https://editor.swagger.io).
+### Stubs usage
 
-In addition, various clients to interact with this service can be easily generated using this OpenAPI definition.
+#### Payment message stub
 
-When running in either Quarkus Development or Native mode, we also leverage the [Quarkus OpenAPI extension](https://quarkus.io/guides/openapi-swaggerui#use-swagger-ui-for-development) that exposes [Swagger UI](http://localhost:8080/swagger-ui/) that you can use to look at available REST endpoints and send test requests.
+Use kafka to produce messages. Example start message, should be produced to topic payment.
 
-
-### Start load test
-
-Curl for start-stop
-
-```sh
-curl -X 'POST' 'http://localhost:8080/start_stop' -H 'accept: */*' -H 'Content-Type: application/json' -d '{}'
+```json
+{
+ "specversion": "0.3",
+ "id": "21627e26-31eb-43e7-8343-92a696fd96b1",
+ "source": "",
+ "type": "payment",
+ "time": "2022-02-24T13:25:16+0000",
+ "data": {
+  "id": 0,
+  "sum": 0,
+  "account": "string",
+  "description": "string",
+  "date": "string",
+  "prepareResult": 0,
+  "paymentResult": 0
+ }
+}
 ```
 
-Curl for single
+Example success message, will be produced to processedpayment topic
 
-```sh
-curl -X POST -H 'Content-Type:application/json' -H 'Accept:application/json' -d '{"username" : "test"}' http://localhost:8080/single
+```json
+{
+ "id": "7bd1eb92-7823-4bce-b4ba-84989e5f8bef",
+ "source": "",
+ "type": "processedpayment",
+ "time": "2022-04-26T12:52:22.27544042+03:00",
+ "data": {
+  "id": 0,
+  "sum": 0,
+  "account": "string",
+  "description": "string",
+  "date": "string",
+  "prepareResult": 0,
+  "paymentResult": 0
+ },
+ "specversion": "1.0",
+ "kogitoprocinstanceid": "fa593208-873a-4d9a-9698-5a9b31268e3f",
+ "kogitoprocid": "PaymentMessageStub",
+ "kogitousertaskist": "1"
+}
 ```
 
-Curl for sequential
+#### Payment REST stub
+
+Start curl
 
 ```sh
-curl -X POST -H 'Content-Type:application/json' -H 'Accept:application/json' -d '{"username" : "test"}' http://localhost:8080/sequential
+curl -X 'POST' \
+  'http://localhost:8080/PaymentRestStub' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{"payment":
+{
+    "id": 0,
+    "sum": 0,
+    "account": "string",
+    "description": "string",
+    "date": "string",
+    "prepareResult": 0,
+    "paymentResult": 0
+  }
+}'
 ```
 
-Curl for parallel
+Example response
 
-```sh
-curl -X POST -H 'Content-Type:application/json' -H 'Accept:application/json' -d '{"username" : "test"}' http://localhost:8080/parallel
+```json
+{
+  "id": "a27c2d17-bef6-4ae4-9caa-06d7ac842162",
+  "payment": {
+    "id": 0,
+    "sum": 0,
+    "account": "string",
+    "description": "string",
+    "date": "string",
+    "prepareResult": 0,
+    "paymentResult": 0
+  }
+}
 ```
 
 ## Deploying with Kogito Operator

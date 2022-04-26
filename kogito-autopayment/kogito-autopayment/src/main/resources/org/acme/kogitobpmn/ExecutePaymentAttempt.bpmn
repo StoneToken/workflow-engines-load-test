@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:drools="http://www.jboss.org/drools" id="_-3TRwKbVEDqCba5o_Ge3iQ" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd http://www.jboss.org/drools drools.xsd http://www.bpsim.org/schemas/1.0 bpsim.xsd http://www.omg.org/spec/DD/20100524/DC DC.xsd http://www.omg.org/spec/DD/20100524/DI DI.xsd " exporter="jBPM Process Modeler" exporterVersion="2.0" targetNamespace="http://www.omg.org/bpmn20">
-  <bpmn2:itemDefinition id="InterruptExecutionMessageType" structureRef=""/>
-  <bpmn2:itemDefinition id="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_ContentDataInputXItem" structureRef="java.lang.Object"/>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:drools="http://www.jboss.org/drools" id="_5mkdEKeHEDqIMPxg4ZDiig" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd http://www.jboss.org/drools drools.xsd http://www.bpsim.org/schemas/1.0 bpsim.xsd http://www.omg.org/spec/DD/20100524/DC DC.xsd http://www.omg.org/spec/DD/20100524/DI DI.xsd " exporter="jBPM Process Modeler" exporterVersion="2.0" targetNamespace="http://www.omg.org/bpmn20">
+  <bpmn2:itemDefinition id="_paymentItem" structureRef="org.acme.kogitobpmn.Payment"/>
+  <bpmn2:itemDefinition id="_cancelItem" structureRef="String"/>
+  <bpmn2:itemDefinition id="_e20dfe82-a2d9-43c6-ae9b-daf0c690e69d_paymentInputXItem" structureRef="org.acme.kogitobpmn.Payment"/>
+  <bpmn2:itemDefinition id="_e20dfe82-a2d9-43c6-ae9b-daf0c690e69d_paymentOutputXItem" structureRef="org.acme.kogitobpmn.Payment"/>
+  <bpmn2:itemDefinition id="_c2810abe-3bba-4860-b7bb-2407d8571dcf_paymentInputXItem" structureRef="org.acme.kogitobpmn.Payment"/>
+  <bpmn2:itemDefinition id="_c2810abe-3bba-4860-b7bb-2407d8571dcf_paymentOutputXItem" structureRef="org.acme.kogitobpmn.Payment"/>
+  <bpmn2:itemDefinition id="_c9692af8-dbcd-4a50-84cd-cb40162099d5_eventOutputXItem" structureRef="String"/>
+  <bpmn2:itemDefinition id="interruptexecutionmessageType" structureRef="String"/>
+  <bpmn2:itemDefinition id="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_ContentDataInputXItem" structureRef="org.acme.kogitobpmn.Payment"/>
   <bpmn2:itemDefinition id="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_HostInputXItem" structureRef="String"/>
   <bpmn2:itemDefinition id="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_MethodInputXItem" structureRef="String"/>
-  <bpmn2:itemDefinition id="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_PasswordInputXItem" structureRef="String"/>
   <bpmn2:itemDefinition id="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_PortInputXItem" structureRef="Integer"/>
   <bpmn2:itemDefinition id="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_UrlInputXItem" structureRef="String"/>
-  <bpmn2:itemDefinition id="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_UsernameInputXItem" structureRef="String"/>
-  <bpmn2:itemDefinition id="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_ResultOutputXItem" structureRef="java.lang.Object"/>
+  <bpmn2:itemDefinition id="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_ResultOutputXItem" structureRef="org.acme.kogitobpmn.Payment"/>
   <bpmn2:itemDefinition id="__EB4B16D7-3289-4E84-BC3A-FEDDE784AF13_ContentDataInputXItem" structureRef="java.lang.Object"/>
   <bpmn2:itemDefinition id="__EB4B16D7-3289-4E84-BC3A-FEDDE784AF13_HostInputXItem" structureRef="String"/>
   <bpmn2:itemDefinition id="__EB4B16D7-3289-4E84-BC3A-FEDDE784AF13_MethodInputXItem" structureRef="String"/>
@@ -28,11 +33,13 @@
   <bpmn2:error id="ERROR" errorCode="ERROR"/>
   <bpmn2:error id="ERROR" errorCode="ERROR"/>
   <bpmn2:error id="ERROR" errorCode="ERROR"/>
-  <bpmn2:message id="_-3VG8KbVEDqCba5o_Ge3iQ" itemRef="InterruptExecutionMessageType" name="InterruptExecutionMessage"/>
+  <bpmn2:message id="_5mm5UKeHEDqIMPxg4ZDiig" itemRef="interruptexecutionmessageType" name="interruptexecutionmessage"/>
   <bpmn2:process id="ExecutePaymentAttempt" drools:packageName="org.acme.kogitobpmn" drools:version="1.0" drools:adHoc="false" name="ExecutePaymentAttempt" isExecutable="true" processType="Public">
     <bpmn2:extensionElements>
       <drools:import name="org.acme.kogitobpmn.Payment"/>
     </bpmn2:extensionElements>
+    <bpmn2:property id="payment" itemSubjectRef="_paymentItem" name="payment"/>
+    <bpmn2:property id="cancel" itemSubjectRef="_cancelItem" name="cancel"/>
     <bpmn2:laneSet>
       <bpmn2:lane id="a50d80c8-b83a-47e2-9c29-fa54cf72fa8b" name="BPM">
         <bpmn2:extensionElements>
@@ -164,23 +171,19 @@
       <bpmn2:incoming>_1578C56B-EB4F-43EA-87AA-5A03936000B1</bpmn2:incoming>
       <bpmn2:outgoing>_3ECE192E-BBE1-40ED-9B6E-189EC42E2D70</bpmn2:outgoing>
       <bpmn2:ioSpecification>
-        <bpmn2:dataInput id="_1FC1B400-7F2F-41DD-A844-FBAD581550DB_ContentDataInputX" drools:dtype="java.lang.Object" itemSubjectRef="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_ContentDataInputXItem" name="ContentData"/>
+        <bpmn2:dataInput id="_1FC1B400-7F2F-41DD-A844-FBAD581550DB_ContentDataInputX" drools:dtype="org.acme.kogitobpmn.Payment" itemSubjectRef="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_ContentDataInputXItem" name="ContentData"/>
         <bpmn2:dataInput id="_1FC1B400-7F2F-41DD-A844-FBAD581550DB_HostInputX" drools:dtype="String" itemSubjectRef="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_HostInputXItem" name="Host"/>
         <bpmn2:dataInput id="_1FC1B400-7F2F-41DD-A844-FBAD581550DB_MethodInputX" drools:dtype="String" itemSubjectRef="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_MethodInputXItem" name="Method"/>
-        <bpmn2:dataInput id="_1FC1B400-7F2F-41DD-A844-FBAD581550DB_PasswordInputX" drools:dtype="String" itemSubjectRef="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_PasswordInputXItem" name="Password"/>
         <bpmn2:dataInput id="_1FC1B400-7F2F-41DD-A844-FBAD581550DB_PortInputX" drools:dtype="Integer" itemSubjectRef="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_PortInputXItem" name="Port"/>
         <bpmn2:dataInput id="_1FC1B400-7F2F-41DD-A844-FBAD581550DB_UrlInputX" drools:dtype="String" itemSubjectRef="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_UrlInputXItem" name="Url"/>
-        <bpmn2:dataInput id="_1FC1B400-7F2F-41DD-A844-FBAD581550DB_UsernameInputX" drools:dtype="String" itemSubjectRef="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_UsernameInputXItem" name="Username"/>
         <bpmn2:dataInput id="_1FC1B400-7F2F-41DD-A844-FBAD581550DB_TaskNameInputX" drools:dtype="Object" name="TaskName"/>
-        <bpmn2:dataOutput id="_1FC1B400-7F2F-41DD-A844-FBAD581550DB_ResultOutputX" drools:dtype="java.lang.Object" itemSubjectRef="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_ResultOutputXItem" name="Result"/>
+        <bpmn2:dataOutput id="_1FC1B400-7F2F-41DD-A844-FBAD581550DB_ResultOutputX" drools:dtype="org.acme.kogitobpmn.Payment" itemSubjectRef="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_ResultOutputXItem" name="Result"/>
         <bpmn2:inputSet>
           <bpmn2:dataInputRefs>_1FC1B400-7F2F-41DD-A844-FBAD581550DB_ContentDataInputX</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_1FC1B400-7F2F-41DD-A844-FBAD581550DB_HostInputX</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_1FC1B400-7F2F-41DD-A844-FBAD581550DB_MethodInputX</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_1FC1B400-7F2F-41DD-A844-FBAD581550DB_PasswordInputX</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_1FC1B400-7F2F-41DD-A844-FBAD581550DB_PortInputX</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_1FC1B400-7F2F-41DD-A844-FBAD581550DB_UrlInputX</bpmn2:dataInputRefs>
-          <bpmn2:dataInputRefs>_1FC1B400-7F2F-41DD-A844-FBAD581550DB_UsernameInputX</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>_1FC1B400-7F2F-41DD-A844-FBAD581550DB_TaskNameInputX</bpmn2:dataInputRefs>
         </bpmn2:inputSet>
         <bpmn2:outputSet>
@@ -188,14 +191,50 @@
         </bpmn2:outputSet>
       </bpmn2:ioSpecification>
       <bpmn2:dataInputAssociation>
+        <bpmn2:sourceRef>payment</bpmn2:sourceRef>
+        <bpmn2:targetRef>_1FC1B400-7F2F-41DD-A844-FBAD581550DB_ContentDataInputX</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation>
+        <bpmn2:targetRef>_1FC1B400-7F2F-41DD-A844-FBAD581550DB_HostInputX</bpmn2:targetRef>
+        <bpmn2:assignment>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[localhost]]></bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_1FC1B400-7F2F-41DD-A844-FBAD581550DB_HostInputX]]></bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation>
+        <bpmn2:targetRef>_1FC1B400-7F2F-41DD-A844-FBAD581550DB_MethodInputX</bpmn2:targetRef>
+        <bpmn2:assignment>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[POST]]></bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_1FC1B400-7F2F-41DD-A844-FBAD581550DB_MethodInputX]]></bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation>
+        <bpmn2:targetRef>_1FC1B400-7F2F-41DD-A844-FBAD581550DB_PortInputX</bpmn2:targetRef>
+        <bpmn2:assignment>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[8080]]></bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_1FC1B400-7F2F-41DD-A844-FBAD581550DB_PortInputX]]></bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation>
+        <bpmn2:targetRef>_1FC1B400-7F2F-41DD-A844-FBAD581550DB_UrlInputX</bpmn2:targetRef>
+        <bpmn2:assignment>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[/PaymentRestStub]]></bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_1FC1B400-7F2F-41DD-A844-FBAD581550DB_UrlInputX]]></bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_1FC1B400-7F2F-41DD-A844-FBAD581550DB_TaskNameInputX</bpmn2:targetRef>
         <bpmn2:assignment>
           <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[Rest]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_1FC1B400-7F2F-41DD-A844-FBAD581550DB_TaskNameInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation>
+        <bpmn2:sourceRef>_1FC1B400-7F2F-41DD-A844-FBAD581550DB_ResultOutputX</bpmn2:sourceRef>
+        <bpmn2:targetRef>payment</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
     </bpmn2:task>
-    <bpmn2:exclusiveGateway id="ebc7103d-9818-4ff0-90b1-7cea627abf6f" gatewayDirection="Converging">
+    <bpmn2:exclusiveGateway id="ebc7103d-9818-4ff0-90b1-7cea627abf6f" drools:dg="_0A404B76-D024-4F16-A548-44084558737D" gatewayDirection="Converging" default="_0A404B76-D024-4F16-A548-44084558737D">
       <bpmn2:incoming>_45F6F73D-6048-4074-9E88-53DD3BE32E8E</bpmn2:incoming>
       <bpmn2:incoming>_6B87DE4A-EAB1-4776-9111-2ACA787CF616</bpmn2:incoming>
       <bpmn2:outgoing>_0A404B76-D024-4F16-A548-44084558737D</bpmn2:outgoing>
@@ -212,19 +251,27 @@
     <bpmn2:subProcess id="dc823bc1-5881-4ca7-bc88-5ede1cbd7d4c">
       <bpmn2:incoming>_3ECE192E-BBE1-40ED-9B6E-189EC42E2D70</bpmn2:incoming>
       <bpmn2:outgoing>_3FD2D338-5F92-4FD6-AA9B-44A2398B5284</bpmn2:outgoing>
-      <bpmn2:sequenceFlow id="d67871c9-328e-44ee-856e-5be0161cce7d" sourceRef="ac4c1098-9465-437f-a682-f2a8cc7425f3" targetRef="c2810abe-3bba-4860-b7bb-2407d8571dcf"/>
+      <bpmn2:sequenceFlow id="d67871c9-328e-44ee-856e-5be0161cce7d" sourceRef="ac4c1098-9465-437f-a682-f2a8cc7425f3" targetRef="c2810abe-3bba-4860-b7bb-2407d8571dcf">
+        <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" language="http://www.java.com/java"><![CDATA[return true;]]></bpmn2:conditionExpression>
+      </bpmn2:sequenceFlow>
       <bpmn2:sequenceFlow id="b2ac1f5c-6a47-40e4-8f17-c4d53e5a8338" sourceRef="a0816f97-b77b-477e-90f9-027ec83198db" targetRef="ac4c1098-9465-437f-a682-f2a8cc7425f3"/>
       <bpmn2:sequenceFlow id="ff56b836-8598-42a9-adf4-6ab3657e471d" sourceRef="e4e40731-35c1-4eb5-8d96-300e78d92920" targetRef="e20dfe82-a2d9-43c6-ae9b-daf0c690e69d"/>
-      <bpmn2:sequenceFlow id="fa536f6e-ea8d-4d28-bbeb-0f379809c17b" sourceRef="ac4c1098-9465-437f-a682-f2a8cc7425f3" targetRef="e4e40731-35c1-4eb5-8d96-300e78d92920"/>
-      <bpmn2:sequenceFlow id="da61d856-e2a0-4c3b-802c-ebd9665e849e" sourceRef="cacba49b-a146-4989-b290-9e0eef68772a" targetRef="d02fec2a-6b6e-4d50-a585-f93fa6a79750"/>
+      <bpmn2:sequenceFlow id="fa536f6e-ea8d-4d28-bbeb-0f379809c17b" sourceRef="ac4c1098-9465-437f-a682-f2a8cc7425f3" targetRef="e4e40731-35c1-4eb5-8d96-300e78d92920">
+        <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" language="http://www.java.com/java"><![CDATA[return false;]]></bpmn2:conditionExpression>
+      </bpmn2:sequenceFlow>
+      <bpmn2:sequenceFlow id="da61d856-e2a0-4c3b-802c-ebd9665e849e" sourceRef="cacba49b-a146-4989-b290-9e0eef68772a" targetRef="d02fec2a-6b6e-4d50-a585-f93fa6a79750">
+        <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" language="http://www.java.com/java"><![CDATA[return false;]]></bpmn2:conditionExpression>
+      </bpmn2:sequenceFlow>
       <bpmn2:sequenceFlow id="e3f3cf72-92db-4f19-9e50-051c156294c8" sourceRef="cacba49b-a146-4989-b290-9e0eef68772a" targetRef="e4e40731-35c1-4eb5-8d96-300e78d92920">
-        <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" language="http://www.java.com/java"><![CDATA[${execution.getVariable("prepResult") == 'SUCCESS'}]]></bpmn2:conditionExpression>
+        <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" language="http://www.java.com/java"><![CDATA[return true;]]></bpmn2:conditionExpression>
       </bpmn2:sequenceFlow>
       <bpmn2:sequenceFlow id="f5b74907-c7fc-473a-b2e9-4df37ce87320" sourceRef="c2810abe-3bba-4860-b7bb-2407d8571dcf" targetRef="cacba49b-a146-4989-b290-9e0eef68772a"/>
       <bpmn2:sequenceFlow id="f2f184ad-45bb-48ab-858a-f2e4e0379ed9" sourceRef="e20dfe82-a2d9-43c6-ae9b-daf0c690e69d" targetRef="d285c2bf-278f-4fe1-b0c5-7592eb81462c"/>
-      <bpmn2:sequenceFlow id="bd7ea5bb-f1fc-4748-841c-93940a4938ff" sourceRef="d285c2bf-278f-4fe1-b0c5-7592eb81462c" targetRef="de51d8dd-1701-4fd8-b470-f41e5b85441f"/>
+      <bpmn2:sequenceFlow id="bd7ea5bb-f1fc-4748-841c-93940a4938ff" sourceRef="d285c2bf-278f-4fe1-b0c5-7592eb81462c" targetRef="de51d8dd-1701-4fd8-b470-f41e5b85441f">
+        <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" language="http://www.java.com/java"><![CDATA[return false;]]></bpmn2:conditionExpression>
+      </bpmn2:sequenceFlow>
       <bpmn2:sequenceFlow id="bf0c7440-97ef-4a28-8513-0b12a9e9b6a4" sourceRef="d285c2bf-278f-4fe1-b0c5-7592eb81462c" targetRef="d60b5221-5e58-4993-80f9-3e77dea3de42">
-        <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" language="http://www.java.com/java"><![CDATA[${execution.getVariable("execResult") == 'SUCCESS'}]]></bpmn2:conditionExpression>
+        <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" language="http://www.java.com/java"><![CDATA[return true;]]></bpmn2:conditionExpression>
       </bpmn2:sequenceFlow>
       <bpmn2:callActivity id="c2810abe-3bba-4860-b7bb-2407d8571dcf" drools:independent="false" drools:waitForCompletion="true" name="Подготовка платежа" calledElement="PreparePayment">
         <bpmn2:extensionElements>
@@ -237,6 +284,24 @@
         </bpmn2:extensionElements>
         <bpmn2:incoming>d67871c9-328e-44ee-856e-5be0161cce7d</bpmn2:incoming>
         <bpmn2:outgoing>f5b74907-c7fc-473a-b2e9-4df37ce87320</bpmn2:outgoing>
+        <bpmn2:ioSpecification>
+          <bpmn2:dataInput id="c2810abe-3bba-4860-b7bb-2407d8571dcf_paymentInputX" drools:dtype="org.acme.kogitobpmn.Payment" itemSubjectRef="_c2810abe-3bba-4860-b7bb-2407d8571dcf_paymentInputXItem" name="payment"/>
+          <bpmn2:dataOutput id="c2810abe-3bba-4860-b7bb-2407d8571dcf_paymentOutputX" drools:dtype="org.acme.kogitobpmn.Payment" itemSubjectRef="_c2810abe-3bba-4860-b7bb-2407d8571dcf_paymentOutputXItem" name="payment"/>
+          <bpmn2:inputSet>
+            <bpmn2:dataInputRefs>c2810abe-3bba-4860-b7bb-2407d8571dcf_paymentInputX</bpmn2:dataInputRefs>
+          </bpmn2:inputSet>
+          <bpmn2:outputSet>
+            <bpmn2:dataOutputRefs>c2810abe-3bba-4860-b7bb-2407d8571dcf_paymentOutputX</bpmn2:dataOutputRefs>
+          </bpmn2:outputSet>
+        </bpmn2:ioSpecification>
+        <bpmn2:dataInputAssociation>
+          <bpmn2:sourceRef>payment</bpmn2:sourceRef>
+          <bpmn2:targetRef>c2810abe-3bba-4860-b7bb-2407d8571dcf_paymentInputX</bpmn2:targetRef>
+        </bpmn2:dataInputAssociation>
+        <bpmn2:dataOutputAssociation>
+          <bpmn2:sourceRef>c2810abe-3bba-4860-b7bb-2407d8571dcf_paymentOutputX</bpmn2:sourceRef>
+          <bpmn2:targetRef>payment</bpmn2:targetRef>
+        </bpmn2:dataOutputAssociation>
       </bpmn2:callActivity>
       <bpmn2:callActivity id="e20dfe82-a2d9-43c6-ae9b-daf0c690e69d" drools:independent="false" drools:waitForCompletion="true" name="Исполнение платежа" calledElement="ExecutePayment">
         <bpmn2:extensionElements>
@@ -249,16 +314,39 @@
         </bpmn2:extensionElements>
         <bpmn2:incoming>ff56b836-8598-42a9-adf4-6ab3657e471d</bpmn2:incoming>
         <bpmn2:outgoing>f2f184ad-45bb-48ab-858a-f2e4e0379ed9</bpmn2:outgoing>
+        <bpmn2:ioSpecification>
+          <bpmn2:dataInput id="e20dfe82-a2d9-43c6-ae9b-daf0c690e69d_paymentInputX" drools:dtype="org.acme.kogitobpmn.Payment" itemSubjectRef="_e20dfe82-a2d9-43c6-ae9b-daf0c690e69d_paymentInputXItem" name="payment"/>
+          <bpmn2:dataOutput id="e20dfe82-a2d9-43c6-ae9b-daf0c690e69d_paymentOutputX" drools:dtype="org.acme.kogitobpmn.Payment" itemSubjectRef="_e20dfe82-a2d9-43c6-ae9b-daf0c690e69d_paymentOutputXItem" name="payment"/>
+          <bpmn2:inputSet>
+            <bpmn2:dataInputRefs>e20dfe82-a2d9-43c6-ae9b-daf0c690e69d_paymentInputX</bpmn2:dataInputRefs>
+          </bpmn2:inputSet>
+          <bpmn2:outputSet>
+            <bpmn2:dataOutputRefs>e20dfe82-a2d9-43c6-ae9b-daf0c690e69d_paymentOutputX</bpmn2:dataOutputRefs>
+          </bpmn2:outputSet>
+        </bpmn2:ioSpecification>
+        <bpmn2:dataInputAssociation>
+          <bpmn2:sourceRef>payment</bpmn2:sourceRef>
+          <bpmn2:targetRef>e20dfe82-a2d9-43c6-ae9b-daf0c690e69d_paymentInputX</bpmn2:targetRef>
+        </bpmn2:dataInputAssociation>
+        <bpmn2:dataOutputAssociation>
+          <bpmn2:sourceRef>e20dfe82-a2d9-43c6-ae9b-daf0c690e69d_paymentOutputX</bpmn2:sourceRef>
+          <bpmn2:targetRef>payment</bpmn2:targetRef>
+        </bpmn2:dataOutputAssociation>
       </bpmn2:callActivity>
       <bpmn2:startEvent id="a0816f97-b77b-477e-90f9-027ec83198db">
         <bpmn2:outgoing>b2ac1f5c-6a47-40e4-8f17-c4d53e5a8338</bpmn2:outgoing>
       </bpmn2:startEvent>
-      <bpmn2:exclusiveGateway id="ac4c1098-9465-437f-a682-f2a8cc7425f3" drools:dg="d67871c9-328e-44ee-856e-5be0161cce7d" gatewayDirection="Diverging" default="d67871c9-328e-44ee-856e-5be0161cce7d">
+      <bpmn2:exclusiveGateway id="ac4c1098-9465-437f-a682-f2a8cc7425f3" drools:dg="d67871c9-328e-44ee-856e-5be0161cce7d" name="Повтор?" gatewayDirection="Diverging" default="d67871c9-328e-44ee-856e-5be0161cce7d">
+        <bpmn2:extensionElements>
+          <drools:metaData name="elementname">
+            <drools:metaValue><![CDATA[Повтор?]]></drools:metaValue>
+          </drools:metaData>
+        </bpmn2:extensionElements>
         <bpmn2:incoming>b2ac1f5c-6a47-40e4-8f17-c4d53e5a8338</bpmn2:incoming>
         <bpmn2:outgoing>fa536f6e-ea8d-4d28-bbeb-0f379809c17b</bpmn2:outgoing>
         <bpmn2:outgoing>d67871c9-328e-44ee-856e-5be0161cce7d</bpmn2:outgoing>
       </bpmn2:exclusiveGateway>
-      <bpmn2:exclusiveGateway id="e4e40731-35c1-4eb5-8d96-300e78d92920" gatewayDirection="Converging">
+      <bpmn2:exclusiveGateway id="e4e40731-35c1-4eb5-8d96-300e78d92920" drools:dg="ff56b836-8598-42a9-adf4-6ab3657e471d" gatewayDirection="Converging" default="ff56b836-8598-42a9-adf4-6ab3657e471d">
         <bpmn2:incoming>e3f3cf72-92db-4f19-9e50-051c156294c8</bpmn2:incoming>
         <bpmn2:incoming>fa536f6e-ea8d-4d28-bbeb-0f379809c17b</bpmn2:incoming>
         <bpmn2:outgoing>ff56b836-8598-42a9-adf4-6ab3657e471d</bpmn2:outgoing>
@@ -267,12 +355,22 @@
         <bpmn2:incoming>da61d856-e2a0-4c3b-802c-ebd9665e849e</bpmn2:incoming>
         <bpmn2:errorEventDefinition drools:erefname="ERROR" errorRef="ERROR"/>
       </bpmn2:endEvent>
-      <bpmn2:exclusiveGateway id="cacba49b-a146-4989-b290-9e0eef68772a" drools:dg="e3f3cf72-92db-4f19-9e50-051c156294c8" gatewayDirection="Diverging" default="e3f3cf72-92db-4f19-9e50-051c156294c8">
+      <bpmn2:exclusiveGateway id="cacba49b-a146-4989-b290-9e0eef68772a" drools:dg="e3f3cf72-92db-4f19-9e50-051c156294c8" name="Ошибка?" gatewayDirection="Diverging" default="e3f3cf72-92db-4f19-9e50-051c156294c8">
+        <bpmn2:extensionElements>
+          <drools:metaData name="elementname">
+            <drools:metaValue><![CDATA[Ошибка?]]></drools:metaValue>
+          </drools:metaData>
+        </bpmn2:extensionElements>
         <bpmn2:incoming>f5b74907-c7fc-473a-b2e9-4df37ce87320</bpmn2:incoming>
         <bpmn2:outgoing>e3f3cf72-92db-4f19-9e50-051c156294c8</bpmn2:outgoing>
         <bpmn2:outgoing>da61d856-e2a0-4c3b-802c-ebd9665e849e</bpmn2:outgoing>
       </bpmn2:exclusiveGateway>
-      <bpmn2:exclusiveGateway id="d285c2bf-278f-4fe1-b0c5-7592eb81462c" gatewayDirection="Diverging">
+      <bpmn2:exclusiveGateway id="d285c2bf-278f-4fe1-b0c5-7592eb81462c" drools:dg="bf0c7440-97ef-4a28-8513-0b12a9e9b6a4" name="Ошибка?" gatewayDirection="Diverging" default="bf0c7440-97ef-4a28-8513-0b12a9e9b6a4">
+        <bpmn2:extensionElements>
+          <drools:metaData name="elementname">
+            <drools:metaValue><![CDATA[Ошибка?]]></drools:metaValue>
+          </drools:metaData>
+        </bpmn2:extensionElements>
         <bpmn2:incoming>f2f184ad-45bb-48ab-858a-f2e4e0379ed9</bpmn2:incoming>
         <bpmn2:outgoing>bf0c7440-97ef-4a28-8513-0b12a9e9b6a4</bpmn2:outgoing>
         <bpmn2:outgoing>bd7ea5bb-f1fc-4748-841c-93940a4938ff</bpmn2:outgoing>
@@ -291,7 +389,15 @@
     </bpmn2:boundaryEvent>
     <bpmn2:boundaryEvent id="c9692af8-dbcd-4a50-84cd-cb40162099d5" drools:dockerinfo="1136^353.33116883116884|" drools:boundaryca="true" attachedToRef="dc823bc1-5881-4ca7-bc88-5ede1cbd7d4c">
       <bpmn2:outgoing>_6B87DE4A-EAB1-4776-9111-2ACA787CF616</bpmn2:outgoing>
-      <bpmn2:messageEventDefinition drools:msgref="InterruptExecutionMessage" messageRef="_-3VG8KbVEDqCba5o_Ge3iQ"/>
+      <bpmn2:dataOutput id="c9692af8-dbcd-4a50-84cd-cb40162099d5_eventOutputX" drools:dtype="String" itemSubjectRef="_c9692af8-dbcd-4a50-84cd-cb40162099d5_eventOutputXItem" name="event"/>
+      <bpmn2:dataOutputAssociation>
+        <bpmn2:sourceRef>c9692af8-dbcd-4a50-84cd-cb40162099d5_eventOutputX</bpmn2:sourceRef>
+        <bpmn2:targetRef>cancel</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:outputSet>
+        <bpmn2:dataOutputRefs>c9692af8-dbcd-4a50-84cd-cb40162099d5_eventOutputX</bpmn2:dataOutputRefs>
+      </bpmn2:outputSet>
+      <bpmn2:messageEventDefinition drools:msgref="interruptexecutionmessage" messageRef="_5mm5UKeHEDqIMPxg4ZDiig"/>
     </bpmn2:boundaryEvent>
   </bpmn2:process>
   <bpmndi:BPMNDiagram>
@@ -519,7 +625,7 @@
         </bpsim:Scenario>
       </bpsim:BPSimData>
     </bpmn2:extensionElements>
-    <bpmn2:source>_-3TRwKbVEDqCba5o_Ge3iQ</bpmn2:source>
-    <bpmn2:target>_-3TRwKbVEDqCba5o_Ge3iQ</bpmn2:target>
+    <bpmn2:source>_5mkdEKeHEDqIMPxg4ZDiig</bpmn2:source>
+    <bpmn2:target>_5mkdEKeHEDqIMPxg4ZDiig</bpmn2:target>
   </bpmn2:relationship>
 </bpmn2:definitions>

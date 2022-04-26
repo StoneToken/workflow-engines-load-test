@@ -17,19 +17,19 @@ package org.acme.kogitobpmn;
 
 public class Payment {
 
-    private Integer id;
-    private Integer sum;
+    private int id;
+    private int sum;
     private String account;
     private String description;
     private String date;
-    private Integer prepareResult;
-    private Integer paymentResult;
+    private int prepareResult;
+    private int paymentResult;
 
     public Payment() {
     }
 
-    public Payment(Integer id, Integer sum, String account, String description, String date, Integer prepareResult,
-            Integer paymentResult) {
+    public Payment(int id, int sum, String account, String description, String date, int prepareResult,
+            int paymentResult) {
         super();
         this.id = id;
         this.sum = sum;
@@ -40,27 +40,27 @@ public class Payment {
         this.paymentResult = paymentResult;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public Integer getPrepareResult() {
+    public int getPrepareResult() {
         return prepareResult;
     }
 
-    public void setPrepareResult(Integer prepareResult) {
+    public void setPrepareResult(int prepareResult) {
         this.prepareResult = prepareResult;
     }
 
-    public Integer getPaymentResult() {
+    public int getPaymentResult() {
         return paymentResult;
     }
 
-    public void setPaymentResult(Integer paymentResult) {
+    public void setPaymentResult(int paymentResult) {
         this.paymentResult = paymentResult;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -80,11 +80,11 @@ public class Payment {
         this.date = date;
     }
 
-    public Integer getSum() {
+    public int getSum() {
         return sum;
     }
 
-    public void setSum(Integer sum) {
+    public void setSum(int sum) {
         this.sum = sum;
     }
 
