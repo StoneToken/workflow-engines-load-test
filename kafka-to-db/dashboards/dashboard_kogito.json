@@ -22,7 +22,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": 9,
-  "iteration": 1650858567218,
+  "iteration": 1650963917980,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -33,7 +33,7 @@
       "dashes": false,
       "datasource": {
         "type": "postgres",
-        "uid": "6bDqx7Q7z"
+        "uid": "${dataSource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -81,7 +81,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "6bDqx7Q7z"
+            "uid": "${dataSource}"
           },
           "format": "time_series",
           "group": [],
@@ -112,7 +112,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "6bDqx7Q7z"
+            "uid": "${dataSource}"
           },
           "format": "time_series",
           "group": [],
@@ -178,7 +178,7 @@
       "dashes": false,
       "datasource": {
         "type": "postgres",
-        "uid": "6bDqx7Q7z"
+        "uid": "${dataSource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -226,7 +226,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "6bDqx7Q7z"
+            "uid": "${dataSource}"
           },
           "format": "time_series",
           "group": [],
@@ -292,7 +292,7 @@
       "dashes": false,
       "datasource": {
         "type": "postgres",
-        "uid": "6bDqx7Q7z"
+        "uid": "${dataSource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -340,7 +340,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "6bDqx7Q7z"
+            "uid": "${dataSource}"
           },
           "format": "time_series",
           "group": [],
@@ -406,7 +406,7 @@
       "dashes": false,
       "datasource": {
         "type": "postgres",
-        "uid": "6bDqx7Q7z"
+        "uid": "${dataSource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -454,7 +454,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "6bDqx7Q7z"
+            "uid": "${dataSource}"
           },
           "format": "time_series",
           "group": [],
@@ -520,7 +520,7 @@
       "dashes": false,
       "datasource": {
         "type": "postgres",
-        "uid": "6bDqx7Q7z"
+        "uid": "${dataSource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -568,7 +568,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "6bDqx7Q7z"
+            "uid": "${dataSource}"
           },
           "format": "time_series",
           "group": [],
@@ -599,7 +599,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "6bDqx7Q7z"
+            "uid": "${dataSource}"
           },
           "format": "time_series",
           "group": [],
@@ -668,8 +668,26 @@
       {
         "current": {
           "selected": false,
-          "text": "sequential",
-          "value": "sequential"
+          "text": "PostgreSQL-engine",
+          "value": "PostgreSQL-engine"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "dataSource",
+        "options": [],
+        "query": "postgres",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Single REST process",
+          "value": "Single REST process"
         },
         "datasource": {
           "type": "postgres",
@@ -691,13 +709,13 @@
     ]
   },
   "time": {
-    "from": "2022-04-21T06:42:29.531Z",
-    "to": "2022-04-21T09:35:03.339Z"
+    "from": "now-24h",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Kogito",
+  "title": "Kogito Metrics",
   "uid": "pIfb67Qnz",
-  "version": 34,
+  "version": 35,
   "weekStart": ""
 }

@@ -12,6 +12,22 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 
+/**
+ public interface KogitoProcessInstance extends ProcessInstance, KogitoEventListener {
+
+ int STATE_PENDING = 0;
+ int STATE_ACTIVE = 1;
+ int STATE_COMPLETED = 2;
+ int STATE_ABORTED = 3;
+ int STATE_SUSPENDED = 4;
+ int STATE_ERROR = 5;
+
+ int SLA_NA = 0;
+ int SLA_PENDING = 1;
+ int SLA_MET = 2;
+ int SLA_VIOLATED = 3;
+ int SLA_ABORTED = 4;
+ */
 public class DatabaseService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseService.class);
     private final DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+00:00");
@@ -30,9 +46,10 @@ public class DatabaseService {
             "startTime,\n" +
             "endTime,\n" +
             "state,\n" +
+            "error,\n" +
             "businessKey)\n" +
-            "values (?,?,?,?,?,?,?,?,?,?)\n" +
-            "on conflict do nothing";
+            "values (?,?,?,?,?,?,?,?,?,?,?)\n" +
+            "on conflict (id) do update set endtime = excluded.endtime, state = excluded.state, error = excluded.error";
 
     private String preparedStatementNodeSQL = "insert into NodeInstance (\n" +
             "processInstanceId,\n" +
@@ -43,7 +60,8 @@ public class DatabaseService {
             "startTime,\n" +
             "endTime)\n" +
             "values (?,?,?,?,?,?,?)\n" +
-            "on conflict do nothing";
+            "on conflict (id) do update set endtime = excluded.endtime";
+//            "on conflict do nothing";
 
     private Connection connection;
 
@@ -110,6 +128,7 @@ public class DatabaseService {
                 "startTime timestamp(6) not null,\n" +
                 "endTime timestamp(6),\n" +
                 "state int,\n" +
+                "error varchar(255),\n" +
                 "businesskey varchar(100),\n" +
                 "cdate timestamp default CURRENT_TIMESTAMP not null)";
 //                "create index processinstance_starttime_idx on processinstance (starttime);\n" +
@@ -169,9 +188,11 @@ public class DatabaseService {
         long endTime = 0L;
         try {
             startTime = sdf.parse(jsonObject.getJSONObject("data").getString("startDate")).getTime();
+        } catch (ParseException | JSONException e) {
+        }
+        try {
             endTime = sdf.parse(jsonObject.getJSONObject("data").getString("endDate")).getTime();
         } catch (ParseException | JSONException e) {
-            LOGGER.error("Ошибка при работе с датой", e);
         }
 
         try {
@@ -182,9 +203,10 @@ public class DatabaseService {
             preparedStatementProcess.setString(5, jsonObject.getJSONObject("data").getString("rootProcessId"));
             preparedStatementProcess.setString(6, jsonObject.getJSONObject("data").getString("processName"));
             preparedStatementProcess.setTimestamp(7, new Timestamp(startTime));
-            preparedStatementProcess.setTimestamp(8, new Timestamp(endTime));
+            preparedStatementProcess.setTimestamp(8, endTime > 0L ? new Timestamp(endTime) : null);
             preparedStatementProcess.setInt(9, jsonObject.getJSONObject("data").getInt("state"));
-            preparedStatementProcess.setString(10, jsonObject.getJSONObject("data").getString("businessKey"));
+            preparedStatementProcess.setString(10, jsonObject.getJSONObject("data").getString("error"));
+            preparedStatementProcess.setString(11, jsonObject.getJSONObject("data").getString("businessKey"));
             preparedStatementProcess.addBatch();
             if (counterProcess >= 300) {
                 preparedStatementProcess.executeBatch();
@@ -216,9 +238,11 @@ public class DatabaseService {
             long endTime = 0L;
             try {
                 startTime = sdf.parse(jsonArray.getJSONObject(o).getString("triggerTime")).getTime();
+            } catch (ParseException | JSONException e) {
+            }
+            try {
                 endTime = sdf.parse(jsonArray.getJSONObject(o).getString("leaveTime")).getTime();
             } catch (ParseException | JSONException e) {
-                LOGGER.error("Ошибка при работе с датой", e);
             }
 
             try {
@@ -229,7 +253,7 @@ public class DatabaseService {
                 preparedStatementNode.setString(4, jsonArray.getJSONObject(o).getString("nodeName"));
                 preparedStatementNode.setString(5, jsonArray.getJSONObject(o).getString("nodeType"));
                 preparedStatementNode.setTimestamp(6, new Timestamp(startTime));
-                preparedStatementNode.setTimestamp(7, new Timestamp(endTime));
+                preparedStatementNode.setTimestamp(7, endTime > 0L ? new Timestamp(endTime) : null);
                 preparedStatementNode.addBatch();
                 if (counterNode >= 500) {
                     preparedStatementNode.executeBatch();
