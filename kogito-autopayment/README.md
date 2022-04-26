@@ -2,6 +2,11 @@
 
 ## Description
 
+This project contains two modules
+
+- kogito-autopayment -> bpmn use case from related client, workflow controls periodic account billing.
+- kogito-autopayment-stub -> stub microservice for payment events
+
 ## Build and run
 
 ### Prerequisites
