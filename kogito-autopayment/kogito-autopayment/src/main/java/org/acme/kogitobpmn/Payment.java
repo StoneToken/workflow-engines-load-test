@@ -25,65 +25,81 @@ public class Payment {
     private Integer prepareResult;
     private Integer paymentResult;
 
+    public Payment() {
+    }
+
+    public Payment(Integer id, Integer sum, String account, String description, String date, Integer prepareResult,
+            Integer paymentResult) {
+        super();
+        this.id = id;
+        this.sum = sum;
+        this.account = account;
+        this.description = description;
+        this.date = date;
+        this.prepareResult = prepareResult;
+        this.paymentResult = paymentResult;
+    }
+
     public Integer getId() {
         return id;
     }
+
     public Integer getPrepareResult() {
         return prepareResult;
     }
+
     public void setPrepareResult(Integer prepareResult) {
         this.prepareResult = prepareResult;
     }
+
     public Integer getPaymentResult() {
         return paymentResult;
     }
+
     public void setPaymentResult(Integer paymentResult) {
         this.paymentResult = paymentResult;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
-    public Integer getDebit() {
-        return debit;
-    }
-    public void setDebit(Integer debit) {
-        this.debit = debit;
-    }
-    public Integer getCredit() {
-        return credit;
-    }
-    public void setCredit(Integer credit) {
-        this.credit = credit;
-    }
+
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public String getDate() {
         return date;
     }
+
     public void setDate(String date) {
         this.date = date;
     }
 
-    @Override
-    public String toString() {
-        return "Payment [credit=" + credit + ", date=" + date + ", debit=" + debit + ", description=" + description
-                + ", id=" + id + ", paymentResult=" + paymentResult + ", prepareResult=" + prepareResult + "]";
-    }
     public Integer getSum() {
         return sum;
     }
+
     public void setSum(Integer sum) {
         this.sum = sum;
     }
+
     public String getAccount() {
         return account;
     }
+
     public void setAccount(String account) {
         this.account = account;
+    }
+
+    @Override
+    public String toString() {
+        return "Payment [account=" + account + ", date=" + date + ", description=" + description + ", id=" + id
+                + ", paymentResult=" + paymentResult + ", prepareResult=" + prepareResult + ", sum=" + sum + "]";
     }
 
 }

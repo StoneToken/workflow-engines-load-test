@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn2:definitions xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:drools="http://www.jboss.org/drools" xmlns:xsi="xsi" id="_qKlAEKdOEDqaHOs5-6gIhA" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd http://www.jboss.org/drools drools.xsd http://www.bpsim.org/schemas/1.0 bpsim.xsd http://www.omg.org/spec/DD/20100524/DC DC.xsd http://www.omg.org/spec/DD/20100524/DI DI.xsd " exporter="jBPM Process Modeler" exporterVersion="2.0" targetNamespace="http://www.omg.org/bpmn20">
+<bpmn2:definitions xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:drools="http://www.jboss.org/drools" xmlns:xsi="xsi" id="_tlPLQKddEDqtnc0pZVW6Hg" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd http://www.jboss.org/drools drools.xsd http://www.bpsim.org/schemas/1.0 bpsim.xsd http://www.omg.org/spec/DD/20100524/DC DC.xsd http://www.omg.org/spec/DD/20100524/DI DI.xsd " exporter="jBPM Process Modeler" exporterVersion="2.0" targetNamespace="http://www.omg.org/bpmn20">
   <bpmn2:itemDefinition id="_paymentItem" structureRef="org.acme.kogitobpmn.Payment"/>
   <bpmn2:itemDefinition id="__1275B02A-AA8E-484C-84E1-7BCC0C794AEB_eventOutputXItem" structureRef="org.acme.kogitobpmn.Payment"/>
   <bpmn2:itemDefinition id="paymentType" structureRef="org.acme.kogitobpmn.Payment"/>
   <bpmn2:itemDefinition id="__873F68C9-E4F3-497B-AEF4-C41A97AD9232_eventInputXItem" structureRef="org.acme.kogitobpmn.Payment"/>
-  <bpmn2:itemDefinition id="processedPaymentType" structureRef="org.acme.kogitobpmn.Payment"/>
-  <bpmn2:message id="_qKm1QKdOEDqaHOs5-6gIhA" itemRef="paymentType" name="payment"/>
-  <bpmn2:message id="_qKncUKdOEDqaHOs5-6gIhA" itemRef="processedPaymentType" name="processedPayment"/>
-  <bpmn2:process id="PaymentKafkaStub" drools:packageName="org.acme.kogitobpmn" drools:version="1.0" drools:adHoc="false" name="PaymentKafkaStub" isExecutable="true" processType="Public">
+  <bpmn2:itemDefinition id="processedpaymentType" structureRef="org.acme.kogitobpmn.Payment"/>
+  <bpmn2:message id="_tlRngKddEDqtnc0pZVW6Hg" itemRef="paymentType" name="payment"/>
+  <bpmn2:message id="_tlSOkKddEDqtnc0pZVW6Hg" itemRef="processedpaymentType" name="processedpayment"/>
+  <bpmn2:process id="PaymentMessageStub" drools:packageName="org.acme.kogitobpmn" drools:version="1.0" drools:adHoc="false" name="PaymentMessageStub" isExecutable="true" processType="Public">
     <bpmn2:extensionElements>
       <drools:import name="org.acme.kogitobpmn.Payment"/>
     </bpmn2:extensionElements>
@@ -40,7 +40,7 @@ payment.setPaymentResult(java.util.concurrent.ThreadLocalRandom.current().nextIn
       <bpmn2:inputSet>
         <bpmn2:dataInputRefs>_873F68C9-E4F3-497B-AEF4-C41A97AD9232_eventInputX</bpmn2:dataInputRefs>
       </bpmn2:inputSet>
-      <bpmn2:messageEventDefinition drools:msgref="processedPayment" messageRef="_qKncUKdOEDqaHOs5-6gIhA"/>
+      <bpmn2:messageEventDefinition drools:msgref="processedpayment" messageRef="_tlSOkKddEDqtnc0pZVW6Hg"/>
     </bpmn2:endEvent>
     <bpmn2:startEvent id="_1275B02A-AA8E-484C-84E1-7BCC0C794AEB" name="Message received">
       <bpmn2:extensionElements>
@@ -57,11 +57,11 @@ payment.setPaymentResult(java.util.concurrent.ThreadLocalRandom.current().nextIn
       <bpmn2:outputSet>
         <bpmn2:dataOutputRefs>_1275B02A-AA8E-484C-84E1-7BCC0C794AEB_eventOutputX</bpmn2:dataOutputRefs>
       </bpmn2:outputSet>
-      <bpmn2:messageEventDefinition drools:msgref="payment" messageRef="_qKm1QKdOEDqaHOs5-6gIhA"/>
+      <bpmn2:messageEventDefinition drools:msgref="payment" messageRef="_tlRngKddEDqtnc0pZVW6Hg"/>
     </bpmn2:startEvent>
   </bpmn2:process>
   <bpmndi:BPMNDiagram>
-    <bpmndi:BPMNPlane bpmnElement="PaymentKafkaStub">
+    <bpmndi:BPMNPlane bpmnElement="PaymentMessageStub">
       <bpmndi:BPMNShape id="shape__1275B02A-AA8E-484C-84E1-7BCC0C794AEB" bpmnElement="_1275B02A-AA8E-484C-84E1-7BCC0C794AEB">
         <dc:Bounds height="56" width="56" x="484" y="228"/>
       </bpmndi:BPMNShape>
@@ -109,7 +109,7 @@ payment.setPaymentResult(java.util.concurrent.ThreadLocalRandom.current().nextIn
         </bpsim:Scenario>
       </bpsim:BPSimData>
     </bpmn2:extensionElements>
-    <bpmn2:source>_qKlAEKdOEDqaHOs5-6gIhA</bpmn2:source>
-    <bpmn2:target>_qKlAEKdOEDqaHOs5-6gIhA</bpmn2:target>
+    <bpmn2:source>_tlPLQKddEDqtnc0pZVW6Hg</bpmn2:source>
+    <bpmn2:target>_tlPLQKddEDqtnc0pZVW6Hg</bpmn2:target>
   </bpmn2:relationship>
 </bpmn2:definitions>
