@@ -1,0 +1,11 @@
+id: start_stop
+version: '1.0'
+specVersion: '0.8'
+name: Start Stop Serverless Workflow
+description: Workflow that do nothing
+start: Process
+states:
+- name: Process
+  type: operation
+  actions: []
+  end: true
