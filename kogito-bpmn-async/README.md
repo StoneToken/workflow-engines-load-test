@@ -79,12 +79,6 @@ Start docker-compose
 docker-compose -f docker-compose/docker-compose.yml up -d
 ```
 
-Curl for start-stop
-
-```sh
-curl -X 'POST' 'http://localhost:8080/start_stop' -H 'accept: */*' -H 'Content-Type: application/json' -d '{}'
-```
-
 Curl for single
 
 ```sh
