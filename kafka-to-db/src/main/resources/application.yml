@@ -21,7 +21,6 @@ spring:
       concurency: 3
     consumer:
       groupId: kogito_to_db
-      client-id: kogito_to_db
       enable-auto-commit: true
       auto-offset-reset: earliest
 

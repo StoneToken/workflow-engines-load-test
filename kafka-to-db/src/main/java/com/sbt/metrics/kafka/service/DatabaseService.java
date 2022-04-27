@@ -40,14 +40,14 @@ public class DatabaseService {
             "id,\n" +
             "parentInstanceId,\n" +
             "rootInstanceId,\n" +
-            "processId,\n" +
             "rootProcessId,\n" +
+            "processId,\n" +
             "processName,\n" +
             "startTime,\n" +
             "endTime,\n" +
             "state,\n" +
-            "error,\n" +
-            "businessKey)\n" +
+            "businessKey,\n" +
+            "error)\n" +
             "values (?,?,?,?,?,?,?,?,?,?,?)\n" +
             "on conflict (id) do update set endtime = excluded.endtime, state = excluded.state, error = excluded.error";
 
@@ -122,14 +122,14 @@ public class DatabaseService {
                 "id varchar(64) not null constraint process_id unique,\n" +
                 "parentInstanceId varchar(64),\n" +
                 "rootInstanceId varchar(64),\n" +
-                "processId varchar(64) not null,\n" +
                 "rootProcessId varchar(64),\n" +
+                "processId varchar(64) not null,\n" +
                 "processName varchar(255) not null,\n" +
                 "startTime timestamp(6) not null,\n" +
                 "endTime timestamp(6),\n" +
                 "state int,\n" +
+                "businessKey varchar(100),\n" +
                 "error varchar(255),\n" +
-                "businesskey varchar(100),\n" +
                 "cdate timestamp default CURRENT_TIMESTAMP not null)";
 //                "create index processinstance_starttime_idx on processinstance (starttime);\n" +
 //                "create index processinstance_endtime_idx on processinstance (endtime);\n" +
@@ -197,16 +197,16 @@ public class DatabaseService {
 
         try {
             preparedStatementProcess.setString(1, jsonObject.getJSONObject("data").getString("id"));
-            preparedStatementProcess.setString(2, jsonObject.getJSONObject("data").getString("parentInstanceId"));
-            preparedStatementProcess.setString(3, jsonObject.getJSONObject("data").getString("rootInstanceId"));
-            preparedStatementProcess.setString(4, jsonObject.getJSONObject("data").getString("processId"));
-            preparedStatementProcess.setString(5, jsonObject.getJSONObject("data").getString("rootProcessId"));
+            preparedStatementProcess.setString(2, strToNull(jsonObject.getJSONObject("data").getString("parentInstanceId")));
+            preparedStatementProcess.setString(3, strToNull(jsonObject.getJSONObject("data").getString("rootInstanceId")));
+            preparedStatementProcess.setString(4, strToNull(jsonObject.getJSONObject("data").getString("rootProcessId")));
+            preparedStatementProcess.setString(5, jsonObject.getJSONObject("data").getString("processId"));
             preparedStatementProcess.setString(6, jsonObject.getJSONObject("data").getString("processName"));
             preparedStatementProcess.setTimestamp(7, new Timestamp(startTime));
             preparedStatementProcess.setTimestamp(8, endTime > 0L ? new Timestamp(endTime) : null);
             preparedStatementProcess.setInt(9, jsonObject.getJSONObject("data").getInt("state"));
-            preparedStatementProcess.setString(10, jsonObject.getJSONObject("data").getString("error"));
-            preparedStatementProcess.setString(11, jsonObject.getJSONObject("data").getString("businessKey"));
+            preparedStatementProcess.setString(10, strToNull(jsonObject.getJSONObject("data").getString("businessKey")));
+            preparedStatementProcess.setString(11, strToNull(jsonObject.getJSONObject("data").getString("error")));
             preparedStatementProcess.addBatch();
             if (counterProcess >= 300) {
                 preparedStatementProcess.executeBatch();
@@ -271,5 +271,10 @@ public class DatabaseService {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    private String strToNull(String str) {
+        if (str == null || str.equalsIgnoreCase("null")) return null;
+        return str;
     }
 }
