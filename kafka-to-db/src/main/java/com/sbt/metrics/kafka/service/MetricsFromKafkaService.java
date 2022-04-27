@@ -19,6 +19,9 @@ public class MetricsFromKafkaService {
     @Value("${database.driverClassName}")
     private String databaseDriverClassName;
 
+    @Value("${database.schema:}")
+    private String databaseSchema;
+
     @Value("${database.jdbcUrl}")
     private String databaseJdbcUrl;
 
@@ -63,6 +66,7 @@ public class MetricsFromKafkaService {
     private void connectDB() {
         databaseService = new DatabaseService(
                 databaseDriverClassName,
+                databaseSchema,
                 databaseJdbcUrl,
                 databaseUserName,
                 databasePassword);

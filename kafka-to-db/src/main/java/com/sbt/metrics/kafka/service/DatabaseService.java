@@ -32,36 +32,13 @@ public class DatabaseService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseService.class);
     private final DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+00:00");
 
+    private String schema;
     private long counter = 0L;
     private long counterProcess = 0L;
     private long counterNode = 0L;
 
-    private String preparedStatementProcessSQL = "insert into ProcessInstance (\n" +
-            "id,\n" +
-            "parentInstanceId,\n" +
-            "rootInstanceId,\n" +
-            "rootProcessId,\n" +
-            "processId,\n" +
-            "processName,\n" +
-            "startTime,\n" +
-            "endTime,\n" +
-            "state,\n" +
-            "businessKey,\n" +
-            "error)\n" +
-            "values (?,?,?,?,?,?,?,?,?,?,?)\n" +
-            "on conflict (id) do update set endtime = excluded.endtime, state = excluded.state, error = excluded.error";
-
-    private String preparedStatementNodeSQL = "insert into NodeInstance (\n" +
-            "processInstanceId,\n" +
-            "id,\n" +
-            "nodeId,\n" +
-            "nodeName,\n" +
-            "nodeType,\n" +
-            "startTime,\n" +
-            "endTime)\n" +
-            "values (?,?,?,?,?,?,?)\n" +
-            "on conflict (id) do update set endtime = excluded.endtime";
-//            "on conflict do nothing";
+    private String preparedStatementProcessSQL;
+    private String preparedStatementNodeSQL;
 
     private Connection connection;
 
@@ -74,12 +51,42 @@ public class DatabaseService {
      */
     public DatabaseService(
             String databaseDriverClassName,
+            String databaseSchema,
             String databaseJdbcUrl,
             String databaseUserName,
             String databasePassword
     ) {
 
         if (databaseJdbcUrl != null && !databaseJdbcUrl.isEmpty()) {
+            this.schema = databaseSchema + (databaseSchema.isEmpty() ? "" : ".");
+
+            preparedStatementProcessSQL = "insert into " + this.schema + "ProcessInstance (\n" +
+                    "id,\n" +
+                    "parentInstanceId,\n" +
+                    "rootInstanceId,\n" +
+                    "rootProcessId,\n" +
+                    "processId,\n" +
+                    "processName,\n" +
+                    "startTime,\n" +
+                    "endTime,\n" +
+                    "state,\n" +
+                    "businessKey,\n" +
+                    "error)\n" +
+                    "values (?,?,?,?,?,?,?,?,?,?,?)\n" +
+                    "on conflict (id) do update set endtime = excluded.endtime, state = excluded.state, error = excluded.error";
+
+            preparedStatementNodeSQL = "insert into " + this.schema + "NodeInstance (\n" +
+                    "processInstanceId,\n" +
+                    "id,\n" +
+                    "nodeId,\n" +
+                    "nodeName,\n" +
+                    "nodeType,\n" +
+                    "startTime,\n" +
+                    "endTime)\n" +
+                    "values (?,?,?,?,?,?,?)\n" +
+                    "on conflict (id) do update set endtime = excluded.endtime";
+//            "on conflict do nothing";
+
             try {
                 DriverManager.registerDriver((Driver) Class.forName(databaseDriverClassName).newInstance());
             } catch (Exception e) {
@@ -118,7 +125,7 @@ public class DatabaseService {
             return;
         }
 
-        String sql = "create table IF NOT EXISTS ProcessInstance(\n" +
+        String sql = "create table IF NOT EXISTS " + schema + "ProcessInstance(\n" +
                 "id varchar(64) not null constraint process_id unique,\n" +
                 "parentInstanceId varchar(64),\n" +
                 "rootInstanceId varchar(64),\n" +
@@ -140,7 +147,7 @@ public class DatabaseService {
             LOGGER.error("Ошибка при создании таблицы {}", sql, throwables);
         }
 
-        sql = "create table IF NOT EXISTS NodeInstance(\n" +
+        sql = "create table IF NOT EXISTS " + schema + "NodeInstance(\n" +
                 "processInstanceId varchar(64) not null,\n" +
                 "id varchar(64) not null constraint node_id unique,\n" +
                 "nodeId varchar(64),\n" +
@@ -148,6 +155,7 @@ public class DatabaseService {
                 "nodeType varchar(100),\n" +
                 "startTime timestamp(6) not null,\n" +
                 "endTime timestamp(6))";
+//                "create index nodeinstance_processinstanceid_idx on nodeinstance (processinstanceid);\n" +
 //                "create index nodeinstance_endtime_idx on nodeinstance (endtime)";
         try {
             statement.execute(sql);

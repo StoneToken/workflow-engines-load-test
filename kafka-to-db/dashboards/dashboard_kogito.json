@@ -19,22 +19,18 @@
     ]
   },
   "editable": true,
-  "fiscalYearStartMonth": 0,
+  "gnetId": null,
   "graphTooltip": 1,
-  "id": 9,
-  "iteration": 1650976644405,
+  "id": 60,
+  "iteration": 1651054635969,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "postgres",
-        "uid": "${dataSource}"
-      },
+      "datasource": "${dataSource}",
       "fieldConfig": {
         "defaults": {
           "unit": "short"
@@ -69,7 +65,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.4.3",
+      "pluginVersion": "7.5.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -79,48 +75,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "postgres",
-            "uid": "${dataSource}"
-          },
           "format": "time_series",
           "group": [],
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
           "rawSql": "select to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS')::timestamp at time zone 'Europe/Moscow' as time,\n       p.processName,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.starttime between (timestamp $__timeFrom() at time zone 'UTC') and (timestamp $__timeTo() at time zone 'UTC')\ngroup by to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "timeColumn": "time",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        },
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "${dataSource}"
-          },
-          "format": "time_series",
-          "group": [],
-          "hide": true,
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "select to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS')::timestamp at time zone 'Europe/Moscow' as time,\n       p.processName,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere $__timeFilter(p.starttime)\ngroup by to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2\n  \n",
-          "refId": "C",
+          "refId": "B",
           "select": [
             [
               {
@@ -142,7 +103,9 @@
         }
       ],
       "thresholds": [],
+      "timeFrom": null,
       "timeRegions": [],
+      "timeShift": null,
       "title": "Процессов стартовано",
       "tooltip": {
         "shared": true,
@@ -151,7 +114,9 @@
       },
       "type": "graph",
       "xaxis": {
+        "buckets": null,
         "mode": "time",
+        "name": null,
         "show": true,
         "values": []
       },
@@ -176,10 +141,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "postgres",
-        "uid": "${dataSource}"
-      },
+      "datasource": "${dataSource}",
       "fieldConfig": {
         "defaults": {
           "unit": "short"
@@ -214,7 +176,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.4.3",
+      "pluginVersion": "7.5.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -224,17 +186,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "postgres",
-            "uid": "${dataSource}"
-          },
           "format": "time_series",
           "group": [],
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
           "rawSql": "select to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp at time zone 'Europe/Moscow' as time,\n       p.processName,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.endtime between (timestamp $__timeFrom() at time zone 'UTC') and (timestamp $__timeTo() at time zone 'UTC')\ngroup by to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2",
-          "refId": "C",
+          "refId": "A",
           "select": [
             [
               {
@@ -256,7 +214,9 @@
         }
       ],
       "thresholds": [],
+      "timeFrom": null,
       "timeRegions": [],
+      "timeShift": null,
       "title": "Процессов завершено",
       "tooltip": {
         "shared": true,
@@ -265,7 +225,9 @@
       },
       "type": "graph",
       "xaxis": {
+        "buckets": null,
         "mode": "time",
+        "name": null,
         "show": true,
         "values": []
       },
@@ -290,10 +252,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "postgres",
-        "uid": "${dataSource}"
-      },
+      "datasource": "${dataSource}",
       "fieldConfig": {
         "defaults": {
           "unit": "short"
@@ -328,7 +287,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.4.3",
+      "pluginVersion": "7.5.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -338,17 +297,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "postgres",
-            "uid": "${dataSource}"
-          },
           "format": "time_series",
           "group": [],
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
           "rawSql": "select\n    t.time as time,\n    p1.processName,\n    count(p1.processName) * 100 / count(p2.processName) as \" \"\nfrom (select generate_series as time from pg_catalog.generate_series(\n        date_trunc('minute', timestamp $__timeFrom() at time zone 'UTC'),\n        date_trunc('minute', timestamp $__timeTo() at time zone 'UTC'), interval '1 second')) t\njoin ProcessInstance p1 on to_char(p1.starttime, 'YYYY-MM-DD HH24:MI:SS') = to_char(t.time, 'YYYY-MM-DD HH24:MI:SS') and p1.state = 2\njoin ProcessInstance p2 on to_char(p2.starttime, 'YYYY-MM-DD HH24:MI:SS') = to_char(t.time, 'YYYY-MM-DD HH24:MI:SS') and p2.processName = p1.processName\ngroup by t.time, p1.processName\norder by 1,2",
-          "refId": "C",
+          "refId": "A",
           "select": [
             [
               {
@@ -370,7 +325,9 @@
         }
       ],
       "thresholds": [],
+      "timeFrom": null,
       "timeRegions": [],
+      "timeShift": null,
       "title": "Процессы Pass/Failure rate",
       "tooltip": {
         "shared": true,
@@ -379,7 +336,9 @@
       },
       "type": "graph",
       "xaxis": {
+        "buckets": null,
         "mode": "time",
+        "name": null,
         "show": true,
         "values": []
       },
@@ -404,10 +363,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "postgres",
-        "uid": "${dataSource}"
-      },
+      "datasource": "${dataSource}",
       "fieldConfig": {
         "defaults": {
           "unit": "short"
@@ -442,7 +398,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.4.3",
+      "pluginVersion": "7.5.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -452,17 +408,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "postgres",
-            "uid": "${dataSource}"
-          },
           "format": "time_series",
           "group": [],
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
           "rawSql": "select to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS')::timestamp at time zone 'Europe/Moscow' as time,\n       p.processName,       \n       avg((EXTRACT('epoch' from p.endtime) - EXTRACT('epoch' from p.starttime)) * 1000) as \" \"\nfrom ProcessInstance p\nwhere p.endtime is not null \nand p.starttime between (timestamp $__timeFrom() at time zone 'UTC') and (timestamp $__timeTo() at time zone 'UTC')\ngroup by to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2",
-          "refId": "C",
+          "refId": "A",
           "select": [
             [
               {
@@ -484,7 +436,9 @@
         }
       ],
       "thresholds": [],
+      "timeFrom": null,
       "timeRegions": [],
+      "timeShift": null,
       "title": "Длительность выполнения процесса (ms)",
       "tooltip": {
         "shared": true,
@@ -493,7 +447,9 @@
       },
       "type": "graph",
       "xaxis": {
+        "buckets": null,
         "mode": "time",
+        "name": null,
         "show": true,
         "values": []
       },
@@ -518,10 +474,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "postgres",
-        "uid": "${dataSource}"
-      },
+      "datasource": "${dataSource}",
       "fieldConfig": {
         "defaults": {
           "unit": "short"
@@ -556,7 +509,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.4.3",
+      "pluginVersion": "7.5.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -566,48 +519,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "postgres",
-            "uid": "${dataSource}"
-          },
           "format": "time_series",
           "group": [],
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
           "rawSql": "select to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp at time zone 'Europe/Moscow' as time,\n       p.processName,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.endtime between (timestamp $__timeFrom() at time zone 'UTC') and (timestamp $__timeTo() at time zone 'UTC')\nand p.error is not null\ngroup by to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "timeColumn": "time",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        },
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "${dataSource}"
-          },
-          "format": "time_series",
-          "group": [],
-          "hide": true,
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "select to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS')::timestamp at time zone 'Europe/Moscow' as time,\n       p.processName,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere $__timeFilter(p.starttime)\ngroup by to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2\n  \n",
-          "refId": "C",
+          "refId": "B",
           "select": [
             [
               {
@@ -629,7 +547,9 @@
         }
       ],
       "thresholds": [],
+      "timeFrom": null,
       "timeRegions": [],
+      "timeShift": null,
       "title": "Ошибки",
       "tooltip": {
         "shared": true,
@@ -638,7 +558,9 @@
       },
       "type": "graph",
       "xaxis": {
+        "buckets": null,
         "mode": "time",
+        "name": null,
         "show": true,
         "values": []
       },
@@ -663,10 +585,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "postgres",
-        "uid": "${dataSource}"
-      },
+      "datasource": "${dataSource}",
       "fieldConfig": {
         "defaults": {
           "unit": "short"
@@ -701,7 +620,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.4.3",
+      "pluginVersion": "7.5.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -711,48 +630,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "postgres",
-            "uid": "${dataSource}"
-          },
           "format": "time_series",
           "group": [],
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
           "rawSql": "select to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp at time zone 'Europe/Moscow' as time,\n       count(1) as \" \"\nfrom NodeInstance n\nwhere n.endtime is not null\nand n.endtime between (timestamp $__timeFrom() at time zone 'UTC') and (timestamp $__timeTo() at time zone 'UTC')\ngroup by to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS')\norder by 1",
-          "refId": "C",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "timeColumn": "time",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        },
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "${dataSource}"
-          },
-          "format": "time_series",
-          "group": [],
-          "hide": true,
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "select to_date(to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') as time,\n       count(1) as \" \",\n       n.nodeType as type\nfrom NodeInstance n\nwhere n.endtime is not null\nand $__timeFilter(n.endtime)\ngroup by to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS'), n.nodeType\norder by 1",
-          "refId": "A",
+          "refId": "B",
           "select": [
             [
               {
@@ -774,7 +658,9 @@
         }
       ],
       "thresholds": [],
+      "timeFrom": null,
       "timeRegions": [],
+      "timeShift": null,
       "title": "Завершено шагов в секунду",
       "tooltip": {
         "shared": true,
@@ -783,7 +669,9 @@
       },
       "type": "graph",
       "xaxis": {
+        "buckets": null,
         "mode": "time",
+        "name": null,
         "show": true,
         "values": []
       },
@@ -805,7 +693,7 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 35,
+  "schemaVersion": 27,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -813,11 +701,14 @@
       {
         "current": {
           "selected": false,
-          "text": "PostgreSQL-engine",
-          "value": "PostgreSQL-engine"
+          "text": "PostgreSQL",
+          "value": "PostgreSQL"
         },
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
+        "label": null,
         "multi": false,
         "name": "dataSource",
         "options": [],
@@ -829,6 +720,7 @@
         "type": "datasource"
       },
       {
+        "allValue": null,
         "current": {
           "selected": false,
           "text": "Single REST process",
@@ -839,8 +731,11 @@
           "uid": "6bDqx7Q7z"
         },
         "definition": "select processName from ProcessInstance group by processName",
+        "description": null,
+        "error": {},
         "hide": 0,
         "includeAll": false,
+        "label": null,
         "multi": false,
         "name": "processName",
         "options": [],
@@ -849,18 +744,21 @@
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
-        "type": "query"
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
       }
     ]
   },
   "time": {
-    "from": "now-24h",
-    "to": "now"
+    "from": "2022-04-26T07:30:55.523Z",
+    "to": "2022-04-26T14:33:10.699Z"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Kogito Metrics",
   "uid": "pIfb67Qnz",
-  "version": 37,
-  "weekStart": ""
+  "version": 5
 }
