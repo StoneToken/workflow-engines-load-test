@@ -18,7 +18,7 @@ spring:
     eventsTopic: kogito-processinstances-events
 
     listener:
-      concurency: 3
+      concurency: 4
     consumer:
       groupId: kogito_to_db
       enable-auto-commit: true
