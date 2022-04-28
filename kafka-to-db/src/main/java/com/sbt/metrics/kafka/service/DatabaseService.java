@@ -133,6 +133,20 @@ public class DatabaseService {
 
             if (connection != null) {
                 LOGGER.info("Переподключение к БД...");
+                if (preparedStatementProcess != null) {
+                    try {
+                        preparedStatementProcess.close();
+                    } catch (SQLException throwables) {
+                        LOGGER.error("", throwables);
+                    }
+                }
+                if (preparedStatementNode != null) {
+                    try {
+                        preparedStatementNode.close();
+                    } catch (SQLException throwables) {
+                        LOGGER.error("", throwables);
+                    }
+                }
                 try {
                     connection.close();
                 } catch (SQLException throwables) {
