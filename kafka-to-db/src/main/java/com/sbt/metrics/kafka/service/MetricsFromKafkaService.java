@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +19,7 @@ public class MetricsFromKafkaService {
 
     @Value("${database.driverClassName}")
     private String databaseDriverClassName;
-
-    @Value("${database.schema:}")
-    private String databaseSchema;
-
+    
     @Value("${database.jdbcUrl}")
     private String databaseJdbcUrl;
 
@@ -30,6 +28,9 @@ public class MetricsFromKafkaService {
 
     @Value("${database.password}")
     private String databasePassword;
+
+    @Value("${database.schema:}")
+    private String databaseSchema;
 
     DatabaseService databaseService;
     private long counter = 0;
@@ -42,6 +43,11 @@ public class MetricsFromKafkaService {
         connectDB();
     }
 
+    @Scheduled(fixedDelay = 60000)
+    private void reconnect() {
+        databaseService.connect();
+    }
+    
     @EnableKafka
     @Component
     public class Listener {
@@ -66,9 +72,9 @@ public class MetricsFromKafkaService {
     private void connectDB() {
         databaseService = new DatabaseService(
                 databaseDriverClassName,
-                databaseSchema,
                 databaseJdbcUrl,
                 databaseUserName,
-                databasePassword);
+                databasePassword,
+                databaseSchema);
     }
 }

@@ -13,29 +13,38 @@ import java.text.SimpleDateFormat;
 import java.util.Base64;
 
 /**
- public interface KogitoProcessInstance extends ProcessInstance, KogitoEventListener {
-
- int STATE_PENDING = 0;
- int STATE_ACTIVE = 1;
- int STATE_COMPLETED = 2;
- int STATE_ABORTED = 3;
- int STATE_SUSPENDED = 4;
- int STATE_ERROR = 5;
-
- int SLA_NA = 0;
- int SLA_PENDING = 1;
- int SLA_MET = 2;
- int SLA_VIOLATED = 3;
- int SLA_ABORTED = 4;
+ * public interface KogitoProcessInstance extends ProcessInstance, KogitoEventListener {
+ * <p>
+ * int STATE_PENDING = 0;
+ * int STATE_ACTIVE = 1;
+ * int STATE_COMPLETED = 2;
+ * int STATE_ABORTED = 3;
+ * int STATE_SUSPENDED = 4;
+ * int STATE_ERROR = 5;
+ * <p>
+ * int SLA_NA = 0;
+ * int SLA_PENDING = 1;
+ * int SLA_MET = 2;
+ * int SLA_VIOLATED = 3;
+ * int SLA_ABORTED = 4;
  */
 public class DatabaseService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseService.class);
     private final DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+00:00");
 
-    private String schema;
+    private final long reconnectTime = 5 * 60 * 1000;
+
+    private String databaseDriverClassName;
+    private String databaseJdbcUrl;
+    private String databaseUserName;
+    private String databasePassword;
+    private String databaseSchema;
+
     private long counter = 0L;
     private long counterProcess = 0L;
     private long counterNode = 0L;
+    private long lastConnectTime = 0L;
+    private long lastInsertTime = 0L;
 
     private String preparedStatementProcessSQL;
     private String preparedStatementNodeSQL;
@@ -51,41 +60,87 @@ public class DatabaseService {
      */
     public DatabaseService(
             String databaseDriverClassName,
-            String databaseSchema,
             String databaseJdbcUrl,
             String databaseUserName,
-            String databasePassword
+            String databasePassword,
+            String databaseSchema
     ) {
 
-        if (databaseJdbcUrl != null && !databaseJdbcUrl.isEmpty()) {
-            this.schema = databaseSchema + (databaseSchema.isEmpty() ? "" : ".");
+        if (databaseJdbcUrl == null || databaseJdbcUrl.isEmpty()) {
+            LOGGER.error("Не заданы параметры подключения к БД");
+            System.exit(0);
+        }
+        this.databaseDriverClassName = databaseDriverClassName;
+        this.databaseSchema = databaseSchema + (databaseSchema.isEmpty() ? "" : ".");
+        this.databaseJdbcUrl = databaseJdbcUrl;
+        this.databaseUserName = databaseUserName;
+        this.databasePassword = databasePassword;
 
-            preparedStatementProcessSQL = "insert into " + this.schema + "ProcessInstance (\n" +
-                    "id,\n" +
-                    "parentInstanceId,\n" +
-                    "rootInstanceId,\n" +
-                    "rootProcessId,\n" +
-                    "processId,\n" +
-                    "processName,\n" +
-                    "startTime,\n" +
-                    "endTime,\n" +
-                    "state,\n" +
-                    "businessKey,\n" +
-                    "error)\n" +
-                    "values (?,?,?,?,?,?,?,?,?,?,?)\n" +
-                    "on conflict (id) do update set endtime = excluded.endtime, state = excluded.state, error = excluded.error";
+        preparedStatementProcessSQL = "insert into " + this.databaseSchema + "ProcessInstance (\n" +
+                "id,\n" +
+                "parentInstanceId,\n" +
+                "rootInstanceId,\n" +
+                "rootProcessId,\n" +
+                "processId,\n" +
+                "processName,\n" +
+                "startTime,\n" +
+                "endTime,\n" +
+                "state,\n" +
+                "businessKey,\n" +
+                "error)\n" +
+                "values (?,?,?,?,?,?,?,?,?,?,?)\n" +
+                "on conflict (id) do update set endtime = excluded.endtime, state = excluded.state, error = excluded.error";
 
-            preparedStatementNodeSQL = "insert into " + this.schema + "NodeInstance (\n" +
-                    "processInstanceId,\n" +
-                    "id,\n" +
-                    "nodeId,\n" +
-                    "nodeName,\n" +
-                    "nodeType,\n" +
-                    "startTime,\n" +
-                    "endTime)\n" +
-                    "values (?,?,?,?,?,?,?)\n" +
-                    "on conflict (id) do update set endtime = excluded.endtime";
+        preparedStatementNodeSQL = "insert into " + this.databaseSchema + "NodeInstance (\n" +
+                "processInstanceId,\n" +
+                "id,\n" +
+                "nodeId,\n" +
+                "nodeName,\n" +
+                "nodeType,\n" +
+                "startTime,\n" +
+                "endTime)\n" +
+                "values (?,?,?,?,?,?,?)\n" +
+                "on conflict (id) do update set endtime = excluded.endtime";
 //            "on conflict do nothing";
+
+        connect();
+        createTables();
+    }
+
+    public void connect() {
+        if ((System.currentTimeMillis() - lastInsertTime) > reconnectTime &&
+                (System.currentTimeMillis() - lastConnectTime) > reconnectTime) {
+
+            lastConnectTime = System.currentTimeMillis();
+
+            // executeBatch
+            if (counterProcess > 0) {
+                try {
+                    preparedStatementProcess.executeBatch();
+                } catch (SQLException throwables) {
+                    LOGGER.error("", throwables);
+                }
+                counterProcess = 0;
+            }
+            if (counterNode > 0) {
+                try {
+                    preparedStatementNode.executeBatch();
+                } catch (SQLException throwables) {
+                    LOGGER.error("", throwables);
+                }
+                counterNode = 0;
+            }
+
+            if (connection != null) {
+                LOGGER.info("Переподключение к БД...");
+                try {
+                    connection.close();
+                } catch (SQLException throwables) {
+                    LOGGER.error("", throwables);
+                }
+            } else {
+                LOGGER.info("Подключение к БД...");
+            }
 
             try {
                 DriverManager.registerDriver((Driver) Class.forName(databaseDriverClassName).newInstance());
@@ -108,8 +163,6 @@ public class DatabaseService {
                 LOGGER.error("Ошибка при инициализации PreparedStatement", throwables);
                 System.exit(0);
             }
-
-            createTables();
         }
     }
 
@@ -125,7 +178,7 @@ public class DatabaseService {
             return;
         }
 
-        String sql = "create table IF NOT EXISTS " + schema + "ProcessInstance(\n" +
+        String sql = "create table IF NOT EXISTS " + databaseSchema + "ProcessInstance(\n" +
                 "id varchar(64) not null constraint process_id unique,\n" +
                 "parentInstanceId varchar(64),\n" +
                 "rootInstanceId varchar(64),\n" +
@@ -147,7 +200,7 @@ public class DatabaseService {
             LOGGER.error("Ошибка при создании таблицы {}", sql, throwables);
         }
 
-        sql = "create table IF NOT EXISTS " + schema + "NodeInstance(\n" +
+        sql = "create table IF NOT EXISTS " + databaseSchema + "NodeInstance(\n" +
                 "processInstanceId varchar(64) not null,\n" +
                 "id varchar(64) not null constraint node_id unique,\n" +
                 "nodeId varchar(64),\n" +
@@ -162,6 +215,7 @@ public class DatabaseService {
         } catch (SQLException throwables) {
             LOGGER.error("Ошибка при создании таблицы {}", sql, throwables);
         }
+
         try {
             statement.close();
         } catch (SQLException throwables) {
@@ -169,12 +223,12 @@ public class DatabaseService {
         }
     }
 
-
     /**
      * Сохранение событий по процессу
      */
     public void add(JSONObject jsonObject) {
         LOGGER.debug("jsonObject: {}", jsonObject);
+        lastInsertTime = System.currentTimeMillis();
         insertProcessInstance(jsonObject);
     }
 
