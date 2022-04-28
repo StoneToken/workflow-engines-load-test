@@ -67,7 +67,7 @@ public class DatabaseService {
     ) {
 
         if (databaseJdbcUrl == null || databaseJdbcUrl.isEmpty()) {
-            LOGGER.error("Не заданы параметры подключения к БД");
+            LOGGER.error("DB connection parameters are not set");
             System.exit(0);
         }
         this.databaseDriverClassName = databaseDriverClassName;
@@ -132,7 +132,7 @@ public class DatabaseService {
             }
 
             if (connection != null) {
-                LOGGER.info("Переподключение к БД...");
+                LOGGER.info("Reconnecting to the database...");
                 if (preparedStatementProcess != null) {
                     try {
                         preparedStatementProcess.close();
@@ -153,20 +153,20 @@ public class DatabaseService {
                     LOGGER.error("", throwables);
                 }
             } else {
-                LOGGER.info("Подключение к БД...");
+                LOGGER.info("Connecting to the database...");
             }
 
             try {
                 DriverManager.registerDriver((Driver) Class.forName(databaseDriverClassName).newInstance());
             } catch (Exception e) {
-                LOGGER.error("SQL Ошибка при работе с драйвером: {}\n", databaseDriverClassName, e);
+                LOGGER.error("SQL error when working with the driver: {}\n", databaseDriverClassName, e);
                 System.exit(0);
             }
 
             try {
                 connection = DriverManager.getConnection(databaseJdbcUrl, databaseUserName, getStringDecrypt(databasePassword));
             } catch (Exception e) {
-                LOGGER.error("Ошибка при создании Connection \n", e);
+                LOGGER.error("Error creating Connection\n", e);
                 System.exit(0);
             }
 
@@ -174,7 +174,7 @@ public class DatabaseService {
                 preparedStatementProcess = connection.prepareStatement(preparedStatementProcessSQL);
                 preparedStatementNode = connection.prepareStatement(preparedStatementNodeSQL);
             } catch (SQLException throwables) {
-                LOGGER.error("Ошибка при инициализации PreparedStatement", throwables);
+                LOGGER.error("Error when initializing the PreparedStatement\n", throwables);
                 System.exit(0);
             }
         }
@@ -188,7 +188,7 @@ public class DatabaseService {
         try {
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         } catch (Exception e) {
-            LOGGER.error("Ошибка при создании Statement\n", e);
+            LOGGER.error("Error when creating Statement\n", e);
             return;
         }
 
@@ -211,7 +211,7 @@ public class DatabaseService {
         try {
             statement.execute(sql);
         } catch (SQLException throwables) {
-            LOGGER.error("Ошибка при создании таблицы {}", sql, throwables);
+            LOGGER.error("Error creating the table {}", sql, throwables);
         }
 
         sql = "create table IF NOT EXISTS " + databaseSchema + "NodeInstance(\n" +
@@ -227,7 +227,7 @@ public class DatabaseService {
         try {
             statement.execute(sql);
         } catch (SQLException throwables) {
-            LOGGER.error("Ошибка при создании таблицы {}", sql, throwables);
+            LOGGER.error("Error creating the table {}", sql, throwables);
         }
 
         try {
@@ -254,7 +254,7 @@ public class DatabaseService {
             try {
                 LOGGER.info("{} {}", counter, jsonObject.getString("time"));
             } catch (JSONException e) {
-                LOGGER.error("Ошибка при получении значения time из {}", jsonObject);
+                LOGGER.error("Error when getting the <time> value from {}", jsonObject);
             }
         }
 
@@ -290,7 +290,7 @@ public class DatabaseService {
             }
 
         } catch (Exception e) {
-            LOGGER.error("Ошибка при сохранение данных {}", jsonObject, e);
+            LOGGER.error("Error when saving data {}", jsonObject, e);
         }
         insertNodeInstance(jsonObject);
     }
@@ -304,7 +304,7 @@ public class DatabaseService {
             jsonArray = jsonObject.getJSONObject("data").getJSONArray("nodeInstances");
             LOGGER.debug("nodeInstances: {}", jsonArray);
         } catch (JSONException e) {
-            LOGGER.error("Ошибка при обработке данных {}", jsonObject);
+            LOGGER.error("Error in data processing {}", jsonObject);
             return;
         }
 
