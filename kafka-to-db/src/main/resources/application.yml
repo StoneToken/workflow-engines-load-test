@@ -11,7 +11,6 @@ server:
 spring:
   # параметры подключения к kafka broker
   kafka:
-    # dzo (kogito)
     bootstrap-servers: 10.31.0.5:31543
 
     # топик с событиями

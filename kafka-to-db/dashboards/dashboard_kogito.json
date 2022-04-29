@@ -22,7 +22,7 @@
   "gnetId": null,
   "graphTooltip": 1,
   "id": 60,
-  "iteration": 1651054635969,
+  "iteration": 1651224989683,
   "links": [],
   "panels": [
     {
@@ -78,6 +78,33 @@
           "format": "time_series",
           "group": [],
           "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.starttime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "format": "time_series",
+          "group": [],
+          "hide": true,
           "metricColumn": "none",
           "rawQuery": true,
           "rawSql": "select to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS')::timestamp at time zone 'Europe/Moscow' as time,\n       p.processName,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.starttime between (timestamp $__timeFrom() at time zone 'UTC') and (timestamp $__timeTo() at time zone 'UTC')\ngroup by to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2",
@@ -191,7 +218,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp at time zone 'Europe/Moscow' as time,\n       p.processName,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.endtime between (timestamp $__timeFrom() at time zone 'UTC') and (timestamp $__timeTo() at time zone 'UTC')\ngroup by to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2",
+          "rawSql": "select to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.endtime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2",
           "refId": "A",
           "select": [
             [
@@ -302,7 +329,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select\n    t.time as time,\n    p1.processName,\n    count(p1.processName) * 100 / count(p2.processName) as \" \"\nfrom (select generate_series as time from pg_catalog.generate_series(\n        date_trunc('minute', timestamp $__timeFrom() at time zone 'UTC'),\n        date_trunc('minute', timestamp $__timeTo() at time zone 'UTC'), interval '1 second')) t\njoin ProcessInstance p1 on to_char(p1.starttime, 'YYYY-MM-DD HH24:MI:SS') = to_char(t.time, 'YYYY-MM-DD HH24:MI:SS') and p1.state = 2\njoin ProcessInstance p2 on to_char(p2.starttime, 'YYYY-MM-DD HH24:MI:SS') = to_char(t.time, 'YYYY-MM-DD HH24:MI:SS') and p2.processName = p1.processName\ngroup by t.time, p1.processName\norder by 1,2",
+          "rawSql": "select\n    t.time as time,\n    p1.processName,\n    count(p1.processName) * 100 / count(p2.processName) as \" \"\nfrom (select generate_series as time from pg_catalog.generate_series(\n        date_trunc('minute', timestamp $__timeFrom()),\n        date_trunc('minute', timestamp $__timeTo()), interval '1 second')) t\njoin ProcessInstance p1 on to_char(p1.starttime, 'YYYY-MM-DD HH24:MI:SS') = to_char(t.time, 'YYYY-MM-DD HH24:MI:SS') and p1.state = 2\njoin ProcessInstance p2 on to_char(p2.starttime, 'YYYY-MM-DD HH24:MI:SS') = to_char(t.time, 'YYYY-MM-DD HH24:MI:SS') and p2.processName = p1.processName\ngroup by t.time, p1.processName\norder by 1,2",
           "refId": "A",
           "select": [
             [
@@ -413,7 +440,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS')::timestamp at time zone 'Europe/Moscow' as time,\n       p.processName,       \n       avg((EXTRACT('epoch' from p.endtime) - EXTRACT('epoch' from p.starttime)) * 1000) as \" \"\nfrom ProcessInstance p\nwhere p.endtime is not null \nand p.starttime between (timestamp $__timeFrom() at time zone 'UTC') and (timestamp $__timeTo() at time zone 'UTC')\ngroup by to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2",
+          "rawSql": "select to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName,       \n       avg((EXTRACT('epoch' from p.endtime) - EXTRACT('epoch' from p.starttime)) * 1000) as \" \"\nfrom ProcessInstance p\nwhere p.endtime is not null \nand p.starttime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2",
           "refId": "A",
           "select": [
             [
@@ -524,7 +551,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp at time zone 'Europe/Moscow' as time,\n       p.processName,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.endtime between (timestamp $__timeFrom() at time zone 'UTC') and (timestamp $__timeTo() at time zone 'UTC')\nand p.error is not null\ngroup by to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2",
+          "rawSql": "select to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.endtime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\nand p.error is not null\ngroup by to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2",
           "refId": "B",
           "select": [
             [
@@ -635,7 +662,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp at time zone 'Europe/Moscow' as time,\n       count(1) as \" \"\nfrom NodeInstance n\nwhere n.endtime is not null\nand n.endtime between (timestamp $__timeFrom() at time zone 'UTC') and (timestamp $__timeTo() at time zone 'UTC')\ngroup by to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS')\norder by 1",
+          "rawSql": "select to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       count(1) as \" \"\nfrom NodeInstance n\nwhere n.endtime is not null\nand n.endtime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS')\norder by 1",
           "refId": "B",
           "select": [
             [
@@ -753,12 +780,12 @@
     ]
   },
   "time": {
-    "from": "2022-04-26T07:30:55.523Z",
-    "to": "2022-04-26T14:33:10.699Z"
+    "from": "now-3h",
+    "to": "now"
   },
   "timepicker": {},
-  "timezone": "browser",
+  "timezone": "",
   "title": "Kogito Metrics",
   "uid": "pIfb67Qnz",
-  "version": 5
+  "version": 7
 }
