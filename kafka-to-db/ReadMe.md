@@ -89,3 +89,19 @@ join ProcessInstance p2 on to_char(p2.starttime, 'YYYY-MM-DD HH24:MI:SS') = to_c
 group by t.time, p1.processName
 order by 1,2
 ```
+
+# Создание образа
+
+```text
+docker login registry.sigma.sbrf.ru
+
+docker build -t kafka-to-db:1.0.1 .
+```
+
+```text
+docker login dzo.sw.sbc.space
+
+docker tag kafka-to-db:1.0.1 dzo.sw.sbc.space/sbt_dev/ci90000011_bpmx_dev/kafka_to_db:1.0.1
+
+docker push dzo.sw.sbc.space/sbt_dev/ci90000011_bpmx_dev/kafka_to_db:1.0.1
+```
