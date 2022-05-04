@@ -22,7 +22,7 @@
   "gnetId": null,
   "graphTooltip": 1,
   "id": 60,
-  "iteration": 1651224989683,
+  "iteration": 1651658717536,
   "links": [],
   "panels": [
     {
@@ -551,7 +551,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.endtime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\nand p.error is not null\ngroup by to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2",
+          "rawSql": "select to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.error is not null\nand p.endtime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2",
           "refId": "B",
           "select": [
             [
@@ -662,7 +662,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       count(1) as \" \"\nfrom NodeInstance n\nwhere n.endtime is not null\nand n.endtime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS')\norder by 1",
+          "rawSql": "select to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName,\n       count(1) as \" \"\nfrom ProcessInstance p\njoin NodeInstance n on n.processinstanceid = p.id and n.endtime is not null\nwhere n.endtime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2",
           "refId": "B",
           "select": [
             [
@@ -787,5 +787,5 @@
   "timezone": "",
   "title": "Kogito Metrics",
   "uid": "pIfb67Qnz",
-  "version": 7
+  "version": 10
 }

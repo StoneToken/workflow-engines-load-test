@@ -55,12 +55,13 @@ order by 1,2
 #### Завершено шагов в секунду
 ```postgresql
 select to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,
+       p.processName,
        count(1) as " "
-from NodeInstance n
-where n.endtime is not null
-and n.endtime between (timestamp $__timeFrom()) and (timestamp $__timeTo())
-group by to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS')
-order by 1
+from ProcessInstance p
+join NodeInstance n on n.processinstanceid = p.id and n.endtime is not null
+where n.endtime between (timestamp $__timeFrom()) and (timestamp $__timeTo())
+group by to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS'), p.processName
+order by 1,2
 ```
 
 #### Ошибки
@@ -69,8 +70,8 @@ select to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,
        p.processName,       
        count(1) as " "
 from ProcessInstance p
-where p.endtime between (timestamp $__timeFrom()) and (timestamp $__timeTo())
-and p.error is not null
+where p.error is not null
+and p.endtime between (timestamp $__timeFrom()) and (timestamp $__timeTo())
 group by to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS'), p.processName
 order by 1,2
 ```
