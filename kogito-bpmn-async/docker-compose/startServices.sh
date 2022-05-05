@@ -6,14 +6,12 @@ PROJECT_VERSION=$(cd ../ && mvn help:evaluate -Dexpression=project.version -q -D
 
 echo "Project version: ${PROJECT_VERSION}"
 
-KOGITO_VERSION="1.19.0"
-
-# if [[ $PROJECT_VERSION == *SNAPSHOT ]];
-# then
-#   KOGITO_VERSION="latest"
-# else
-#   KOGITO_VERSION=${PROJECT_VERSION%.*}
-# fi
+if [[ $PROJECT_VERSION == *SNAPSHOT ]];
+then
+  KOGITO_VERSION="latest"
+else
+  KOGITO_VERSION=${PROJECT_VERSION%.*}
+fi
 
 echo "Kogito Image version: ${KOGITO_VERSION}"
 echo "KOGITO_VERSION=${KOGITO_VERSION}" > ".env"

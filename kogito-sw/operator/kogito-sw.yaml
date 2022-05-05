@@ -1,0 +1,25 @@
+apiVersion: app.kiegroup.org/v1beta1
+kind: KogitoRuntime
+metadata:
+ name: kogito-sw
+spec:
+ replicas: 1
+ probes:
+   livenessProbe:
+     httpGet:
+       path: /q/health/live
+       port: 8080
+   readinessProbe:
+     httpGet:
+       path: /q/health/ready
+       port: 8080
+   startupProbe:
+     httpGet:
+       path: /q/health/started
+       port: 8080
+ image: <IMAGE>
+ env:
+ - name: KAFKA_BOOTSTRAP_SERVERS
+   value: <HOST:PORT>
+ - name: ORG_KOGITO_OPENAPI_CLIENT_PETSTORE_BASE_PATH
+   value: <HOST:PORT>
