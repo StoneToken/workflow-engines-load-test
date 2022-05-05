@@ -2,6 +2,10 @@
 
 ## Description
 
+Architecture
+
+![docker-compose](docker-compose/docker-compose.png)
+
 ## Build and run
 
 ### Prerequisites
