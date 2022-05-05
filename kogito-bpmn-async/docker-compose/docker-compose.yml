@@ -181,7 +181,7 @@ services:
 
   kogito-bpmn-async:
     container_name: kogito-bpmn-async
-    image: kogito-bpmn-async:0.2
+    image: quarkus/kogito-bpmn-async-jvm
     mem_limit: 200m
     ports:
       - 8080:8080
