@@ -1,0 +1,66 @@
+id: parallel
+version: '1.0'
+specVersion: '0.8'
+name: Parallel REST Serverless Workflow
+description: Workflow for executing parallel REST calls
+start: Process
+functions:
+- name: getUserByNameFunction
+  operation: specs/petstore.yaml#getUserByName
+states:
+  - name: Process
+    actionMode: parallel
+    type: operation
+    actions:
+      - name: getUserByName
+        functionRef:
+          refName: getUserByNameFunction
+          arguments:
+            name: ${.username}
+        actionDataFilter: 
+          toStateData: ${ .user0 }
+      - name: getUserByName
+        functionRef:
+          refName: getUserByNameFunction
+          arguments:
+            name: ${.username}
+        actionDataFilter: 
+          toStateData: ${ .user1 }
+      - name: getUserByName
+        functionRef:
+          refName: getUserByNameFunction
+          arguments:
+            name: ${.username}
+        actionDataFilter: 
+          toStateData: ${ .user2 }
+      - name: getUserByName
+        functionRef:
+          refName: getUserByNameFunction
+          arguments:
+            name: ${.username}
+        actionDataFilter: 
+          toStateData: ${ .user3 }
+      - name: getUserByName
+        functionRef:
+          refName: getUserByNameFunction
+          arguments:
+            name: ${.username}
+        actionDataFilter: 
+          toStateData: ${ .user4 }
+      - name: getUserByName
+        functionRef:
+          refName: getUserByNameFunction
+          arguments:
+            name: ${.username}
+        actionDataFilter: 
+          toStateData: ${ .user5 }
+      - name: getUserByName
+        functionRef:
+          refName: getUserByNameFunction
+          arguments:
+            name: ${.username}
+        actionDataFilter: 
+          toStateData: ${ .user6 }
+    stateDataFilter: 
+      output: ${ [.user0, .user1, .user2, .user3, .user4, .user5, .user6] }
+    end: true
