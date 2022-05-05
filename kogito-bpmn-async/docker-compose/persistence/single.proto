@@ -1,18 +1,18 @@
 syntax = "proto2"; 
-package org.acme.kogitobpmn.singleAsync; 
+package org.acme.kogitobpmn.single; 
 import "kogito-index.proto";
 import "kogito-types.proto";
-option kogito_model = "SingleAsync";
-option kogito_id = "singleAsync";
+option kogito_model = "Single";
+option kogito_id = "single";
 
 /* @Indexed */ 
-message SingleAsync { 
+message Single { 
 	option java_package = "org.acme.kogitobpmn";
 	/* @Field(index = Index.YES, store = Store.YES) @SortableField */ 
 	optional string id = 1; 
 	/* @Field(index = Index.NO, store = Store.YES) @SortableField
  @VariableInfo(tags="output") */ 
-	optional User user = 2;
+	optional User user = 2; 
 	/* @Field(index = Index.NO, store = Store.YES) @SortableField
  @VariableInfo(tags="input,required") */ 
 	optional string username = 3; 

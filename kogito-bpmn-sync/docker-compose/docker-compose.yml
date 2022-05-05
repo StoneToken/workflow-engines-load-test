@@ -74,7 +74,7 @@ services:
 
   kogito-bpmn-sync:
     container_name: kogito-bpmn-sync
-    image: kogito-bpmn-sync:0.2
+    image: quarkus/kogito-bpmn-sync-jvm
     mem_limit: 200m
     ports:
       - 8080:8080
