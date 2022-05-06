@@ -2,7 +2,7 @@
 
 echo "Script requires your Kogito Quickstart to be compiled"
 
-PROJECT_VERSION=$(cd ../ && mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+PROJECT_VERSION=$(cd ../kogito-autopayment && mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 
 echo "Project version: ${PROJECT_VERSION}"
 
@@ -27,31 +27,31 @@ fi
 PERSISTENCE_FOLDER=./persistence
 KOGITO_EXAMPLE_PERSISTENCE=../target/classes/META-INF/resources/persistence/protobuf
 
-rm -rf $PERSISTENCE_FOLDER
+# rm -rf $PERSISTENCE_FOLDER
 
-mkdir -p $PERSISTENCE_FOLDER
+# mkdir -p $PERSISTENCE_FOLDER
 
-if [ -d "$KOGITO_EXAMPLE_PERSISTENCE" ]
-then
-    cp $KOGITO_EXAMPLE_PERSISTENCE/*.proto $PERSISTENCE_FOLDER/
-else
-    echo "$KOGITO_EXAMPLE_PERSISTENCE does not exist. Have you compiled the project?"
-    exit 1
-fi
+# if [ -d "$KOGITO_EXAMPLE_PERSISTENCE" ]
+# then
+#     cp $KOGITO_EXAMPLE_PERSISTENCE/*.proto $PERSISTENCE_FOLDER/
+# else
+#     echo "$KOGITO_EXAMPLE_PERSISTENCE does not exist. Have you compiled the project?"
+#     exit 1
+# fi
 
 SVG_FOLDER=./svg
 
 KOGITO_EXAMPLE_SVG_FOLDER=../target/classes/META-INF/processSVG
 
-mkdir -p $SVG_FOLDER
+# mkdir -p $SVG_FOLDER
 
-if [ -d "$KOGITO_EXAMPLE_SVG_FOLDER" ]
-then
-    cp $KOGITO_EXAMPLE_SVG_FOLDER/*.svg $SVG_FOLDER
-else
-    echo "$KOGITO_EXAMPLE_SVG_FOLDER does not exist. Have you compiled the project?"
-    exit 1
-fi
+# if [ -d "$KOGITO_EXAMPLE_SVG_FOLDER" ]
+# then
+#     cp $KOGITO_EXAMPLE_SVG_FOLDER/*.svg $SVG_FOLDER
+# else
+#     echo "$KOGITO_EXAMPLE_SVG_FOLDER does not exist. Have you compiled the project?"
+#     exit 1
+# fi
 
 
 docker-compose up

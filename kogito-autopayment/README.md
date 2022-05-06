@@ -7,6 +7,10 @@ This project contains two modules
 - kogito-autopayment -> bpmn use case from related client, workflow controls periodic account billing.
 - kogito-autopayment-stub -> stub microservice for payment events
 
+Architecture
+
+![docker-compose.png](docker-compose/docker-compose.png)
+
 ## Build and run
 
 ### Prerequisites
@@ -63,6 +67,30 @@ To run the generated native executable, generated in `target/`, execute
 
 ```sh
 docker build -f src/main/docker/Dockerfile.jvm -t quarkus/kogitobpmn-jvm .
+```
+
+### Build and run for local setup
+
+You might have to tweak ${DOCKER_GATEWAY_HOST} in docker-compose/.env according to your OS
+
+After building java projects you will need to manually copy resources to docker-compose (WIP):
+
+- copy *.proto files to docker-compose/persistence
+- copy *.svg files to docker-compose/svg
+
+```sh
+# Build kogito-autopayment
+cd kogito-autopayment
+mvn clean package
+
+# Build kogito-autopayment-stub
+cd ../kogito-autopayment-stub
+mvn clean package
+
+# Build images
+cd ../docker-compose
+docker-compose build
+docker-compose up -d
 ```
 
 ### OpenAPI (Swagger) documentation

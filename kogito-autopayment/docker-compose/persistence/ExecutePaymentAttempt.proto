@@ -1,0 +1,50 @@
+syntax = "proto2"; 
+package org.acme.kogitobpmn.ExecutePaymentAttempt; 
+import "kogito-index.proto";
+import "kogito-types.proto";
+option kogito_model = "ExecutePaymentAttempt";
+option kogito_id = "ExecutePaymentAttempt";
+
+/* @Indexed */ 
+message ExecutePaymentAttempt { 
+	option java_package = "org.acme.kogitobpmn";
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField
+ @VariableInfo(tags="") */ 
+	optional string cancel = 1; 
+	/* @Field(index = Index.YES, store = Store.YES) @SortableField */ 
+	optional string id = 2; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField
+ @VariableInfo(tags="") */ 
+	optional Payment payment = 3; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField
+ @VariableInfo(tags="") */ 
+	optional PaymentResponse paymentResponse = 4; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional org.kie.kogito.index.model.KogitoMetadata metadata = 5; 
+}
+/* @Indexed */ 
+message Payment { 
+	option java_package = "org.acme.kogitobpmn";
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional string account = 1; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional string date = 2; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional string description = 3; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional int32 id = 4; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional int32 paymentResult = 5; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional int32 prepareResult = 6; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional int32 sum = 7; 
+}
+/* @Indexed */ 
+message PaymentResponse { 
+	option java_package = "org.acme.kogitobpmn";
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional string id = 1; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional Payment payment = 2; 
+}
