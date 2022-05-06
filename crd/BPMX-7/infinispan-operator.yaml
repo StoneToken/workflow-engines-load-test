@@ -1,0 +1,13 @@
+kind: Deployment
+apiVersion: apps/v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: infinispan-operator
+      control-plane: controller-manager
+  template:
+    spec:
+      containers:
+        - name: manager
+          image: dzo.sw.sbc.space/sbt_dev/ci90000011_bpmx_dev/infinispan-operator:2.2.4.Final

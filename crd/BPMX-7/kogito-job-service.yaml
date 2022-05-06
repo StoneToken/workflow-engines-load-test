@@ -1,0 +1,10 @@
+apiVersion: app.kiegroup.org/v1beta1
+kind: KogitoSupportingService
+metadata:
+  name: jobs-service
+spec:
+  replicas: 1
+  serviceType: JobsService
+  image: dzo.sw.sbc.space/sbt_dev/ci90000011_bpmx_dev/kiegroup/kogito-jobs-service-infinispan:${KOGITO_INFRA_SERVICES_VERSION}
+  infra:
+    - kogito-infinispan-infra
