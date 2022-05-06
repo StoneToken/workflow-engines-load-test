@@ -4,7 +4,7 @@ metadata:
   labels:
     app: kogito-service
   name: kogito-service
-  namespace: kogito-operator-system
+  namespace: ${KOGITO_PROJECT_NAMESPACE}
 spec:
   endpoints:
   - path: /q/metrics
