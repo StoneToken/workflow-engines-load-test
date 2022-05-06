@@ -12,7 +12,7 @@ spec:
     scheme: http
   namespaceSelector:
     matchNames:
-    - kogito-operator-system
+    - ${KOGITO_PROJECT_NAMESPACE}
   selector:
     matchLabels:
       app: kogito-service

@@ -6,11 +6,11 @@ metadata:
   name: strimzi-cluster-operator-entity-operator-delegation
   labels:
     app: strimzi
-  namespace: kogito-operator-system
+  namespace: ${KOGITO_PROJECT_NAMESPACE}
 subjects:
   - kind: ServiceAccount
     name: strimzi-cluster-operator
-    namespace: kogito-operator-system
+    namespace: ${KOGITO_PROJECT_NAMESPACE}
 roleRef:
   kind: ClusterRole
   name: strimzi-entity-operator
@@ -1105,7 +1105,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: strimzi-cluster-operator
-    namespace: kogito-operator-system
+    namespace: ${KOGITO_PROJECT_NAMESPACE}
 roleRef:
   kind: ClusterRole
   name: strimzi-kafka-broker
@@ -1118,7 +1118,7 @@ metadata:
   name: strimzi-cluster-operator
   labels:
     app: strimzi
-  namespace: kogito-operator-system
+  namespace: ${KOGITO_PROJECT_NAMESPACE}
 data:
   log4j2.properties: >
     name = COConfig
@@ -13359,7 +13359,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: strimzi-cluster-operator
-    namespace: kogito-operator-system
+    namespace: ${KOGITO_PROJECT_NAMESPACE}
 roleRef:
   kind: ClusterRole
   name: strimzi-kafka-client
@@ -17437,7 +17437,7 @@ metadata:
   name: strimzi-cluster-operator
   labels:
     app: strimzi
-  namespace: kogito-operator-system
+  namespace: ${KOGITO_PROJECT_NAMESPACE}
 
 ---
 apiVersion: apps/v1
@@ -17446,7 +17446,7 @@ metadata:
   name: strimzi-cluster-operator
   labels:
     app: strimzi
-  namespace: kogito-operator-system
+  namespace: ${KOGITO_PROJECT_NAMESPACE}
 spec:
   replicas: 1
   selector:
@@ -17564,7 +17564,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: strimzi-cluster-operator
-    namespace: kogito-operator-system
+    namespace: ${KOGITO_PROJECT_NAMESPACE}
 roleRef:
   kind: ClusterRole
   name: strimzi-cluster-operator-global
@@ -17577,15 +17577,15 @@ metadata:
   name: strimzi-cluster-operator
   labels:
     app: strimzi
-  namespace: kogito-operator-system
+  namespace: ${KOGITO_PROJECT_NAMESPACE}
 subjects:
   - kind: ServiceAccount
     name: strimzi-cluster-operator
-    namespace: kogito-operator-system
+    namespace: ${KOGITO_PROJECT_NAMESPACE}
 roleRef:
   kind: ClusterRole
   name: strimzi-cluster-operator-namespaced
-  apiGroup: rbac.authorization.k8s.iok8sadmin@srv-0-5:~/ado_test$ kubectl apply -f install_strimzhi.yml -n kogito-operator-system
+  apiGroup: rbac.authorization.k8s.iok8sadmin@srv-0-5:~/ado_test$ kubectl apply -f install_strimzhi.yml -n ${KOGITO_PROJECT_NAMESPACE}
 Warning: resource customresourcedefinitions/strimzipodsets.core.strimzi.io is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by kubectl apply. kubectl apply should only be used on resources created declaratively by either kubectl create --save-config or kubectl apply. The missing annotation will be patched automatically.
 customresourcedefinition.apiextensions.k8s.io/strimzipodsets.core.strimzi.io configured
 Warning: resource clusterroles/strimzi-kafka-client is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by kubectl apply. kubectl apply should only be used on resources created declaratively by either kubectl create --save-config or kubectl apply. The missing annotation will be patched automatically.
@@ -17622,11 +17622,11 @@ Warning: resource customresourcedefinitions/kafkarebalances.kafka.strimzi.io is 
 customresourcedefinition.apiextensions.k8s.io/kafkarebalances.kafka.strimzi.io configured
 Warning: resource clusterrolebindings/strimzi-cluster-operator is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by kubectl apply. kubectl apply should only be used on resources created declaratively by either kubectl create --save-config or kubectl apply. The missing annotation will be patched automatically.
 clusterrolebinding.rbac.authorization.k8s.io/strimzi-cluster-operator configured
-the namespace from the provided object "kafka" does not match the namespace "kogito-operator-system". You must pass '--namespace=kafka' to perform this operation.
-the namespace from the provided object "kafka" does not match the namespace "kogito-operator-system". You must pass '--namespace=kafka' to perform this operation.
-the namespace from the provided object "kafka" does not match the namespace "kogito-operator-system". You must pass '--namespace=kafka' to perform this operation.
-the namespace from the provided object "kafka" does not match the namespace "kogito-operator-system". You must pass '--namespace=kafka' to perform this operation.
-the namespace from the provided object "kafka" does not match the namespace "kogito-operator-system". You must pass '--namespace=kafka' to perform this operation.
+the namespace from the provided object "kafka" does not match the namespace "${KOGITO_PROJECT_NAMESPACE}". You must pass '--namespace=kafka' to perform this operation.
+the namespace from the provided object "kafka" does not match the namespace "${KOGITO_PROJECT_NAMESPACE}". You must pass '--namespace=kafka' to perform this operation.
+the namespace from the provided object "kafka" does not match the namespace "${KOGITO_PROJECT_NAMESPACE}". You must pass '--namespace=kafka' to perform this operation.
+the namespace from the provided object "kafka" does not match the namespace "${KOGITO_PROJECT_NAMESPACE}". You must pass '--namespace=kafka' to perform this operation.
+the namespace from the provided object "kafka" does not match the namespace "${KOGITO_PROJECT_NAMESPACE}". You must pass '--namespace=kafka' to perform this operation.
 k8sadmin@srv-0-5:~/ado_test$ 
 k8sadmin@srv-0-5:~/ado_test$ 
 k8sadmin@srv-0-5:~/ado_test$ 
@@ -17641,11 +17641,11 @@ metadata:
   name: strimzi-cluster-operator-entity-operator-delegation
   labels:
     app: strimzi
-  namespace: kogito-operator-system
+  namespace: ${KOGITO_PROJECT_NAMESPACE}
 subjects:
   - kind: ServiceAccount
     name: strimzi-cluster-operator
-    namespace: kogito-operator-system
+    namespace: ${KOGITO_PROJECT_NAMESPACE}
 roleRef:
   kind: ClusterRole
   name: strimzi-entity-operator
@@ -18740,7 +18740,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: strimzi-cluster-operator
-    namespace: kogito-operator-system
+    namespace: ${KOGITO_PROJECT_NAMESPACE}
 roleRef:
   kind: ClusterRole
   name: strimzi-kafka-broker
@@ -18753,7 +18753,7 @@ metadata:
   name: strimzi-cluster-operator
   labels:
     app: strimzi
-  namespace: kogito-operator-system
+  namespace: ${KOGITO_PROJECT_NAMESPACE}
 data:
   log4j2.properties: >
     name = COConfig
@@ -30994,7 +30994,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: strimzi-cluster-operator
-    namespace: kogito-operator-system
+    namespace: ${KOGITO_PROJECT_NAMESPACE}
 roleRef:
   kind: ClusterRole
   name: strimzi-kafka-client
@@ -35072,7 +35072,7 @@ metadata:
   name: strimzi-cluster-operator
   labels:
     app: strimzi
-  namespace: kogito-operator-system
+  namespace: ${KOGITO_PROJECT_NAMESPACE}
 
 ---
 apiVersion: apps/v1
@@ -35081,7 +35081,7 @@ metadata:
   name: strimzi-cluster-operator
   labels:
     app: strimzi
-  namespace: kogito-operator-system
+  namespace: ${KOGITO_PROJECT_NAMESPACE}
 spec:
   replicas: 1
   selector:
@@ -35199,7 +35199,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: strimzi-cluster-operator
-    namespace: kogito-operator-system
+    namespace: ${KOGITO_PROJECT_NAMESPACE}
 roleRef:
   kind: ClusterRole
   name: strimzi-cluster-operator-global
@@ -35212,11 +35212,11 @@ metadata:
   name: strimzi-cluster-operator
   labels:
     app: strimzi
-  namespace: kogito-operator-system
+  namespace: ${KOGITO_PROJECT_NAMESPACE}
 subjects:
   - kind: ServiceAccount
     name: strimzi-cluster-operator
-    namespace: kogito-operator-system
+    namespace: ${KOGITO_PROJECT_NAMESPACE}
 roleRef:
   kind: ClusterRole
   name: strimzi-cluster-operator-namespaced
