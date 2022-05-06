@@ -1,23 +1,26 @@
 id: single
-version: '1.0'
-specVersion: '0.8'
+version: "1.0"
+specVersion: "0.8"
 name: Single REST Serverless Workflow
 description: Workflow for executing a single REST call
+dataInputSchema:
+  schema: specs/UsernameSchema.json
+  failOnValidationErrors: true
 start: Process
 functions:
-- name: getUserByNameFunction
-  operation: specs/petstore.yaml#getUserByName
+  - name: getUserByNameFunction
+    operation: specs/petstore.yaml#getUserByName
 states:
   - name: Process
     type: operation
     actions:
-    - name: getUserByName
-      functionRef:
-        refName: getUserByNameFunction
-        arguments:
-          name: ${ .username }
-      actionDataFilter: 
-        toStateData: ${ .user }
-    stateDataFilter: 
+      - name: getUserByName
+        functionRef:
+          refName: getUserByNameFunction
+          arguments:
+            username: ${ .username }
+        actionDataFilter:
+          toStateData: ${ .user }
+    stateDataFilter:
       output: ${ .user }
     end: true
