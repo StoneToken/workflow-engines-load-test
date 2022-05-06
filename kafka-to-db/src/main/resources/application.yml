@@ -30,7 +30,7 @@ database:
   jdbcUrl: jdbc:postgresql://10.31.0.2:5432/newdb
   username: kogito
   password: a29naXRv
-  schema: kafka
+  schema:
 
 spring:
 

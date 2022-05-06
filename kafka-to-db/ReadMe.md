@@ -133,3 +133,14 @@ docker tag kafka-to-db:1.0.1 dzo.sw.sbc.space/sbt_dev/ci90000011_bpmx_dev/kafka_
 
 docker push dzo.sw.sbc.space/sbt_dev/ci90000011_bpmx_dev/kafka_to_db:1.0.1
 ```
+
+# Очистка данных в БД
+
+- Удалить PODs **kafka-to-db-kogito**
+- Удалить таблицы
+```postgresql
+drop table if exists processinstance;
+drop table if exists nodeinstance;
+drop table if exists jobs;
+```
+- Поднять PODs **kafka-to-db-kogito**

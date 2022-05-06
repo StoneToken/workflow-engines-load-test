@@ -1,6 +1,5 @@
 package com.sbt.metrics.kafka.service.database;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -8,16 +7,16 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 
 public class DatabaseJobsEventsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseJobsEventsService.class);
     private final DateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-    private final DateFormat sdf6 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'");
 
-    private final long reconnectTime = 5 * 60 * 1000; // интервал для переподключения к БД (ms)
-    private final long insertTime = 1 * 60 * 1000; // интервал для выполнения executeBatch (ms)
+    private final long reconnectTime = 5 * 60000L; // интервал для переподключения к БД (ms)
+    private final long insertTime = 1 * 60000L; // интервал для выполнения executeBatch (ms)
 
     private String databaseDriverClassName;
     private String databaseJdbcUrl;
@@ -68,7 +67,6 @@ public class DatabaseJobsEventsService {
                 "expirationTime)\n" +
                 "values (?,?,?,?,?,?,?)\n" +
                 "on conflict do nothing";
-//                "on conflict (id) do update set lastUpdate = excluded.lastUpdate, expirationTime = excluded.expirationTime";
 
         connect();
         createTables();
@@ -135,14 +133,6 @@ public class DatabaseJobsEventsService {
      * Создание таблиц
      */
     private void createTables() {
-        Statement statement;
-        try {
-            statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        } catch (Exception e) {
-            LOGGER.error("Error when creating Statement\n", e);
-            return;
-        }
-
         String sql = "create table IF NOT EXISTS " + databaseSchema + "Jobs(\n" +
                 "id varchar(64) not null,\n" +
                 "processInstanceId varchar(64) not null,\n" +
@@ -151,10 +141,10 @@ public class DatabaseJobsEventsService {
                 "\"time\" timestamp(6) not null,\n" +
                 "lastUpdate timestamp(6),\n" +
                 "expirationTime timestamp(6),\n" +
-                "cdate timestamp default CURRENT_TIMESTAMP not null)";
-//                "create index jobs_processinstanceid_nodeinstanceid_idx on jobs (processinstanceid, nodeinstanceid);\n"
+                "cdate timestamp default CURRENT_TIMESTAMP not null);\n" +
+                "create index if not exists jobs_processinstanceid_nodeinstanceid_idx on jobs (processinstanceid, nodeinstanceid)";
 
-        try {
+        try (Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             statement.execute(sql);
         } catch (SQLException throwables) {
             LOGGER.error("Error creating the table {}", sql, throwables);
@@ -184,24 +174,38 @@ public class DatabaseJobsEventsService {
 
         if (connection == null) return;
 
-        long time = 0L;
-        long lastUpdate = 0L;
-        long expirationTime = 0L;
+        String id = "";
         try {
-            time = sdf6.parse(jsonObject.getString("time")).getTime();
-        } catch (Exception e) {
+            id = jsonObject.getJSONObject("data").getString("id");
+        } catch (JSONException e) {
         }
+
+        long time = 0L;
+        String timeStr = "";
+        try {
+            timeStr = jsonObject.getString("time");
+            if (timeStr != null && !timeStr.isEmpty() && !timeStr.equalsIgnoreCase("null")) {
+                timeStr = timeStr.substring(0, 23) + 'Z';
+                time = sdf3.parse(timeStr).getTime();
+            }
+        } catch (JSONException | ParseException e) {
+            LOGGER.warn("time {} {}", id, timeStr, e);
+        }
+
+        long lastUpdate = 0L;
         try {
             lastUpdate = sdf3.parse(jsonObject.getJSONObject("data").getString("lastUpdate")).getTime();
         } catch (Exception e) {
         }
+
+        long expirationTime = 0L;
         try {
             expirationTime = sdf3.parse(jsonObject.getJSONObject("data").getString("expirationTime")).getTime();
         } catch (Exception e) {
         }
 
         try {
-            preparedStatementJobs.setString(1, jsonObject.getJSONObject("data").getString("id"));
+            preparedStatementJobs.setString(1, id);
             preparedStatementJobs.setString(2, strToNull(jsonObject.getJSONObject("data").getString("processInstanceId")));
             preparedStatementJobs.setString(3, strToNull(jsonObject.getJSONObject("data").getString("nodeInstanceId")));
             preparedStatementJobs.setString(4, strToNull(jsonObject.getJSONObject("data").getString("status")));
@@ -231,9 +235,5 @@ public class DatabaseJobsEventsService {
     private String strToNull(String str) {
         if (str == null || str.equalsIgnoreCase("null")) return null;
         return str;
-    }
-
-    private String substring(String data, int length) {
-        return (data == null || data.length() <= length) ? data : data.substring(0, length);
     }
 }

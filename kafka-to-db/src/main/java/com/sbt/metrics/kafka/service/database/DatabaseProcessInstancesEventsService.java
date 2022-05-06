@@ -11,7 +11,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
-import java.util.concurrent.ExecutionException;
 
 /**
  * public interface KogitoProcessInstance extends ProcessInstance, KogitoEventListener {
@@ -33,8 +32,8 @@ public class DatabaseProcessInstancesEventsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseProcessInstancesEventsService.class);
     private final DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+00:00");
 
-    private final long reconnectTime = 5 * 60 * 1000; // интервал для переподключения к БД (ms)
-    private final long insertTime = 1 * 60 * 1000; // интервал для выполнения executeBatch (ms)
+    private final long reconnectTime = 5 * 60000L; // интервал для переподключения к БД (ms)
+    private final long insertTime = 1 * 60000L; // интервал для выполнения executeBatch (ms)
 
     private String databaseDriverClassName;
     private String databaseJdbcUrl;
@@ -112,19 +111,19 @@ public class DatabaseProcessInstancesEventsService {
     public void connect() {
         if ((System.currentTimeMillis() - lastInsertTime) > insertTime) { // executeBatch
             if (counterProcess > 0) {
-//                try {
-//                    preparedStatementProcess.executeBatch();
-//                } catch (SQLException throwables) {
-//                    LOGGER.error("", throwables);
-//                }
+                try {
+                    preparedStatementProcess.executeBatch();
+                } catch (SQLException throwables) {
+                    LOGGER.error("", throwables);
+                }
                 counterProcess = 0;
             }
             if (counterNode > 0) {
-//                try {
-//                    preparedStatementNode.executeBatch();
-//                } catch (SQLException throwables) {
-//                    LOGGER.error("", throwables);
-//                }
+                try {
+                    preparedStatementNode.executeBatch();
+                } catch (SQLException throwables) {
+                    LOGGER.error("", throwables);
+                }
                 counterNode = 0;
             }
         }
@@ -187,14 +186,6 @@ public class DatabaseProcessInstancesEventsService {
      * Создание таблиц
      */
     private void createTables() {
-        Statement statement;
-        try {
-            statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        } catch (Exception e) {
-            LOGGER.error("Error when creating Statement\n", e);
-            return;
-        }
-
         String sql = "create table IF NOT EXISTS " + databaseSchema + "ProcessInstance(\n" +
                 "id varchar(64) not null constraint process_id unique,\n" +
                 "parentInstanceId varchar(64),\n" +
@@ -207,15 +198,16 @@ public class DatabaseProcessInstancesEventsService {
                 "state int,\n" +
                 "businessKey varchar(100),\n" +
                 "error varchar(255),\n" +
-                "cdate timestamp default CURRENT_TIMESTAMP not null)";
-//                "create index processinstance_starttime_idx on processinstance (starttime);\n" +
-//                "create index processinstance_endtime_idx on processinstance (endtime);\n" +
-//                "create index processinstance_processName_idx on processinstance (processName)";
-        try {
+                "cdate timestamp default CURRENT_TIMESTAMP not null);\n" +
+                "create index if not exists processinstance_starttime_idx on processinstance (starttime);\n" +
+                "create index if not exists processinstance_endtime_idx on processinstance (endtime)";
+
+        try (Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             statement.execute(sql);
         } catch (SQLException throwables) {
             LOGGER.error("Error creating the table {}", sql, throwables);
         }
+
 
         sql = "create table IF NOT EXISTS " + databaseSchema + "NodeInstance(\n" +
                 "id varchar(64) not null constraint node_id unique,\n" +
@@ -224,19 +216,14 @@ public class DatabaseProcessInstancesEventsService {
                 "nodeName varchar(255),\n" +
                 "nodeType varchar(100),\n" +
                 "startTime timestamp(6) not null,\n" +
-                "endTime timestamp(6))";
-//                "create index nodeinstance_processinstanceid_idx on nodeinstance (processinstanceid);\n" +
-//                "create index nodeinstance_endtime_idx on nodeinstance (endtime)";
-        try {
+                "endTime timestamp(6));\n" +
+                "create index if not exists nodeinstance_processinstanceid_idx on nodeinstance (processinstanceid);\n" +
+                "create index if not exists nodeinstance_endtime_idx on nodeinstance (endtime)";
+
+        try (Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             statement.execute(sql);
         } catch (SQLException throwables) {
             LOGGER.error("Error creating the table {}", sql, throwables);
-        }
-
-        try {
-            statement.close();
-        } catch (SQLException throwables) {
-            LOGGER.error("", throwables);
         }
     }
 
@@ -263,19 +250,36 @@ public class DatabaseProcessInstancesEventsService {
 
         if (connection == null) return;
 
-        long startTime = 0L;
-        long endTime = 0L;
+        String id = "";
         try {
-            startTime = sdf.parse(jsonObject.getJSONObject("data").getString("startDate")).getTime();
-        } catch (Exception e) {
+            id = jsonObject.getJSONObject("data").getString("id");
+        } catch (JSONException e) {
         }
+
+        long startTime = 0L;
+        String startTimeStr = "";
         try {
-            endTime = sdf.parse(jsonObject.getJSONObject("data").getString("endDate")).getTime();
-        } catch (Exception e) {
+            startTimeStr = jsonObject.getJSONObject("data").getString("startDate");
+            if (startTimeStr != null && !startTimeStr.isEmpty() && !startTimeStr.equalsIgnoreCase("null")) {
+                startTime = sdf.parse(startTimeStr).getTime();
+            }
+        } catch (JSONException | ParseException e) {
+            LOGGER.warn("startDate {} {}", id, startTimeStr, e);
+        }
+
+        long endTime = 0L;
+        String endTimeStr = "";
+        try {
+            endTimeStr = jsonObject.getJSONObject("data").getString("endDate");
+            if (endTimeStr != null && !endTimeStr.isEmpty() && !endTimeStr.equalsIgnoreCase("null")) {
+                endTime = sdf.parse(endTimeStr).getTime();
+            }
+        } catch (JSONException | ParseException e) {
+            LOGGER.warn("endDate {} {}", id, endTimeStr, e);
         }
 
         try {
-            preparedStatementProcess.setString(1, jsonObject.getJSONObject("data").getString("id"));
+            preparedStatementProcess.setString(1, id);
             preparedStatementProcess.setString(2, strToNull(jsonObject.getJSONObject("data").getString("parentInstanceId")));
             preparedStatementProcess.setString(3, strToNull(jsonObject.getJSONObject("data").getString("rootInstanceId")));
             preparedStatementProcess.setString(4, strToNull(jsonObject.getJSONObject("data").getString("rootProcessId")));
@@ -288,10 +292,14 @@ public class DatabaseProcessInstancesEventsService {
             preparedStatementProcess.setString(11, substring(jsonObject.getJSONObject("data").getString("error"), 255));
             preparedStatementProcess.addBatch();
             if (counterProcess >= 300) {
-//                preparedStatementProcess.executeBatch();
+                try {
+                    preparedStatementProcess.executeBatch();
+                } catch (SQLException throwables) {
+                    LOGGER.error("", throwables);
+                    connect();
+                }
                 counterProcess = 0;
             }
-
         } catch (Exception e) {
             LOGGER.error("Error when saving data {}", jsonObject, e);
         }
@@ -313,20 +321,36 @@ public class DatabaseProcessInstancesEventsService {
 
         for (int o = 0; o < jsonArray.length(); o++) {
             counterNode++;
-            long startTime = 0L;
-            long endTime = 0L;
+            String id = "";
             try {
-                startTime = sdf.parse(jsonArray.getJSONObject(o).getString("triggerTime")).getTime();
-            } catch (Exception e) {
+                jsonObject.getJSONObject("data").getString("id");
+            } catch (JSONException e) {
             }
+            long startTime = 0L;
+            String startTimeStr = "";
             try {
-                endTime = sdf.parse(jsonArray.getJSONObject(o).getString("leaveTime")).getTime();
-            } catch (Exception e) {
+                startTimeStr = jsonArray.getJSONObject(o).getString("triggerTime");
+                if (startTimeStr != null && !startTimeStr.isEmpty() && !startTimeStr.equalsIgnoreCase("null")) {
+                    startTime = sdf.parse(startTimeStr).getTime();
+                }
+            } catch (JSONException | ParseException e) {
+                LOGGER.warn("triggerTime {} {}", id, startTimeStr, e);
+            }
+
+            long endTime = 0L;
+            String endTimeStr = "";
+            try {
+                endTimeStr = jsonArray.getJSONObject(o).getString("leaveTime");
+                if (endTimeStr != null && !endTimeStr.isEmpty() && !endTimeStr.equalsIgnoreCase("null")) {
+                    endTime = sdf.parse(endTimeStr).getTime();
+                }
+            } catch (JSONException | ParseException e) {
+                LOGGER.warn("leaveTime {} {}", id, endTimeStr, e);
             }
 
             try {
                 LOGGER.debug("{}", jsonArray.getJSONObject(o));
-                preparedStatementNode.setString(1, jsonObject.getJSONObject("data").getString("id"));
+                preparedStatementNode.setString(1, id);
                 preparedStatementNode.setString(2, jsonArray.getJSONObject(o).getString("id"));
                 preparedStatementNode.setString(3, jsonArray.getJSONObject(o).getString("nodeId"));
                 preparedStatementNode.setString(4, substring(jsonArray.getJSONObject(o).getString("nodeName"), 255));
@@ -334,8 +358,8 @@ public class DatabaseProcessInstancesEventsService {
                 preparedStatementNode.setTimestamp(6, new Timestamp(startTime));
                 preparedStatementNode.setTimestamp(7, endTime > 0L ? new Timestamp(endTime) : null);
                 preparedStatementNode.addBatch();
-                if (counterNode >= 500) {
-//                    preparedStatementNode.executeBatch();
+                if (counterNode >= 300) {
+                    preparedStatementNode.executeBatch();
                     counterNode = 0;
                 }
             } catch (Exception e) {
@@ -361,4 +385,5 @@ public class DatabaseProcessInstancesEventsService {
         data = strToNull(data);
         return (data == null || data.length() <= length) ? data : data.substring(0, length);
     }
+
 }

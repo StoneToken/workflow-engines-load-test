@@ -22,7 +22,7 @@
   "gnetId": null,
   "graphTooltip": 1,
   "id": 60,
-  "iteration": 1651821477475,
+  "iteration": 1651826121421,
   "links": [],
   "panels": [
     {
@@ -326,7 +326,7 @@
         {
           "format": "time_series",
           "group": [],
-          "hide": false,
+          "hide": true,
           "metricColumn": "none",
           "rawQuery": true,
           "rawSql": "select\n    t.time as time,\n    p1.processName,\n    count(p1.processName) * 100 / count(p2.processName) as \" \"\nfrom (select generate_series as time from pg_catalog.generate_series(\n        date_trunc('minute', timestamp $__timeFrom()),\n        date_trunc('minute', timestamp $__timeTo()), interval '1 second')) t\njoin ProcessInstance p1 on to_char(p1.starttime, 'YYYY-MM-DD HH24:MI:SS') = to_char(t.time, 'YYYY-MM-DD HH24:MI:SS') and p1.state = 2\njoin ProcessInstance p2 on to_char(p2.starttime, 'YYYY-MM-DD HH24:MI:SS') = to_char(t.time, 'YYYY-MM-DD HH24:MI:SS') and p2.processName = p1.processName\ngroup by t.time, p1.processName\norder by 1,2",
@@ -386,6 +386,93 @@
       }
     },
     {
+      "datasource": "PostgreSQL",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "light-red",
+                "value": 50
+              },
+              {
+                "color": "#EAB839",
+                "value": 75
+              },
+              {
+                "color": "dark-green",
+                "value": 99
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 9
+      },
+      "id": 11,
+      "interval": null,
+      "maxDataPoints": null,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "7.5.4",
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "queryType": "randomWalk",
+          "rawQuery": true,
+          "rawSql": "select timestamp $__timeFrom() as time, t1.processname, count(t2.cnt) * 100 / count(t1.cnt) as \" \"\nfrom (select p1.processName, count(1) as cnt\nfrom ProcessInstance p1\nwhere p1.starttime between timestamp $__timeFrom() and timestamp $__timeTo()\ngroup by p1.processName) t1\nleft join (select p2.processName, count(1) as cnt\nfrom ProcessInstance p2\nwhere p2.starttime between timestamp $__timeFrom() and timestamp $__timeTo() and p2.state = 2\ngroup by p2.processName) t2 on t2.processname = t1.processname\ngroup by t1.processName",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Процессы Pass/Failure rate",
+      "type": "gauge"
+    },
+    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -403,7 +490,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 9
+        "y": 17
       },
       "hiddenSeries": false,
       "id": 6,
@@ -625,7 +712,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 18
+        "y": 26
       },
       "hiddenSeries": false,
       "id": 4,
@@ -867,5 +954,5 @@
   "timezone": "",
   "title": "Kogito Metrics",
   "uid": "pIfb67Qnz",
-  "version": 14
+  "version": 17
 }
