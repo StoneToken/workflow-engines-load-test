@@ -1,0 +1,15 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://example.com/username.schema.json",
+    "title": "Username",
+    "description": "User name for executing rest calls from written Serverless Workflow to Petstore",
+    "type": "object",
+    "properties": {
+        "username": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "username"
+    ]
+}
