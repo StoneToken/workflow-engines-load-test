@@ -15,7 +15,7 @@ states:
       functionRef:
         refName: getUserByNameFunction
         arguments:
-          name: ${ .username }
+          username: ${ .username }
       actionDataFilter: 
         toStateData: ${ .user }
     stateDataFilter: 
