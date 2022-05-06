@@ -3,6 +3,20 @@
 Настройка подключений к кафка и БД осуществляется в [application.yml](src/main/resources/application.yml)
 
 ```yaml
+kafka:
+
+  processinstances-events:
+    bootstrap-servers: 127.0.0.0:31543
+    eventsTopic: kogito-processinstances-events
+    listener.concurency: 4
+    consumer.groupId: kogito_to_db
+
+  jobs-events:
+    bootstrap-servers: 127.0.0.0:31543
+    eventsTopic: kogito-jobs-events
+    listener.concurency: 4
+    consumer.groupId: kogito_to_db
+
 database:
   driverClassName: org.postgresql.Driver
   jdbcUrl: jdbc:postgresql://127.0.0.1:5432/dbname
@@ -90,6 +104,19 @@ join ProcessInstance p2 on to_char(p2.starttime, 'YYYY-MM-DD HH24:MI:SS') = to_c
 group by t.time, p1.processName
 order by 1,2
 ```
+
+#### Jobs
+```postgresql
+select to_char(j.time, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,
+       p.processName || ' ' || j.status as status,
+       count(1) as " "
+from Jobs j
+join ProcessInstance p on p.id = j.ProcessInstanceId
+where j.time between (timestamp $__timeFrom()) and (timestamp $__timeTo())
+group by to_char(j.time, 'YYYY-MM-DD HH24:MI:SS'), p.processName, j.status
+order by 1,2
+```
+
 
 # Создание образа
 

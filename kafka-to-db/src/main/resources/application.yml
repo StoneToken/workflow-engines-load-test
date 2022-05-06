@@ -8,48 +8,21 @@ logging:
 server:
   port: 8088
 
-spring:
-  # параметры подключения к kafka broker
-  kafka:
+# подключение к Кафка
+kafka:
+
+  processinstances-events:
     bootstrap-servers: 10.31.0.5:31543
-
-    # топик с событиями
     eventsTopic: kogito-processinstances-events
+    listener.concurency: 4
+    consumer.groupId: kogito_to_db
 
-    listener:
-      concurency: 4
-    consumer:
-      groupId: kogito_to_db
-      enable-auto-commit: true
-      auto-offset-reset: earliest
+  jobs-events:
+    bootstrap-servers: 10.31.0.5:31543
+    eventsTopic: kogito-jobs-events
+    listener.concurency: 4
+    consumer.groupId: kogito_to_db
 
-      properties:
-        spring.json.use.type.headers: false
-        # макс. задержка между запросами к брокеру
-        max.poll.interval.ms: 35000
-        # ttl сессии
-        session.timeout.ms: 30000
-#        max.partition.fetch.bytes: 2048000
-#        fetch.max.bytes.config: 2048000
-
-  json:
-    use:
-      type:
-        headers: false
-
-management:
-  endpoints:
-    enabled-by-default: false
-    web.exposure.include: health,metrics,threaddump,prometheus
-  endpoint:
-    metrics.enabled: true
-    health:
-      enabled: true
-      probes:
-        enabled: true
-      show-details: when_authorized
-    threaddump.enabled: true
-    prometheus.enabled: true
 
 # подключение к БД (пароль шифруется)
 database:
@@ -59,3 +32,9 @@ database:
   password: a29naXRv
   schema: kafka
 
+spring:
+
+  json:
+    use:
+      type:
+        headers: false

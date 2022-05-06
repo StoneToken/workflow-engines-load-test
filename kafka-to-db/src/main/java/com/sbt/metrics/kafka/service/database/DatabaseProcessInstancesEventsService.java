@@ -1,4 +1,4 @@
-package com.sbt.metrics.kafka.service;
+package com.sbt.metrics.kafka.service.database;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,6 +11,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.concurrent.ExecutionException;
 
 /**
  * public interface KogitoProcessInstance extends ProcessInstance, KogitoEventListener {
@@ -28,11 +29,12 @@ import java.util.Base64;
  * int SLA_VIOLATED = 3;
  * int SLA_ABORTED = 4;
  */
-public class DatabaseService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseService.class);
+public class DatabaseProcessInstancesEventsService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseProcessInstancesEventsService.class);
     private final DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+00:00");
 
-    private final long reconnectTime = 5 * 60 * 1000;
+    private final long reconnectTime = 5 * 60 * 1000; // интервал для переподключения к БД (ms)
+    private final long insertTime = 1 * 60 * 1000; // интервал для выполнения executeBatch (ms)
 
     private String databaseDriverClassName;
     private String databaseJdbcUrl;
@@ -58,7 +60,7 @@ public class DatabaseService {
     /**
      * Инициализация
      */
-    public DatabaseService(
+    public DatabaseProcessInstancesEventsService(
             String databaseDriverClassName,
             String databaseJdbcUrl,
             String databaseUserName,
@@ -76,7 +78,7 @@ public class DatabaseService {
         this.databaseUserName = databaseUserName;
         this.databasePassword = databasePassword;
 
-        preparedStatementProcessSQL = "insert into " + this.databaseSchema + "ProcessInstance (\n" +
+        preparedStatementProcessSQL = "insert into " + this.databaseSchema + "ProcessInstance as p (\n" +
                 "id,\n" +
                 "parentInstanceId,\n" +
                 "rootInstanceId,\n" +
@@ -89,9 +91,9 @@ public class DatabaseService {
                 "businessKey,\n" +
                 "error)\n" +
                 "values (?,?,?,?,?,?,?,?,?,?,?)\n" +
-                "on conflict (id) do update set endtime = excluded.endtime, state = excluded.state, error = excluded.error";
+                "on conflict (id) do update set endtime = p.endtime, state = p.state, error = p.error where p.endtime is not null";
 
-        preparedStatementNodeSQL = "insert into " + this.databaseSchema + "NodeInstance (\n" +
+        preparedStatementNodeSQL = "insert into " + this.databaseSchema + "NodeInstance as n (\n" +
                 "processInstanceId,\n" +
                 "id,\n" +
                 "nodeId,\n" +
@@ -100,7 +102,7 @@ public class DatabaseService {
                 "startTime,\n" +
                 "endTime)\n" +
                 "values (?,?,?,?,?,?,?)\n" +
-                "on conflict (id) do update set endtime = excluded.endtime";
+                "on conflict (id) do update set endtime = n.endtime where n.endtime is not null";
 //            "on conflict do nothing";
 
         connect();
@@ -108,28 +110,29 @@ public class DatabaseService {
     }
 
     public void connect() {
+        if ((System.currentTimeMillis() - lastInsertTime) > insertTime) { // executeBatch
+            if (counterProcess > 0) {
+//                try {
+//                    preparedStatementProcess.executeBatch();
+//                } catch (SQLException throwables) {
+//                    LOGGER.error("", throwables);
+//                }
+                counterProcess = 0;
+            }
+            if (counterNode > 0) {
+//                try {
+//                    preparedStatementNode.executeBatch();
+//                } catch (SQLException throwables) {
+//                    LOGGER.error("", throwables);
+//                }
+                counterNode = 0;
+            }
+        }
+
         if ((System.currentTimeMillis() - lastInsertTime) > reconnectTime &&
                 (System.currentTimeMillis() - lastConnectTime) > reconnectTime) {
 
             lastConnectTime = System.currentTimeMillis();
-
-            // executeBatch
-            if (counterProcess > 0) {
-                try {
-                    preparedStatementProcess.executeBatch();
-                } catch (SQLException throwables) {
-                    LOGGER.error("", throwables);
-                }
-                counterProcess = 0;
-            }
-            if (counterNode > 0) {
-                try {
-                    preparedStatementNode.executeBatch();
-                } catch (SQLException throwables) {
-                    LOGGER.error("", throwables);
-                }
-                counterNode = 0;
-            }
 
             if (connection != null) {
                 LOGGER.info("Reconnecting to the database...");
@@ -215,8 +218,8 @@ public class DatabaseService {
         }
 
         sql = "create table IF NOT EXISTS " + databaseSchema + "NodeInstance(\n" +
-                "processInstanceId varchar(64) not null,\n" +
                 "id varchar(64) not null constraint node_id unique,\n" +
+                "processInstanceId varchar(64) not null,\n" +
                 "nodeId varchar(64),\n" +
                 "nodeName varchar(255),\n" +
                 "nodeType varchar(100),\n" +
@@ -264,11 +267,11 @@ public class DatabaseService {
         long endTime = 0L;
         try {
             startTime = sdf.parse(jsonObject.getJSONObject("data").getString("startDate")).getTime();
-        } catch (ParseException | JSONException e) {
+        } catch (Exception e) {
         }
         try {
             endTime = sdf.parse(jsonObject.getJSONObject("data").getString("endDate")).getTime();
-        } catch (ParseException | JSONException e) {
+        } catch (Exception e) {
         }
 
         try {
@@ -277,15 +280,15 @@ public class DatabaseService {
             preparedStatementProcess.setString(3, strToNull(jsonObject.getJSONObject("data").getString("rootInstanceId")));
             preparedStatementProcess.setString(4, strToNull(jsonObject.getJSONObject("data").getString("rootProcessId")));
             preparedStatementProcess.setString(5, jsonObject.getJSONObject("data").getString("processId"));
-            preparedStatementProcess.setString(6, jsonObject.getJSONObject("data").getString("processName"));
+            preparedStatementProcess.setString(6, substring(jsonObject.getJSONObject("data").getString("processName"), 255));
             preparedStatementProcess.setTimestamp(7, new Timestamp(startTime));
             preparedStatementProcess.setTimestamp(8, endTime > 0L ? new Timestamp(endTime) : null);
             preparedStatementProcess.setInt(9, jsonObject.getJSONObject("data").getInt("state"));
-            preparedStatementProcess.setString(10, strToNull(jsonObject.getJSONObject("data").getString("businessKey")));
-            preparedStatementProcess.setString(11, strToNull(jsonObject.getJSONObject("data").getString("error")));
+            preparedStatementProcess.setString(10, substring(jsonObject.getJSONObject("data").getString("businessKey"), 100));
+            preparedStatementProcess.setString(11, substring(jsonObject.getJSONObject("data").getString("error"), 255));
             preparedStatementProcess.addBatch();
             if (counterProcess >= 300) {
-                preparedStatementProcess.executeBatch();
+//                preparedStatementProcess.executeBatch();
                 counterProcess = 0;
             }
 
@@ -314,11 +317,11 @@ public class DatabaseService {
             long endTime = 0L;
             try {
                 startTime = sdf.parse(jsonArray.getJSONObject(o).getString("triggerTime")).getTime();
-            } catch (ParseException | JSONException e) {
+            } catch (Exception e) {
             }
             try {
                 endTime = sdf.parse(jsonArray.getJSONObject(o).getString("leaveTime")).getTime();
-            } catch (ParseException | JSONException e) {
+            } catch (Exception e) {
             }
 
             try {
@@ -326,13 +329,13 @@ public class DatabaseService {
                 preparedStatementNode.setString(1, jsonObject.getJSONObject("data").getString("id"));
                 preparedStatementNode.setString(2, jsonArray.getJSONObject(o).getString("id"));
                 preparedStatementNode.setString(3, jsonArray.getJSONObject(o).getString("nodeId"));
-                preparedStatementNode.setString(4, jsonArray.getJSONObject(o).getString("nodeName"));
-                preparedStatementNode.setString(5, jsonArray.getJSONObject(o).getString("nodeType"));
+                preparedStatementNode.setString(4, substring(jsonArray.getJSONObject(o).getString("nodeName"), 255));
+                preparedStatementNode.setString(5, substring(jsonArray.getJSONObject(o).getString("nodeType"), 100));
                 preparedStatementNode.setTimestamp(6, new Timestamp(startTime));
                 preparedStatementNode.setTimestamp(7, endTime > 0L ? new Timestamp(endTime) : null);
                 preparedStatementNode.addBatch();
                 if (counterNode >= 500) {
-                    preparedStatementNode.executeBatch();
+//                    preparedStatementNode.executeBatch();
                     counterNode = 0;
                 }
             } catch (Exception e) {
@@ -352,5 +355,10 @@ public class DatabaseService {
     private String strToNull(String str) {
         if (str == null || str.equalsIgnoreCase("null")) return null;
         return str;
+    }
+
+    private String substring(String data, int length) {
+        data = strToNull(data);
+        return (data == null || data.length() <= length) ? data : data.substring(0, length);
     }
 }
