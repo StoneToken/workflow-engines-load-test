@@ -295,12 +295,12 @@
         "y": 9
       },
       "hiddenSeries": false,
-      "id": 5,
+      "id": 7,
       "legend": {
         "alignAsTable": true,
         "avg": true,
         "current": false,
-        "max": false,
+        "max": true,
         "min": false,
         "rightSide": true,
         "show": true,
@@ -326,11 +326,11 @@
         {
           "format": "time_series",
           "group": [],
-          "hide": true,
+          "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select\n    t.time as time,\n    p1.processName,\n    count(p1.processName) * 100 / count(p2.processName) as \" \"\nfrom (select generate_series as time from pg_catalog.generate_series(\n        date_trunc('minute', timestamp $__timeFrom()),\n        date_trunc('minute', timestamp $__timeTo()), interval '1 second')) t\njoin ProcessInstance p1 on to_char(p1.starttime, 'YYYY-MM-DD HH24:MI:SS') = to_char(t.time, 'YYYY-MM-DD HH24:MI:SS') and p1.state = 2\njoin ProcessInstance p2 on to_char(p2.starttime, 'YYYY-MM-DD HH24:MI:SS') = to_char(t.time, 'YYYY-MM-DD HH24:MI:SS') and p2.processName = p1.processName\ngroup by t.time, p1.processName\norder by 1,2",
-          "refId": "A",
+          "rawSql": "select to_char(p.startTime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.error is not null\nand p.startTime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(p.startTime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2",
+          "refId": "B",
           "select": [
             [
               {
@@ -355,7 +355,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Процессы Pass/Failure rate",
+      "title": "Ошибки",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -397,7 +397,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "dark-red",
                 "value": null
               },
               {
@@ -407,6 +407,10 @@
               {
                 "color": "#EAB839",
                 "value": 75
+              },
+              {
+                "color": "green",
+                "value": 95
               },
               {
                 "color": "dark-green",
@@ -447,7 +451,7 @@
           "metricColumn": "none",
           "queryType": "randomWalk",
           "rawQuery": true,
-          "rawSql": "select timestamp $__timeFrom() as time, t1.processname, count(t2.cnt) * 100 / count(t1.cnt) as \" \"\nfrom (select p1.processName, count(1) as cnt\nfrom ProcessInstance p1\nwhere p1.starttime between timestamp $__timeFrom() and timestamp $__timeTo()\ngroup by p1.processName) t1\nleft join (select p2.processName, count(1) as cnt\nfrom ProcessInstance p2\nwhere p2.starttime between timestamp $__timeFrom() and timestamp $__timeTo() and p2.state = 2\ngroup by p2.processName) t2 on t2.processname = t1.processname\ngroup by t1.processName",
+          "rawSql": "select timestamp $__timeFrom() as time, \np.processName,\n(select count(1) as cnt from ProcessInstance p2 where p2.processname = p.processname and p2.starttime between timestamp $__timeFrom() and timestamp $__timeTo() and p2.state = 2) * 100.00 /\n(select count(1) as cnt from ProcessInstance p1 where p1.processname = p.processname and p1.starttime between timestamp $__timeFrom() and timestamp $__timeTo())\nfrom ProcessInstance p\nwhere p.starttime between timestamp $__timeFrom() and timestamp $__timeTo()\ngroup by p.processname",
           "refId": "A",
           "select": [
             [
@@ -604,7 +608,7 @@
         "y": 18
       },
       "hiddenSeries": false,
-      "id": 7,
+      "id": 9,
       "legend": {
         "alignAsTable": true,
         "avg": true,
@@ -638,8 +642,8 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.error is not null\nand p.endtime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS'), p.processName\norder by 1,2",
-          "refId": "B",
+          "rawSql": "select to_char(j.time, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName || ' ' || j.status as status,\n       count(1) as \" \"\nfrom Jobs j\njoin ProcessInstance p on p.id = j.ProcessInstanceId\nwhere j.time between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(j.time, 'YYYY-MM-DD HH24:MI:SS'), p.processName, j.status\norder by 1,2",
+          "refId": "A",
           "select": [
             [
               {
@@ -664,7 +668,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Ошибки",
+      "title": "Jobs",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -804,117 +808,6 @@
       "yaxis": {
         "align": false
       }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "${dataSource}",
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 27
-      },
-      "hiddenSeries": false,
-      "id": 9,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": false,
-        "max": true,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.5.4",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "format": "time_series",
-          "group": [],
-          "hide": false,
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "select to_char(j.time, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName || ' ' || j.status as status,\n       count(1) as \" \"\nfrom Jobs j\njoin ProcessInstance p on p.id = j.ProcessInstanceId\nwhere j.time between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(j.time, 'YYYY-MM-DD HH24:MI:SS'), p.processName, j.status\norder by 1,2",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "timeColumn": "time",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Jobs",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
     }
   ],
   "refresh": false,
@@ -954,5 +847,5 @@
   "timezone": "",
   "title": "Kogito Metrics",
   "uid": "pIfb67Qnz",
-  "version": 17
+  "version": 20
 }

@@ -80,29 +80,25 @@ order by 1,2
 
 #### Ошибки
 ```postgresql
-select to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,
+select to_char(p.startTime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,
        p.processName,       
        count(1) as " "
 from ProcessInstance p
 where p.error is not null
-and p.endtime between (timestamp $__timeFrom()) and (timestamp $__timeTo())
-group by to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS'), p.processName
+and p.startTime between (timestamp $__timeFrom()) and (timestamp $__timeTo())
+group by to_char(p.startTime, 'YYYY-MM-DD HH24:MI:SS'), p.processName
 order by 1,2
 ```
 
 #### Процессы Pass/Failure rate
 ```postgresql
-select
-    t.time as time,
-    p1.processName,
-    count(p1.processName) * 100 / count(p2.processName) as " "
-from (select generate_series as time from pg_catalog.generate_series(
-        date_trunc('minute', timestamp $__timeFrom()),
-        date_trunc('minute', timestamp $__timeTo()), interval '1 second')) t
-join ProcessInstance p1 on to_char(p1.starttime, 'YYYY-MM-DD HH24:MI:SS') = to_char(t.time, 'YYYY-MM-DD HH24:MI:SS') and p1.state = 2
-join ProcessInstance p2 on to_char(p2.starttime, 'YYYY-MM-DD HH24:MI:SS') = to_char(t.time, 'YYYY-MM-DD HH24:MI:SS') and p2.processName = p1.processName
-group by t.time, p1.processName
-order by 1,2
+select timestamp $__timeFrom() as time, 
+p.processName,
+(select count(1) as cnt from ProcessInstance p2 where p2.processname = p.processname and p2.starttime between timestamp $__timeFrom() and timestamp $__timeTo() and p2.state = 2) * 100.00 /
+(select count(1) as cnt from ProcessInstance p1 where p1.processname = p.processname and p1.starttime between timestamp $__timeFrom() and timestamp $__timeTo())
+from ProcessInstance p
+where p.starttime between timestamp $__timeFrom() and timestamp $__timeTo()
+group by p.processname
 ```
 
 #### Jobs
