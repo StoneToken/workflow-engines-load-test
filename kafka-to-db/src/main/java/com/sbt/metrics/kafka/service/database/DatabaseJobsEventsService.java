@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.concurrent.TimeUnit;
 
 public class DatabaseJobsEventsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseJobsEventsService.class);
@@ -182,14 +182,28 @@ public class DatabaseJobsEventsService {
 
         long time = 0L;
         String timeStr = "";
+        String timeStr0 = "";
         try {
             timeStr = jsonObject.getString("time");
+            timeStr0 = timeStr;
             if (timeStr != null && !timeStr.isEmpty() && !timeStr.equalsIgnoreCase("null")) {
-                timeStr = timeStr.substring(0, 23) + 'Z';
-                time = sdf3.parse(timeStr).getTime();
+                if (timeStr.length() > 23) {
+                    timeStr = timeStr.substring(0, 23) + 'Z';
+                    time = sdf3.parse(timeStr).getTime();
+                } else return;
             }
-        } catch (JSONException | ParseException e) {
-            LOGGER.warn("time {} {}", id, timeStr, e);
+        } catch (Exception e) {
+            try {
+                sleepMilliseconds(1000);
+                time = sdf3.parse(timeStr).getTime();
+                if (time < 0L) {
+                    sleepMilliseconds(1000);
+                    time = sdf3.parse(timeStr).getTime();
+                }
+            } catch (Exception e2) {
+                LOGGER.warn("time | {} | {} | {} | {} | {}", id, timeStr0, timeStr, sdf3.format(time), time, e2);
+                return;
+            }
         }
 
         long lastUpdate = 0L;
@@ -235,5 +249,13 @@ public class DatabaseJobsEventsService {
     private String strToNull(String str) {
         if (str == null || str.equalsIgnoreCase("null")) return null;
         return str;
+    }
+
+    public void sleepMilliseconds(long milliseconds) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            LOGGER.error("TimeUnit.MILLISECONDS.sleep", e);
+        }
     }
 }

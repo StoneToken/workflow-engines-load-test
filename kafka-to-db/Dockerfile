@@ -1,4 +1,5 @@
-FROM registry.sigma.sbrf.ru/base/redhat/redhat-openjdk-18/openjdk18-openshift:latest
+#FROM registry.sigma.sbrf.ru/base/redhat/redhat-openjdk-18/openjdk18-openshift:latest
+FROM dzo.sw.sbc.space/sbt_dev/ci90000047_btc_dev/redhat-openjdk-18/openjdk18-openshift:latest
 
 ENV APP_HOME /home/jboss
 
