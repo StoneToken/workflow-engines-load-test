@@ -181,7 +181,10 @@ services:
 
   kogito-bpmn-async:
     container_name: kogito-bpmn-async
-    image: quarkus/kogito-bpmn-async-jvm
+    # image: quarkus/kogito-bpmn-async-jvm
+    build:
+      context: ../.
+      dockerfile: src/main/docker/Dockerfile.jvm
     mem_limit: 200m
     ports:
       - 8080:8080
@@ -196,6 +199,20 @@ services:
         condition: service_started
       api-mock-rest:
         condition: service_started
+      postgresql:
+        condition: service_started
+    networks:
+      - kogito-network
+
+  postgresql:
+    image: postgres:14.2-alpine
+    restart: always
+    ports:
+      - 5433:5433
+    environment:
+      POSTGRES_USER: kogito
+      POSTGRES_PASSWORD: kogito
+      POSTGRES_DB: kogito
     networks:
       - kogito-network
 

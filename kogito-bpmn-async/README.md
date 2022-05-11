@@ -22,6 +22,16 @@ When using native image compilation, you will also need:
 - Environment variable GRAALVM_HOME set accordingly
 - Note that GraalVM native image compilation typically requires other packages (glibc-devel, zlib-devel and gcc) to be installed too, please refer to GraalVM installation documentation for more details.
 
+### Profiles
+
+I have added two profiles: infinispan and postgresql, they shoud be activated as maven profiles like
+
+```sh
+mvn clean package -Ppostgresql
+```
+
+Profile specific confing is prefixed with % in .props file.
+
 ### Compile and Run in Local Dev Mode
 
 ```sh
