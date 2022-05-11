@@ -1,0 +1,59 @@
+syntax = "proto2"; 
+package org.acme.kogitobpmn.parallel; 
+import "kogito-index.proto";
+import "kogito-types.proto";
+option kogito_model = "Parallel";
+option kogito_id = "parallel";
+
+/* @Indexed */ 
+message Parallel { 
+	option java_package = "org.acme.kogitobpmn";
+	/* @Field(index = Index.YES, store = Store.YES) @SortableField */ 
+	optional string id = 1; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField
+ @VariableInfo(tags="output") */ 
+	optional User user1 = 2; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField
+ @VariableInfo(tags="output") */ 
+	optional User user2 = 3; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField
+ @VariableInfo(tags="output") */ 
+	optional User user3 = 4; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField
+ @VariableInfo(tags="output") */ 
+	optional User user4 = 5; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField
+ @VariableInfo(tags="output") */ 
+	optional User user5 = 6; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField
+ @VariableInfo(tags="output") */ 
+	optional User user6 = 7; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField
+ @VariableInfo(tags="output") */ 
+	optional User user7 = 8; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField
+ @VariableInfo(tags="required,input") */ 
+	optional string username = 9; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional org.kie.kogito.index.model.KogitoMetadata metadata = 10; 
+}
+/* @Indexed */ 
+message User { 
+	option java_package = "org.acme.kogitobpmn";
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional string email = 1; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional string firstName = 2; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional int64 id = 3; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional string lastName = 4; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional string password = 5; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional string phone = 6; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional int32 userStatus = 7; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional string username = 8; 
+}
