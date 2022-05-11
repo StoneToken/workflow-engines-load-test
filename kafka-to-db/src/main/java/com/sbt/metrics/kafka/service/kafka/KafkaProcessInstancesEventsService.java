@@ -91,6 +91,7 @@ public class KafkaProcessInstancesEventsService {
 
     @PostConstruct
     public void init() {
+        LOGGER.info("2022-05-11 19:55");
         connectDB();
     }
 

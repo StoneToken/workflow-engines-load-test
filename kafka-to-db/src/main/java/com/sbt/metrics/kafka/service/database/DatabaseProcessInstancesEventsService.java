@@ -80,7 +80,7 @@ public class DatabaseProcessInstancesEventsService {
         this.databasePassword = databasePassword;
         this.databaseSizeLimit = databaseSizeLimit;
 
-        preparedStatementProcessSQL = "insert into " + this.databaseSchema + "ProcessInstance as p (\n" +
+        preparedStatementProcessSQL = "insert into " + this.databaseSchema + "ProcessInstance (\n" +
                 "id,\n" +
                 "parentInstanceId,\n" +
                 "rootInstanceId,\n" +
@@ -93,9 +93,9 @@ public class DatabaseProcessInstancesEventsService {
                 "businessKey,\n" +
                 "error)\n" +
                 "values (?,?,?,?,?,?,?,?,?,?,?)\n" +
-                "on conflict (id) do update set endtime = p.endtime, state = p.state, error = p.error where p.endtime is not null";
+                "on conflict (id) do update set endtime = EXCLUDED.endtime, state = EXCLUDED.state, error = EXCLUDED.error where EXCLUDED.endtime is not null";
 
-        preparedStatementNodeSQL = "insert into " + this.databaseSchema + "NodeInstance as n (\n" +
+        preparedStatementNodeSQL = "insert into " + this.databaseSchema + "NodeInstance (\n" +
                 "processInstanceId,\n" +
                 "id,\n" +
                 "nodeId,\n" +
@@ -104,7 +104,7 @@ public class DatabaseProcessInstancesEventsService {
                 "startTime,\n" +
                 "endTime)\n" +
                 "values (?,?,?,?,?,?,?)\n" +
-                "on conflict (id) do update set endtime = n.endtime where n.endtime is not null";
+                "on conflict (id) do update set endtime = EXCLUDED.endtime where EXCLUDED.endtime is not null";
 //            "on conflict do nothing";
 
         connect();
