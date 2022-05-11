@@ -309,11 +309,11 @@ public class DatabaseProcessInstancesEventsService {
         } catch (Exception e) {
             LOGGER.error("Error when saving data {}", jsonObject, e);
         }
-        insertNodeInstance(jsonObject);
+        insertNodeInstance(jsonObject, id);
     }
 
 
-    private void insertNodeInstance(JSONObject jsonObject) {
+    private void insertNodeInstance(JSONObject jsonObject, String processInstanceId) {
         if (connection == null) return;
 
         JSONArray jsonArray;
@@ -327,11 +327,6 @@ public class DatabaseProcessInstancesEventsService {
 
         for (int o = 0; o < jsonArray.length(); o++) {
             counterNode++;
-            String id = "";
-            try {
-                jsonObject.getJSONObject("data").getString("id");
-            } catch (JSONException e) {
-            }
             long startTime = 0L;
             String startTimeStr = "";
             try {
@@ -340,7 +335,7 @@ public class DatabaseProcessInstancesEventsService {
                     startTime = sdf.parse(startTimeStr).getTime();
                 }
             } catch (JSONException | ParseException e) {
-                LOGGER.warn("triggerTime {} {}", id, startTimeStr, e);
+                LOGGER.warn("triggerTime {} {}", processInstanceId, startTimeStr, e);
             }
 
             long endTime = 0L;
@@ -351,12 +346,12 @@ public class DatabaseProcessInstancesEventsService {
                     endTime = sdf.parse(endTimeStr).getTime();
                 }
             } catch (JSONException | ParseException e) {
-                LOGGER.warn("leaveTime {} {}", id, endTimeStr, e);
+                LOGGER.warn("leaveTime {} {}", processInstanceId, endTimeStr, e);
             }
 
             try {
                 LOGGER.debug("{}", jsonArray.getJSONObject(o));
-                preparedStatementNode.setString(1, id);
+                preparedStatementNode.setString(1, processInstanceId);
                 preparedStatementNode.setString(2, jsonArray.getJSONObject(o).getString("id"));
                 preparedStatementNode.setString(3, jsonArray.getJSONObject(o).getString("nodeId"));
                 preparedStatementNode.setString(4, substring(jsonArray.getJSONObject(o).getString("nodeName"), 255));
