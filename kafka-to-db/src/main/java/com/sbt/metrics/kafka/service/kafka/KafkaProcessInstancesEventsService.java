@@ -42,6 +42,9 @@ public class KafkaProcessInstancesEventsService {
     @Value("${database.schema:}")
     private String databaseSchema;
 
+    @Value("${database.sizeLimit:80000}")
+    private String databaseSizeLimit;
+
 
     @Value("${kafka.processinstances-events.bootstrap-servers:}")
     private String kafkaBootstrapServers;
@@ -133,6 +136,7 @@ public class KafkaProcessInstancesEventsService {
                 databaseJdbcUrl,
                 databaseUserName,
                 databasePassword,
-                databaseSchema);
+                databaseSchema,
+                Integer.parseInt(databaseSizeLimit));
     }
 }

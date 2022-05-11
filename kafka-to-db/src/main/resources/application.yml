@@ -32,6 +32,8 @@ database:
   password: a29naXRv
   schema:
 
+  sizeLimit: 130000
+
 spring:
 
   json:

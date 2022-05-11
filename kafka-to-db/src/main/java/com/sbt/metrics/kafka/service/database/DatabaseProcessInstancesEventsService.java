@@ -40,6 +40,7 @@ public class DatabaseProcessInstancesEventsService {
     private String databaseUserName;
     private String databasePassword;
     private String databaseSchema;
+    private int databaseSizeLimit;
 
     private long counter = 0L;
     private long counterProcess = 0L;
@@ -64,7 +65,8 @@ public class DatabaseProcessInstancesEventsService {
             String databaseJdbcUrl,
             String databaseUserName,
             String databasePassword,
-            String databaseSchema
+            String databaseSchema,
+            int databaseSizeLimit
     ) {
 
         if (databaseJdbcUrl == null || databaseJdbcUrl.isEmpty()) {
@@ -76,6 +78,7 @@ public class DatabaseProcessInstancesEventsService {
         this.databaseJdbcUrl = databaseJdbcUrl;
         this.databaseUserName = databaseUserName;
         this.databasePassword = databasePassword;
+        this.databaseSizeLimit = databaseSizeLimit;
 
         preparedStatementProcessSQL = "insert into " + this.databaseSchema + "ProcessInstance as p (\n" +
                 "id,\n" +
@@ -109,6 +112,7 @@ public class DatabaseProcessInstancesEventsService {
     }
 
     public void connect() {
+
         if ((System.currentTimeMillis() - lastInsertTime) > insertTime) { // executeBatch
             if (counterProcess > 0) {
                 try {
@@ -179,6 +183,8 @@ public class DatabaseProcessInstancesEventsService {
                 LOGGER.error("Error when initializing the PreparedStatement\n", throwables);
                 System.exit(0);
             }
+
+            checkDbTableSpace(); // проверка переполнения БД
         }
     }
 
@@ -384,6 +390,30 @@ public class DatabaseProcessInstancesEventsService {
     private String substring(String data, int length) {
         data = strToNull(data);
         return (data == null || data.length() <= length) ? data : data.substring(0, length);
+    }
+
+    private boolean checkDbTableSpace() {
+        boolean res = true;
+        String sql = "select pg_database_size((select current_database())) / 1024/ 1024 as size";
+        try (Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet != null) {
+                while (resultSet.next()) {
+                    int size = resultSet.getInt("size");
+                    if (size > databaseSizeLimit) {
+                        LOGGER.error("TableSpace DB: {} > {}", size, databaseSizeLimit);
+                        System.exit(0);
+                    }
+                    if (size > databaseSizeLimit * 0.9) {
+                        LOGGER.warn("TableSpace DB: {} > 0.9 * {}", size, databaseSizeLimit);
+                    }
+                }
+            }
+        } catch (SQLException throwables) {
+            LOGGER.error("{}", sql, throwables);
+        }
+
+        return res;
     }
 
 }
