@@ -49,12 +49,15 @@
           <artifactId>quarkus-reactive-pg-client</artifactId>
         </dependency>
       </dependencies>
+      <activation>
+        <property>
+          <name>quarkus-profile</name>
+          <value>postgresql</value>
+        </property>
+      </activation>
     </profile>
 
     <profile>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
       <id>infinispan</id>
       <dependencies>
         <dependency>
@@ -62,6 +65,12 @@
           <artifactId>kogito-addons-quarkus-persistence-infinispan</artifactId>
         </dependency>
       </dependencies>
+      <activation>
+        <property>
+          <name>quarkus-profile</name>
+          <value>infinispan</value>
+        </property>
+      </activation>
     </profile>
   </profiles>
 
@@ -135,7 +144,7 @@
       <groupId>org.kie.kogito</groupId>
       <artifactId>kogito-addons-quarkus-monitoring-prometheus</artifactId>
     </dependency>
-    
+
   </dependencies>
   <build>
     <finalName>${project.artifactId}</finalName>

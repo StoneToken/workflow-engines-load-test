@@ -39,6 +39,7 @@ In order to use it, please ensure you have Docker Compose installed on your mach
   - Management Console: 8280
   - Task Console: 8380
   - Keycloak: 8480
+  - Postgresql: 5432
 
 ### Stopping and removing volume data
   

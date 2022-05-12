@@ -24,10 +24,10 @@ When using native image compilation, you will also need:
 
 ### Profiles
 
-I have added two profiles: infinispan and postgresql, they shoud be activated as maven profiles like
+I have added two profiles: infinispan and postgresql, they shoud be activated as quarkus profiles like
 
 ```sh
-mvn clean package -Ppostgresql
+mvn -Dquarkus-profile=postgresql clean package
 ```
 
 Profile specific confing is prefixed with % in .props file.
