@@ -201,14 +201,18 @@ services:
         condition: service_started
       postgresql:
         condition: service_started
+    environment:
+      # JAVA_OPTIONS: -Dquarkus-profile=infinispan
+      JAVA_OPTIONS: -Dquarkus-profile=postgresql
     networks:
       - kogito-network
 
   postgresql:
+    container_name: postgresql
     image: postgres:14.2-alpine
     restart: always
     ports:
-      - 5433:5433
+      - 5432:5432
     environment:
       POSTGRES_USER: kogito
       POSTGRES_PASSWORD: kogito
