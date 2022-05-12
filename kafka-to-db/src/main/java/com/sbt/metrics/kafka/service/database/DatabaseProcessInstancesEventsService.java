@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.concurrent.TimeUnit;
 
 /**
  * public interface KogitoProcessInstance extends ProcessInstance, KogitoEventListener {
@@ -263,26 +263,15 @@ public class DatabaseProcessInstancesEventsService {
         }
 
         long startTime = 0L;
-        String startTimeStr = "";
-        try {
-            startTimeStr = jsonObject.getJSONObject("data").getString("startDate");
-            if (startTimeStr != null && !startTimeStr.isEmpty() && !startTimeStr.equalsIgnoreCase("null")) {
-                startTime = sdf.parse(startTimeStr).getTime();
-            }
-        } catch (JSONException | ParseException e) {
-            LOGGER.warn("startDate {} {}", id, startTimeStr, e);
-        }
-
         long endTime = 0L;
-        String endTimeStr = "";
         try {
-            endTimeStr = jsonObject.getJSONObject("data").getString("endDate");
-            if (endTimeStr != null && !endTimeStr.isEmpty() && !endTimeStr.equalsIgnoreCase("null")) {
-                endTime = sdf.parse(endTimeStr).getTime();
-            }
-        } catch (JSONException | ParseException e) {
-            LOGGER.warn("endDate {} {}", id, endTimeStr, e);
+            startTime = getDateTime(jsonObject.getJSONObject("data").getString("startDate"), id);
+            endTime = getDateTime(jsonObject.getJSONObject("data").getString("endDate"), id);
+        } catch (Exception e) {
+            LOGGER.error("", e);
+            return;
         }
+        if (startTime < 0L || endTime < 0L) return;
 
         try {
             preparedStatementProcess.setString(1, id);
@@ -328,26 +317,16 @@ public class DatabaseProcessInstancesEventsService {
         for (int o = 0; o < jsonArray.length(); o++) {
             counterNode++;
             long startTime = 0L;
-            String startTimeStr = "";
-            try {
-                startTimeStr = jsonArray.getJSONObject(o).getString("triggerTime");
-                if (startTimeStr != null && !startTimeStr.isEmpty() && !startTimeStr.equalsIgnoreCase("null")) {
-                    startTime = sdf.parse(startTimeStr).getTime();
-                }
-            } catch (JSONException | ParseException e) {
-                LOGGER.warn("triggerTime {} {}", processInstanceId, startTimeStr, e);
-            }
-
             long endTime = 0L;
-            String endTimeStr = "";
             try {
-                endTimeStr = jsonArray.getJSONObject(o).getString("leaveTime");
-                if (endTimeStr != null && !endTimeStr.isEmpty() && !endTimeStr.equalsIgnoreCase("null")) {
-                    endTime = sdf.parse(endTimeStr).getTime();
-                }
-            } catch (JSONException | ParseException e) {
-                LOGGER.warn("leaveTime {} {}", processInstanceId, endTimeStr, e);
+                startTime = getDateTime(jsonArray.getJSONObject(o).getString("triggerTime"), processInstanceId);
+                endTime = getDateTime(jsonArray.getJSONObject(o).getString("leaveTime"), processInstanceId);
+            } catch (Exception e) {
+                LOGGER.error("", e);
+                return;
             }
+            LOGGER.debug("startTime: {} endTime: {}", sdf.format(startTime), sdf.format(endTime));
+            if (startTime < 0L || endTime < 0L) return;
 
             try {
                 LOGGER.debug("{}", jsonArray.getJSONObject(o));
@@ -360,7 +339,11 @@ public class DatabaseProcessInstancesEventsService {
                 preparedStatementNode.setTimestamp(7, endTime > 0L ? new Timestamp(endTime) : null);
                 preparedStatementNode.addBatch();
                 if (counterNode >= 300) {
-                    preparedStatementNode.executeBatch();
+                    try {
+                        preparedStatementNode.executeBatch();
+                    } catch (SQLException throwables) {
+                        LOGGER.error("", throwables);
+                    }
                     counterNode = 0;
                 }
             } catch (Exception e) {
@@ -411,4 +394,38 @@ public class DatabaseProcessInstancesEventsService {
         return res;
     }
 
+    public void sleepMilliseconds(long milliseconds) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            LOGGER.error("TimeUnit.MILLISECONDS.sleep", e);
+        }
+    }
+
+    private long getDateTime(String timeStr, String id) {
+        long time = 0L;
+        if (timeStr == null || timeStr.isEmpty() || timeStr.equalsIgnoreCase("null")) {
+            return time;
+        }
+        if (timeStr.length() != 29) {
+            LOGGER.warn("Date is not correct {}", timeStr);
+            return time;
+        }
+        try {
+            time = sdf.parse(timeStr).getTime();
+        } catch (Exception e) {
+            try {
+                sleepMilliseconds(1000);
+                time = sdf.parse(timeStr).getTime();
+                if (time < 0L) {
+                    sleepMilliseconds(1000);
+                    time = sdf.parse(timeStr).getTime();
+                }
+            } catch (Exception e2) {
+                LOGGER.warn("date {} {}", id, timeStr, e);
+                return -1L;
+            }
+        }
+        return time;
+    }
 }

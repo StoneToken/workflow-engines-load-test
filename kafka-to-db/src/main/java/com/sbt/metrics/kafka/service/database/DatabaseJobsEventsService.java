@@ -13,6 +13,10 @@ import java.util.concurrent.TimeUnit;
 
 public class DatabaseJobsEventsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseJobsEventsService.class);
+
+    private final DateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    private final DateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S'Z'");
+    private final DateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS'Z'");
     private final DateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
     private final long reconnectTime = 5 * 60000L; // интервал для переподключения к БД (ms)
@@ -181,42 +185,17 @@ public class DatabaseJobsEventsService {
         }
 
         long time = 0L;
-        String timeStr = "";
-        String timeStr0 = "";
-        try {
-            timeStr = jsonObject.getString("time");
-            timeStr0 = timeStr;
-            if (timeStr != null && !timeStr.isEmpty() && !timeStr.equalsIgnoreCase("null")) {
-                if (timeStr.length() > 23) {
-                    timeStr = timeStr.substring(0, 23) + 'Z';
-                    time = sdf3.parse(timeStr).getTime();
-                } else return;
-            }
-        } catch (Exception e) {
-            try {
-                sleepMilliseconds(1000);
-                time = sdf3.parse(timeStr).getTime();
-                if (time < 0L) {
-                    sleepMilliseconds(1000);
-                    time = sdf3.parse(timeStr).getTime();
-                }
-            } catch (Exception e2) {
-                LOGGER.warn("time | {} | {} | {} | {} | {}", id, timeStr0, timeStr, sdf3.format(time), time, e2);
-                return;
-            }
-        }
-
         long lastUpdate = 0L;
-        try {
-            lastUpdate = sdf3.parse(jsonObject.getJSONObject("data").getString("lastUpdate")).getTime();
-        } catch (Exception e) {
-        }
-
         long expirationTime = 0L;
         try {
-            expirationTime = sdf3.parse(jsonObject.getJSONObject("data").getString("expirationTime")).getTime();
+            time = getDateTime(jsonObject.getString("time"), id);
+            lastUpdate = getDateTime(jsonObject.getJSONObject("data").getString("lastUpdate"), id);
+            expirationTime = getDateTime(jsonObject.getJSONObject("data").getString("expirationTime"), id);
         } catch (Exception e) {
+            LOGGER.error("", e);
+            return;
         }
+        if (time < 0L || lastUpdate < 0L || expirationTime < 0L) return;
 
         try {
             preparedStatementJobs.setString(1, id);
@@ -228,7 +207,11 @@ public class DatabaseJobsEventsService {
             preparedStatementJobs.setTimestamp(7, expirationTime > 0L ? new Timestamp(expirationTime) : null);
             preparedStatementJobs.addBatch();
             if (counterJobs >= 300) {
-                preparedStatementJobs.executeBatch();
+                try {
+                    preparedStatementJobs.executeBatch();
+                } catch (SQLException throwables) {
+                    LOGGER.error("", throwables);
+                }
                 counterJobs = 0;
             }
 
@@ -258,4 +241,47 @@ public class DatabaseJobsEventsService {
             LOGGER.error("TimeUnit.MILLISECONDS.sleep", e);
         }
     }
+
+    private long getDateTime(String timeStr, String id) {
+        long time = 0L;
+        DateFormat sdf = sdf3;
+        String timeStr1 = timeStr;
+        if (timeStr == null || timeStr.isEmpty() || timeStr.equalsIgnoreCase("null")) {
+            return time;
+        }
+
+        if (timeStr.length() < 20) {
+            LOGGER.warn("Date is not correct {}", timeStr);
+            return time;
+        } else if (timeStr.length() > 23) {
+            timeStr = timeStr.substring(0, 23) + 'Z';
+        } else if (timeStr.length() == 23) {
+            sdf = sdf2;
+            timeStr = timeStr.substring(0, 22) + 'Z';
+        } else if (timeStr.length() == 22){
+            sdf = sdf1;
+            timeStr = timeStr.substring(0, 21) + 'Z';
+        } else {
+            sdf = sdf0;
+            timeStr = timeStr.substring(0, 19) + 'Z';
+        }
+
+        try {
+            time = sdf.parse(timeStr).getTime();
+        } catch (Exception e) {
+            try {
+                sleepMilliseconds(1000);
+                time = sdf.parse(timeStr).getTime();
+                if (time < 0L) {
+                    sleepMilliseconds(1000);
+                    time = sdf.parse(timeStr).getTime();
+                }
+            } catch (Exception e2) {
+                LOGGER.warn("time | {} | {} | {} | {} | {}", id, timeStr1, timeStr, sdf3.format(time), time, e2);
+                return -1L;
+            }
+        }
+        return time;
+    }
+
 }
