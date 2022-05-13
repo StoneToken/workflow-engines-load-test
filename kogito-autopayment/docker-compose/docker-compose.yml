@@ -227,6 +227,8 @@ services:
       - '9090:9090'
     depends_on:
       - kogito-autopayment
+    networks:
+      - kogito-network
 
   grafana:
     image: grafana/grafana:6.6.1
@@ -236,6 +238,8 @@ services:
       - 3000:3000
     volumes:
       - ./grafana/:/etc/grafana/:z
+    networks:
+      - kogito-network
 
 networks:
   kogito-network:
