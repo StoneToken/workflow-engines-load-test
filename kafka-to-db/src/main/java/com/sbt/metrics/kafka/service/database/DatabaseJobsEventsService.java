@@ -140,7 +140,7 @@ public class DatabaseJobsEventsService {
         String sql = "create table IF NOT EXISTS " + databaseSchema + "Jobs(\n" +
                 "id varchar(64) not null,\n" +
                 "processInstanceId varchar(64) not null,\n" +
-                "nodeInstanceId varchar(64) not null,\n" +
+                "nodeInstanceId varchar(64),\n" +
                 "status varchar(50),\n" +
                 "\"time\" timestamp(6) not null,\n" +
                 "lastUpdate timestamp(6),\n" +

@@ -57,7 +57,6 @@ public class KafkaJobsEventsService {
     public KafkaJobsEventsService() {
     }
 
-
     private Map<String, Object> consumerProps() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBootstrapServers);
@@ -83,14 +82,12 @@ public class KafkaJobsEventsService {
         return props;
     }
 
-
     @Bean("containerFactoryJobsEvents")
     public ConcurrentKafkaListenerContainerFactory listenerContainer() {
         ConcurrentKafkaListenerContainerFactory container = new ConcurrentKafkaListenerContainerFactory();
         container.setConsumerFactory(new DefaultKafkaConsumerFactory(consumerProps()));
         return container;
     }
-
 
     @PostConstruct
     public void init() {
@@ -111,12 +108,8 @@ public class KafkaJobsEventsService {
                 concurrency = "${kafka.jobs-events.listener.concurency:4}"
         )
         public void messageListener(String msg) {
-
             counter++;
             LOGGER.debug("{}: {}", counter, msg);
-
-//            if (counter % 1000 == 0)
-//                LOGGER.info("{}: {}", counter, msg);
 
             try {
                 JSONObject jsonObject = new JSONObject(msg);
@@ -128,7 +121,6 @@ public class KafkaJobsEventsService {
             } catch (JSONException e) {
                 LOGGER.info("", e);
             }
-
         }
     }
 

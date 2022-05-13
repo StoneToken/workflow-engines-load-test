@@ -59,7 +59,6 @@ public class KafkaProcessInstancesEventsService {
     public KafkaProcessInstancesEventsService() {
     }
 
-
     private Map<String, Object> consumerProps() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBootstrapServers);
@@ -77,7 +76,6 @@ public class KafkaProcessInstancesEventsService {
         return props;
     }
 
-
     @Bean("containerFactoryProcessInstancesEvents")
     public ConcurrentKafkaListenerContainerFactory listenerContainer() {
         ConcurrentKafkaListenerContainerFactory container = new ConcurrentKafkaListenerContainerFactory();
@@ -88,10 +86,9 @@ public class KafkaProcessInstancesEventsService {
         return container;
     }
 
-
     @PostConstruct
     public void init() {
-        LOGGER.info("2022-05-12 09:50"); // сборка
+        LOGGER.info("version 2022-05-13 07:20"); // сборка
         connectDB();
     }
 
@@ -109,12 +106,8 @@ public class KafkaProcessInstancesEventsService {
                 concurrency = "${kafka.processinstances-events.listener.concurency:4}"
         )
         public void messageListener(String msg) {
-
             counter++;
             LOGGER.debug("{}: {}", counter, msg);
-
-//            if (counter % 1000 == 0)
-//                LOGGER.info("{}: {}", counter, msg);
 
             try {
                 JSONObject jsonObject = new JSONObject(msg);
@@ -127,7 +120,6 @@ public class KafkaProcessInstancesEventsService {
             } catch (JSONException e) {
                 LOGGER.info("", e);
             }
-
         }
     }
 

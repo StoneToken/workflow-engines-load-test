@@ -22,7 +22,7 @@
   "gnetId": null,
   "graphTooltip": 1,
   "id": 60,
-  "iteration": 1652338287896,
+  "iteration": 1652367961799,
   "links": [],
   "panels": [
     {
@@ -669,7 +669,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select to_char(j.time, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName || ' ' || j.status as status,\n       count(1) as \" \"\nfrom Jobs j\njoin ProcessInstance p on p.id = j.ProcessInstanceId\nwhere j.time between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(j.time, 'YYYY-MM-DD HH24:MI:SS'), p.processName, j.status\norder by 1,2",
+          "rawSql": "select to_char(j.time, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       split_part(j.id, ':', 1) || ' ' || p.processName || ' ' || j.status as status,\n       count(1) as \" \"\nfrom Jobs j\njoin ProcessInstance p on p.id = j.ProcessInstanceId\nwhere j.time between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(j.time, 'YYYY-MM-DD HH24:MI:SS'), split_part(j.id, ':', 1), p.processName, j.status\norder by 1,2",
           "refId": "A",
           "select": [
             [
@@ -874,5 +874,5 @@
   "timezone": "",
   "title": "Kogito Metrics",
   "uid": "pIfb67Qnz",
-  "version": 26
+  "version": 27
 }
