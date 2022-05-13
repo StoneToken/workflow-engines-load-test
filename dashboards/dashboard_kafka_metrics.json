@@ -22,7 +22,7 @@
   "gnetId": null,
   "graphTooltip": 1,
   "id": 60,
-  "iteration": 1652434938987,
+  "iteration": 1652445291438,
   "links": [],
   "panels": [
     {
@@ -91,7 +91,7 @@
           "metricColumn": "none",
           "queryType": "randomWalk",
           "rawQuery": true,
-          "rawSql": "select timestamp $__timeFrom() as time, \np.processName || ' ' || case when p.parentinstanceid is null then '[Root]' else '' end,\n(select count(1) as cnt from ProcessInstance p2 where p2.processname = p.processname and p2.starttime between timestamp $__timeFrom() and timestamp $__timeTo() and p2.state = 2) * 100.00 /\n(select count(1) as cnt from ProcessInstance p1 where p1.processname = p.processname and p1.starttime between timestamp $__timeFrom() and timestamp $__timeTo())\nfrom ProcessInstance p\nwhere p.starttime between timestamp $__timeFrom() and timestamp $__timeTo()\ngroup by p.processname, case when p.parentinstanceid is null then '[Root]' else '' end",
+          "rawSql": "select timestamp $__timeFrom() as time, \np.processName || ' ' || case when COALESCE(p.parentinstanceid, '') = '' then '[Root]' else '' end,\n(select count(1) as cnt from ProcessInstance p2 where p2.processname = p.processname and p2.starttime between timestamp $__timeFrom() and timestamp $__timeTo() and p2.state = 2) * 100.00 /\n(select count(1) as cnt from ProcessInstance p1 where p1.processname = p.processname and p1.starttime between timestamp $__timeFrom() and timestamp $__timeTo())\nfrom ProcessInstance p\nwhere p.starttime between timestamp $__timeFrom() and timestamp $__timeTo()\ngroup by p.processname, case when COALESCE(p.parentinstanceid, '') = '' then '[Root]' else '' end",
           "refId": "A",
           "select": [
             [
@@ -171,7 +171,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName || ' ' || case when p.parentinstanceid is null then '[Root]' else '' end,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.starttime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS'), p.processName, case when p.parentinstanceid is null then '[Root]' else '' end\norder by 1,2",
+          "rawSql": "select to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName || ' ' || case when COALESCE(p.parentinstanceid, '') = '' then '[Root]' else '' end,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.starttime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS'), p.processName, case when COALESCE(p.parentinstanceid, '') = '' then '[Root]' else '' end\norder by 1,2",
           "refId": "A",
           "select": [
             [
@@ -309,7 +309,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName || ' ' || case when p.parentinstanceid is null then '[Root]' else '' end,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.endtime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS'), p.processName, case when p.parentinstanceid is null then '[Root]' else '' end\norder by 1,2",
+          "rawSql": "select to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName || ' ' || case when COALESCE(p.parentinstanceid, '') = '' then '[Root]' else '' end,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.endtime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(p.endtime, 'YYYY-MM-DD HH24:MI:SS'), p.processName, case when COALESCE(p.parentinstanceid, '') = '' then '[Root]' else '' end\norder by 1,2",
           "refId": "A",
           "select": [
             [
@@ -420,7 +420,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName || ' ' || case when p.parentinstanceid is null then '[Root]' else '' end,       \n       avg((EXTRACT('epoch' from p.endtime) - EXTRACT('epoch' from p.starttime)) * 1000) as \" \"\nfrom ProcessInstance p\nwhere p.endtime is not null \nand p.starttime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS'), p.processName, case when p.parentinstanceid is null then '[Root]' else '' end\norder by 1,2",
+          "rawSql": "select to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName || ' ' || case when COALESCE(p.parentinstanceid, '') = '' then '[Root]' else '' end,       \n       avg((EXTRACT('epoch' from p.endtime) - EXTRACT('epoch' from p.starttime)) * 1000) as \" \"\nfrom ProcessInstance p\nwhere p.endtime is not null \nand p.starttime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(p.starttime, 'YYYY-MM-DD HH24:MI:SS'), p.processName, case when COALESCE(p.parentinstanceid, '') = '' then '[Root]' else '' end\norder by 1,2",
           "refId": "A",
           "select": [
             [
@@ -558,7 +558,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName || ' ' || case when p.parentinstanceid is null then '[Root]' else '' end,\n       count(1) as \" \"\nfrom ProcessInstance p\njoin NodeInstance n on n.processinstanceid = p.id and n.endtime is not null\nwhere n.endtime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS'), p.processName, case when p.parentinstanceid is null then '[Root]' else '' end\norder by 1,2",
+          "rawSql": "select to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName || ' ' || case when COALESCE(p.parentinstanceid, '') = '' then '[Root]' else '' end,\n       count(1) as \" \"\nfrom ProcessInstance p\njoin NodeInstance n on n.processinstanceid = p.id and n.endtime is not null\nwhere n.endtime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(n.endtime, 'YYYY-MM-DD HH24:MI:SS'), p.processName, case when COALESCE(p.parentinstanceid, '') = '' then '[Root]' else '' end\norder by 1,2",
           "refId": "A",
           "select": [
             [
@@ -891,7 +891,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select to_char(p.startTime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName || ' '|| case when p.parentinstanceid is null then '[Root]' else '' end,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.error is not null\nand p.startTime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(p.startTime, 'YYYY-MM-DD HH24:MI:SS'), p.processName, case when p.parentinstanceid is null then '[Root]' else '' end\norder by 1,2",
+          "rawSql": "select to_char(p.startTime, 'YYYY-MM-DD HH24:MI:SS')::timestamp as time,\n       p.processName || ' '|| case when COALESCE(p.parentinstanceid, '') = '' then '[Root]' else '' end,       \n       count(1) as \" \"\nfrom ProcessInstance p\nwhere p.error is not null\nand p.startTime between (timestamp $__timeFrom()) and (timestamp $__timeTo())\ngroup by to_char(p.startTime, 'YYYY-MM-DD HH24:MI:SS'), p.processName, case when COALESCE(p.parentinstanceid, '') = '' then '[Root]' else '' end\norder by 1,2",
           "refId": "B",
           "select": [
             [
@@ -985,5 +985,5 @@
   "timezone": "",
   "title": "Kogito Metrics",
   "uid": "pIfb67Qnz",
-  "version": 29
+  "version": 31
 }
