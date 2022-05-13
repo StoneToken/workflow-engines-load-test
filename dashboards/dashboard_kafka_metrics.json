@@ -522,7 +522,7 @@
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
-      "stack": false,
+      "stack": true,
       "steppedLine": false,
       "targets": [
         {
@@ -978,12 +978,12 @@
     ]
   },
   "time": {
-    "from": "2022-05-13T10:53:36.612Z",
-    "to": "2022-05-13T11:18:47.095Z"
+    "from": "now-3h",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Kogito Metrics",
   "uid": "pIfb67Qnz",
-  "version": 28
+  "version": 29
 }
