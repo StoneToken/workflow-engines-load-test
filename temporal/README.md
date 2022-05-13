@@ -7,7 +7,6 @@
 ```sh
 # Prepare environment
 alias tctl="docker exec temporal-admin-tools tctl"
-
 ```
 
 ## Build

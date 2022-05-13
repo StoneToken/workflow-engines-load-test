@@ -42,6 +42,7 @@ services:
       - ENABLE_ES=true
       - ES_SEEDS=elasticsearch
       - ES_VERSION=v7
+      - PROMETHEUS_ENDPOINT=0.0.0.0:8000
     image: temporalio/auto-setup:${TEMPORAL_VERSION}
     networks:
       - temporal-network
@@ -103,12 +104,40 @@ services:
   temporal-worker:
     container_name: temporal-worker
     image: temporal-worker:0.1
-    mem_limit: 50m
+    # build:
+    #   context: ../.
+    #   dockerfile: Dockerfile
+    mem_limit: 100m
     environment:
       - TEMPORAL_SERVER_URL=temporal:7233
       - TEMPORAL_API_URL=http://api-mock-rest:8000/user/
     depends_on:
       - temporal
+    networks:
+      - temporal-network
+  
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/:/etc/prometheus/:z
+    command: '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - '9090:9090'
+    depends_on:
+      - temporal
+    networks:
+      - temporal-network
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana/:/etc/grafana/:z
     networks:
       - temporal-network
 
