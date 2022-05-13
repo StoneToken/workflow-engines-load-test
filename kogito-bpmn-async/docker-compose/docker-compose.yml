@@ -220,6 +220,31 @@ services:
     networks:
       - kogito-network
 
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.8.0
+    volumes:
+      - ./prometheus/:/etc/prometheus/:z
+    command: '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - '9090:9090'
+    depends_on:
+      - kogito-bpmn-async
+    networks:
+      - kogito-network
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:6.6.1
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana/:/etc/grafana/:z
+    networks:
+      - kogito-network
+
 networks:
   kogito-network:
     driver: bridge
