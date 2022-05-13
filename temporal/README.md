@@ -44,4 +44,7 @@ tctl workflow run --tq REST_TASK_QUEUE --wt Sequential --et 60 -i '"test"' -i 7
 # Start parallel workflow with CLI, parallel executes exactly 7 REST Tasks
 tctl workflow run --tq REST_TASK_QUEUE --wt Parallel --et 60 -i '"test"'
 
+# Select count Single workflow completed instances
+tctl workflow count --query 'WorkflowType="Single" and ExecutionStatus="Completed"'
+
 ```
