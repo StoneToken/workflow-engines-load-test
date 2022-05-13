@@ -88,7 +88,7 @@ public class KafkaProcessInstancesEventsService {
 
     @PostConstruct
     public void init() {
-        LOGGER.info("version 2022-05-13 07:20"); // сборка
+        LOGGER.info("version 2022-05-13 12:30"); // сборка
         connectDB();
     }
 
