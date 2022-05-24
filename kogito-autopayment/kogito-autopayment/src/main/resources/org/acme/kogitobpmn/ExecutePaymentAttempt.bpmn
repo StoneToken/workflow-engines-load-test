@@ -124,7 +124,7 @@
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_9E2DCF5A-C300-4A16-9B45-C9849499704C_PortInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[8080]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[80]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_9E2DCF5A-C300-4A16-9B45-C9849499704C_PortInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -199,7 +199,7 @@
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_EB4B16D7-3289-4E84-BC3A-FEDDE784AF13_PortInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[8080]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[80]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_EB4B16D7-3289-4E84-BC3A-FEDDE784AF13_PortInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
@@ -271,7 +271,7 @@
       <bpmn2:dataInputAssociation>
         <bpmn2:targetRef>_1FC1B400-7F2F-41DD-A844-FBAD581550DB_PortInputX</bpmn2:targetRef>
         <bpmn2:assignment>
-          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[8080]]></bpmn2:from>
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression"><![CDATA[80]]></bpmn2:from>
           <bpmn2:to xsi:type="bpmn2:tFormalExpression"><![CDATA[_1FC1B400-7F2F-41DD-A844-FBAD581550DB_PortInputX]]></bpmn2:to>
         </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
