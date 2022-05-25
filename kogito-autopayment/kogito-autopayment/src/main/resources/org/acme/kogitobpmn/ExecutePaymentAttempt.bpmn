@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:drools="http://www.jboss.org/drools" id="_1Gf9kL5kEDqpQvUJ40IZ-A" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd http://www.jboss.org/drools drools.xsd http://www.bpsim.org/schemas/1.0 bpsim.xsd http://www.omg.org/spec/DD/20100524/DC DC.xsd http://www.omg.org/spec/DD/20100524/DI DI.xsd " exporter="jBPM Process Modeler" exporterVersion="2.0" targetNamespace="http://www.omg.org/bpmn20">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:drools="http://www.jboss.org/drools" id="_G2cQcL5tEDqpQvUJ40IZ-A" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd http://www.jboss.org/drools drools.xsd http://www.bpsim.org/schemas/1.0 bpsim.xsd http://www.omg.org/spec/DD/20100524/DC DC.xsd http://www.omg.org/spec/DD/20100524/DI DI.xsd " exporter="jBPM Process Modeler" exporterVersion="2.0" targetNamespace="http://www.omg.org/bpmn20">
   <bpmn2:itemDefinition id="_paymentItem" structureRef="org.acme.kogitobpmn.Payment"/>
   <bpmn2:itemDefinition id="_cancelItem" structureRef="String"/>
   <bpmn2:itemDefinition id="_paymentResponseItem" structureRef="org.acme.kogitobpmn.PaymentResponse"/>
@@ -9,8 +9,8 @@
   <bpmn2:itemDefinition id="_c2810abe-3bba-4860-b7bb-2407d8571dcf_paymentOutputXItem" structureRef="org.acme.kogitobpmn.Payment"/>
   <bpmn2:itemDefinition id="_c9692af8-dbcd-4a50-84cd-cb40162099d5_eventOutputXItem" structureRef="String"/>
   <bpmn2:itemDefinition id="interruptexecutionmessageType" structureRef="String"/>
-  <bpmn2:itemDefinition id="_76DC60AF-B5B2-47A1-862D-53731D13C67A" structureRef=""/>
-  <bpmn2:itemDefinition id="_3391DF17-B8D7-4562-A29E-60E0AE2A4DCA" structureRef=""/>
+  <bpmn2:itemDefinition id="_C14BF3E8-E5D0-4141-9072-D49890973D0D" structureRef=""/>
+  <bpmn2:itemDefinition id="_05DF6138-3CDE-40CA-80AF-C1D56D1C8C65" structureRef=""/>
   <bpmn2:itemDefinition id="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_ContentDataInputXItem" structureRef="org.acme.kogitobpmn.Payment"/>
   <bpmn2:itemDefinition id="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_HostInputXItem" structureRef="String"/>
   <bpmn2:itemDefinition id="__1FC1B400-7F2F-41DD-A844-FBAD581550DB_MethodInputXItem" structureRef="String"/>
@@ -29,17 +29,12 @@
   <bpmn2:itemDefinition id="__9E2DCF5A-C300-4A16-9B45-C9849499704C_PortInputXItem" structureRef="Integer"/>
   <bpmn2:itemDefinition id="__9E2DCF5A-C300-4A16-9B45-C9849499704C_UrlInputXItem" structureRef="String"/>
   <bpmn2:itemDefinition id="__9E2DCF5A-C300-4A16-9B45-C9849499704C_ResultOutputXItem" structureRef="org.acme.kogitobpmn.PaymentResponse"/>
-  <bpmn2:itemDefinition id="__37C7F9E5-D67B-4BB9-B650-1C76293A6498_eventOutputXItem" structureRef="org.acme.kogitobpmn.Payment"/>
-  <bpmn2:itemDefinition id="paymentattemptType" structureRef="org.acme.kogitobpmn.Payment"/>
-  <bpmn2:itemDefinition id="_033D030D-25A7-4F06-A2F1-38E9228A67BB" structureRef=""/>
-  <bpmn2:itemDefinition id="_2C1C9D3E-3861-41FB-A3C3-F0B80E87DE49" structureRef=""/>
   <bpmn2:error id="ERROR" errorCode="ERROR"/>
   <bpmn2:error id="ERROR" errorCode="ERROR"/>
   <bpmn2:error id="ERROR" errorCode="ERROR"/>
-  <bpmn2:message id="_1GjA4L5kEDqpQvUJ40IZ-A" itemRef="interruptexecutionmessageType" name="interruptexecutionmessage"/>
-  <bpmn2:message id="_1GjA4b5kEDqpQvUJ40IZ-A" itemRef="paymentattemptType" name="paymentattempt"/>
-  <bpmn2:collaboration id="_40CBCAB6-6A9B-4953-9196-8755B1C49742" name="Default Collaboration">
-    <bpmn2:participant id="_BAEA02D3-6B60-4CD1-9425-E1686D28D307" name="Pool Participant" processRef="ExecutePaymentAttempt"/>
+  <bpmn2:message id="_G2f60L5tEDqpQvUJ40IZ-A" itemRef="interruptexecutionmessageType" name="interruptexecutionmessage"/>
+  <bpmn2:collaboration id="_CE80C27C-682F-4E38-8F8A-87D2FA9C35E9" name="Default Collaboration">
+    <bpmn2:participant id="_B861DAE7-C810-4ADB-B782-84982D7C34A3" name="Pool Participant" processRef="ExecutePaymentAttempt"/>
   </bpmn2:collaboration>
   <bpmn2:process id="ExecutePaymentAttempt" drools:packageName="org.acme.kogitobpmn" drools:version="1.0" drools:adHoc="false" name="ExecutePaymentAttempt" isExecutable="true" processType="Public">
     <bpmn2:extensionElements>
@@ -87,15 +82,6 @@
     <bpmn2:sequenceFlow id="_45F6F73D-6048-4074-9E88-53DD3BE32E8E" sourceRef="eb73053b-b760-42ad-b900-b3d3bb78b50c" targetRef="ebc7103d-9818-4ff0-90b1-7cea627abf6f"/>
     <bpmn2:startEvent id="_37C7F9E5-D67B-4BB9-B650-1C76293A6498">
       <bpmn2:outgoing>_C75A7974-833E-489A-A629-35512C7A400A</bpmn2:outgoing>
-      <bpmn2:dataOutput id="_37C7F9E5-D67B-4BB9-B650-1C76293A6498_eventOutputX" drools:dtype="org.acme.kogitobpmn.Payment" itemSubjectRef="__37C7F9E5-D67B-4BB9-B650-1C76293A6498_eventOutputXItem" name="event"/>
-      <bpmn2:dataOutputAssociation>
-        <bpmn2:sourceRef>_37C7F9E5-D67B-4BB9-B650-1C76293A6498_eventOutputX</bpmn2:sourceRef>
-        <bpmn2:targetRef>payment</bpmn2:targetRef>
-      </bpmn2:dataOutputAssociation>
-      <bpmn2:outputSet>
-        <bpmn2:dataOutputRefs>_37C7F9E5-D67B-4BB9-B650-1C76293A6498_eventOutputX</bpmn2:dataOutputRefs>
-      </bpmn2:outputSet>
-      <bpmn2:messageEventDefinition drools:msgref="paymentattempt" messageRef="_1GjA4b5kEDqpQvUJ40IZ-A"/>
     </bpmn2:startEvent>
     <bpmn2:task id="_9E2DCF5A-C300-4A16-9B45-C9849499704C" drools:taskName="Rest" name="Попытка исполнения подписки (отмена попытки исполнения)">
       <bpmn2:extensionElements>
@@ -467,7 +453,7 @@
       <bpmn2:outputSet>
         <bpmn2:dataOutputRefs>c9692af8-dbcd-4a50-84cd-cb40162099d5_eventOutputX</bpmn2:dataOutputRefs>
       </bpmn2:outputSet>
-      <bpmn2:messageEventDefinition drools:msgref="interruptexecutionmessage" messageRef="_1GjA4L5kEDqpQvUJ40IZ-A"/>
+      <bpmn2:messageEventDefinition drools:msgref="interruptexecutionmessage" messageRef="_G2f60L5tEDqpQvUJ40IZ-A"/>
     </bpmn2:boundaryEvent>
   </bpmn2:process>
   <bpmndi:BPMNDiagram>
@@ -685,10 +671,17 @@
               </bpsim:UnitCost>
             </bpsim:CostParameters>
           </bpsim:ElementParameters>
+          <bpsim:ElementParameters elementRef="_37C7F9E5-D67B-4BB9-B650-1C76293A6498">
+            <bpsim:TimeParameters>
+              <bpsim:ProcessingTime>
+                <bpsim:NormalDistribution mean="0" standardDeviation="0"/>
+              </bpsim:ProcessingTime>
+            </bpsim:TimeParameters>
+          </bpsim:ElementParameters>
         </bpsim:Scenario>
       </bpsim:BPSimData>
     </bpmn2:extensionElements>
-    <bpmn2:source>_1Gf9kL5kEDqpQvUJ40IZ-A</bpmn2:source>
-    <bpmn2:target>_1Gf9kL5kEDqpQvUJ40IZ-A</bpmn2:target>
+    <bpmn2:source>_G2cQcL5tEDqpQvUJ40IZ-A</bpmn2:source>
+    <bpmn2:target>_G2cQcL5tEDqpQvUJ40IZ-A</bpmn2:target>
   </bpmn2:relationship>
 </bpmn2:definitions>
