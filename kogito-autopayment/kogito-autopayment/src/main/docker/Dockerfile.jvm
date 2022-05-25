@@ -15,6 +15,10 @@
 #
 ###
 FROM fabric8/java-alpine-openjdk11-jre
+
+# Fix kafka streams persistence, see https://github.com/kohlschutter/junixsocket/issues/33
+RUN apk add --no-cache libstdc++
+
 ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
 ENV AB_ENABLED=jmx_exporter
 

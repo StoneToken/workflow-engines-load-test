@@ -205,7 +205,10 @@ services:
       - 8080:8080
     # Hack to make runtime management work, see https://github.com/kiegroup/kogito-apps/pull/1025
     environment:
-      JAVA_OPTIONS: -Dkogito.service.url=http://${DOCKER_GATEWAY_HOST}:8080
+      # JAVA_OPTIONS: -Dquarkus-profile=infinispan -Dkogito.service.url=http://${DOCKER_GATEWAY_HOST}:8080
+      # JAVA_OPTIONS: -Dquarkus-profile=kafka -Dkogito.service.url=http://${DOCKER_GATEWAY_HOST}:8080
+      # JAVA_OPTIONS: -Dquarkus-profile=postgresql -Dkogito.service.url=http://${DOCKER_GATEWAY_HOST}:8080
+      JAVA_OPTIONS: -Dquarkus-profile=mongo -Dkogito.service.url=http://${DOCKER_GATEWAY_HOST}:8080
     depends_on:
       kafka:
         condition: service_started
@@ -215,6 +218,30 @@ services:
         condition: service_started
       data-index:
         condition: service_started
+    networks:
+      - kogito-network
+
+  postgresql:
+    container_name: postgresql
+    image: postgres:14.2-alpine
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: kogito
+      POSTGRES_PASSWORD: kogito
+      POSTGRES_DB: kogito
+    networks:
+      - kogito-network
+
+  mongodb:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: kogito
+      MONGO_INITDB_ROOT_PASSWORD: kogito
     networks:
       - kogito-network
 

@@ -1,19 +1,18 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kie.kogito.examples</groupId>
     <artifactId>kogito-quarkus-examples</artifactId>
-    <version>1.20.0.Final</version>
+    <version>1.21.0.Final</version>
   </parent>
   <artifactId>kogito-autopayment</artifactId>
   <name>Kogito autopayment test case</name>
   <properties>
-    <quarkus-plugin.version>2.7.3.Final</quarkus-plugin.version>
+    <quarkus-plugin.version>2.9.0.Final</quarkus-plugin.version>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-    <quarkus.platform.version>2.7.3.Final</quarkus.platform.version>
+    <quarkus.platform.version>2.9.0.Final</quarkus.platform.version>
     <kogito.bom.group-id>org.kie.kogito</kogito.bom.group-id>
     <kogito.bom.artifact-id>kogito-bom</kogito.bom.artifact-id>
     <kogito.bom.version>${project.version}</kogito.bom.version>
@@ -36,6 +35,78 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <profiles>
+    <profile>
+      <id>postgresql</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.kie.kogito</groupId>
+          <artifactId>kogito-addons-quarkus-persistence-postgresql</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>io.quarkus</groupId>
+          <artifactId>quarkus-reactive-pg-client</artifactId>
+        </dependency>
+      </dependencies>
+      <activation>
+        <property>
+          <name>quarkus-profile</name>
+          <value>postgresql</value>
+        </property>
+      </activation>
+    </profile>
+
+    <profile>
+      <id>infinispan</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.kie.kogito</groupId>
+          <artifactId>kogito-addons-quarkus-persistence-infinispan</artifactId>
+        </dependency>
+      </dependencies>
+      <activation>
+        <property>
+          <name>quarkus-profile</name>
+          <value>infinispan</value>
+        </property>
+      </activation>
+    </profile>
+
+    <profile>
+      <id>kafka</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.kie.kogito</groupId>
+          <artifactId>kogito-addons-quarkus-persistence-kafka</artifactId>
+        </dependency>
+      </dependencies>
+      <activation>
+        <property>
+          <name>quarkus-profile</name>
+          <value>kafka</value>
+        </property>
+      </activation>
+    </profile>
+
+    <profile>
+      <id>mongo</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.kie.kogito</groupId>
+          <artifactId>kogito-addons-quarkus-persistence-mongodb</artifactId>
+        </dependency>
+      </dependencies>
+      <activation>
+        <property>
+          <name>quarkus-profile</name>
+          <value>mongo</value>
+        </property>
+      </activation>
+    </profile>
+
+  </profiles>
+
   <dependencies>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -80,12 +151,6 @@
       <artifactId>kogito-rest-workitem</artifactId>
     </dependency>
 
-    <!-- Persistence -->
-    <dependency>
-      <groupId>org.kie.kogito</groupId>
-      <artifactId>kogito-addons-quarkus-persistence-infinispan</artifactId>
-    </dependency>
-
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
@@ -117,13 +182,15 @@
     </dependency>
     <dependency>
       <groupId>org.kie.kogito</groupId>
+      <artifactId>kogito-addons-quarkus-process-svg</artifactId>
+    </dependency>
+
+    <!-- Prometheus addon -->
+    <dependency>
+      <groupId>org.kie.kogito</groupId>
       <artifactId>kogito-addons-quarkus-monitoring-prometheus</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>org.kie.kogito</groupId>
-      <artifactId>kogito-addons-quarkus-process-svg</artifactId>
-    </dependency>
   </dependencies>
   <build>
     <finalName>${project.artifactId}</finalName>
