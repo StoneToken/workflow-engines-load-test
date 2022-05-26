@@ -24,13 +24,15 @@ When using native image compilation, you will also need:
 
 ### Profiles
 
-I have added a few profiles: infinispan, postgresql and kafka, they should be activated as quarkus profiles like
+I have added a few profiles: infinispan, postgresql and kafka, they should be activated as quarkus profiles like. Each profile represents a persistence storage.
 
 ```sh
 mvn -Dquarkus-profile=postgresql clean package
 ```
 
-Profile specific confing is prefixed with % in .props file.
+Profile specific config is prefixed with % in .props file.
+
+NOTE: Parallel test will fail in app built with *kafka* profile, because [kafka persistence doesn't support optimistic locks](https://issues.redhat.com/browse/KOGITO-7229)
 
 ### Compile and Run in Local Dev Mode
 
@@ -92,6 +94,8 @@ Start docker-compose
 ```sh
 docker-compose -f docker-compose/docker-compose.yml up -d
 ```
+
+If you're using **kafka** profile, create topic *kogito.process* in kafka 
 
 Curl for single
 
