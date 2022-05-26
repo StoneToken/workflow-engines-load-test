@@ -205,10 +205,10 @@ services:
       - 8080:8080
     # Hack to make runtime management work, see https://github.com/kiegroup/kogito-apps/pull/1025
     environment:
-      # JAVA_OPTIONS: -Dquarkus-profile=infinispan -Dkogito.service.url=http://${DOCKER_GATEWAY_HOST}:8080
+      JAVA_OPTIONS: -Dquarkus-profile=infinispan -Dkogito.service.url=http://${DOCKER_GATEWAY_HOST}:8080
       # JAVA_OPTIONS: -Dquarkus-profile=kafka -Dkogito.service.url=http://${DOCKER_GATEWAY_HOST}:8080
       # JAVA_OPTIONS: -Dquarkus-profile=postgresql -Dkogito.service.url=http://${DOCKER_GATEWAY_HOST}:8080
-      JAVA_OPTIONS: -Dquarkus-profile=mongo -Dkogito.service.url=http://${DOCKER_GATEWAY_HOST}:8080
+      # JAVA_OPTIONS: -Dquarkus-profile=mongo -Dkogito.service.url=http://${DOCKER_GATEWAY_HOST}:8080
     depends_on:
       kafka:
         condition: service_started
