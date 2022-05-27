@@ -28,6 +28,7 @@
   </dependencyManagement>
 
   <profiles>
+    <!-- Persistence -->
     <profile>
       <id>postgresql</id>
       <dependencies>
@@ -78,6 +79,27 @@
           <value>kafka</value>
         </property>
       </activation>
+    </profile>
+
+    <!-- Integration with Jobs Service -->
+    <profile>
+      <id>rest-jobs</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.kie.kogito</groupId>
+          <artifactId>kogito-addons-quarkus-jobs-management</artifactId>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <profile>
+      <id>kafka-jobs</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.kie.kogito</groupId>
+          <artifactId>kogito-addons-quarkus-jobs-messaging</artifactId>
+        </dependency>
+      </dependencies>
     </profile>
   </profiles>
 
@@ -139,10 +161,6 @@
     </dependency>
     <dependency>
       <groupId>org.kie.kogito</groupId>
-      <artifactId>kogito-addons-quarkus-jobs-management</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.kie.kogito</groupId>
       <artifactId>kogito-addons-quarkus-process-svg</artifactId>
     </dependency>
 
@@ -151,7 +169,6 @@
       <groupId>org.kie.kogito</groupId>
       <artifactId>kogito-addons-quarkus-monitoring-prometheus</artifactId>
     </dependency>
-
   </dependencies>
   <build>
     <finalName>${project.artifactId}</finalName>
