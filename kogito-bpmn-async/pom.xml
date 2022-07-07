@@ -4,19 +4,10 @@
   <parent>
     <groupId>org.kie.kogito.examples</groupId>
     <artifactId>kogito-quarkus-examples</artifactId>
-    <version>1.20.0.Final</version>
+    <version>1.21.0.Final</version>
   </parent>
   <artifactId>kogito-bpmn-async</artifactId>
   <name>Kogito async bpmn load test</name>
-  <properties>
-    <quarkus-plugin.version>2.7.3.Final</quarkus-plugin.version>
-    <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
-    <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-    <quarkus.platform.version>2.7.3.Final</quarkus.platform.version>
-    <kogito.bom.group-id>org.kie.kogito</kogito.bom.group-id>
-    <kogito.bom.artifact-id>kogito-bom</kogito.bom.artifact-id>
-    <kogito.bom.version>${project.version}</kogito.bom.version>
-  </properties>
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -37,6 +28,7 @@
   </dependencyManagement>
 
   <profiles>
+    <!-- Persistence -->
     <profile>
       <id>postgresql</id>
       <dependencies>
@@ -87,6 +79,27 @@
           <value>kafka</value>
         </property>
       </activation>
+    </profile>
+
+    <!-- Integration with Jobs Service -->
+    <profile>
+      <id>rest-jobs</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.kie.kogito</groupId>
+          <artifactId>kogito-addons-quarkus-jobs-management</artifactId>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <profile>
+      <id>kafka-jobs</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.kie.kogito</groupId>
+          <artifactId>kogito-addons-quarkus-jobs-messaging</artifactId>
+        </dependency>
+      </dependencies>
     </profile>
   </profiles>
 
@@ -148,10 +161,6 @@
     </dependency>
     <dependency>
       <groupId>org.kie.kogito</groupId>
-      <artifactId>kogito-addons-quarkus-jobs-management</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.kie.kogito</groupId>
       <artifactId>kogito-addons-quarkus-process-svg</artifactId>
     </dependency>
 
@@ -160,7 +169,6 @@
       <groupId>org.kie.kogito</groupId>
       <artifactId>kogito-addons-quarkus-monitoring-prometheus</artifactId>
     </dependency>
-
   </dependencies>
   <build>
     <finalName>${project.artifactId}</finalName>

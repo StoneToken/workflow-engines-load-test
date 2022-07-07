@@ -24,18 +24,25 @@ When using native image compilation, you will also need:
 
 ### Profiles
 
-I have added a few profiles: infinispan, postgresql and kafka, they should be activated as quarkus profiles like
+I have added a few profiles for kogito persistence: infinispan, postgresql and kafka, they should be activated as quarkus profiles like.
 
 ```sh
-mvn -Dquarkus-profile=postgresql clean package
+mvn clean package -Dquarkus-profile=postgresql
+```
+NOTE: Parallel test will fail in app built with *kafka* persistance profile, because [kafka persistence doesn't support optimistic locks](https://issues.redhat.com/browse/KOGITO-7229)
+
+Also, there is a few profiles for kogito runtime and jobs service integration: rest-jobs and kafka-jobs. They should be activated as plain maven profile.
+
+```sh
+mvn clean package -P kafka-jobs
 ```
 
-Profile specific confing is prefixed with % in .props file.
+Profile specific config is prefixed with % in .props file.
 
 ### Compile and Run in Local Dev Mode
 
 ```sh
-mvn clean compile quarkus:dev
+mvn clean compile quarkus:dev -Dquarkus-profile=%PERSISTANCE% -P %JOBS_INTEGRATION%
 ```
 
 NOTE: With dev mode of Quarkus you can take advantage of hot reload for business assets like processes, rules, decision tables and java code. No need to redeploy or restart your running application.
@@ -43,15 +50,15 @@ NOTE: With dev mode of Quarkus you can take advantage of hot reload for business
 ### Package and Run in JVM mode
 
 ```sh
-mvn clean package
-java -jar target/quarkus-app/quarkus-run.jar
+mvn clean package -Dquarkus-profile=%PERSISTANCE% -P %JOBS_INTEGRATION%
+java -jar target/quarkus-app/quarkus-run.jar -Dquarkus-profile=%PERSISTANCE%
 ```
 
 or on windows
 
 ```sh
-mvn clean package
-java -jar target\quarkus-app\quarkus-run.jar
+mvn clean package -Dquarkus-profile=%PERSISTANCE% -P %JOBS_INTEGRATION%
+java -jar target\quarkus-app\quarkus-run.jar -Dquarkus-profile=%PERSISTANCE% 
 ```
 
 ### Package and Run using Local Native Image
@@ -59,7 +66,7 @@ java -jar target\quarkus-app\quarkus-run.jar
 Note that this requires GRAALVM_HOME to point to a valid GraalVM installation
 
 ```sh
-mvn clean package -Pnative
+mvn clean package -Dquarkus-profile=%PERSISTANCE% -Pnative,%JOBS_INTEGRATION%
 ```
 
 To run the generated native executable, generated in `target/`, execute
@@ -92,6 +99,8 @@ Start docker-compose
 ```sh
 docker-compose -f docker-compose/docker-compose.yml up -d
 ```
+
+If you're using **kafka** persistence profile, create topic *kogito.process* in kafka 
 
 Curl for single
 
