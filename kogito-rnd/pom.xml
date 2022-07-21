@@ -4,91 +4,10 @@
   <parent>
     <groupId>org.kie.kogito.examples</groupId>
     <artifactId>kogito-quarkus-examples</artifactId>
-    <version>1.21.0.Final</version>
+    <version>1.24.0.Final</version>
   </parent>
-  <artifactId>kogito-autopayment</artifactId>
-  <name>Kogito autopayment test case</name>
-  <properties>
-    <quarkus-plugin.version>2.9.0.Final</quarkus-plugin.version>
-    <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
-    <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-    <quarkus.platform.version>2.9.0.Final</quarkus.platform.version>
-    <kogito.bom.group-id>org.kie.kogito</kogito.bom.group-id>
-    <kogito.bom.artifact-id>kogito-bom</kogito.bom.artifact-id>
-    <kogito.bom.version>${project.version}</kogito.bom.version>
-  </properties>
-
-  <profiles>
-    <profile>
-      <id>postgresql</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.kie.kogito</groupId>
-          <artifactId>kogito-addons-quarkus-persistence-postgresql</artifactId>
-        </dependency>
-        <dependency>
-          <groupId>io.quarkus</groupId>
-          <artifactId>quarkus-reactive-pg-client</artifactId>
-        </dependency>
-      </dependencies>
-      <activation>
-        <property>
-          <name>quarkus-profile</name>
-          <value>postgresql</value>
-        </property>
-      </activation>
-    </profile>
-
-    <profile>
-      <id>infinispan</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.kie.kogito</groupId>
-          <artifactId>kogito-addons-quarkus-persistence-infinispan</artifactId>
-        </dependency>
-      </dependencies>
-      <activation>
-        <property>
-          <name>quarkus-profile</name>
-          <value>infinispan</value>
-        </property>
-      </activation>
-    </profile>
-
-    <profile>
-      <id>kafka</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.kie.kogito</groupId>
-          <artifactId>kogito-addons-quarkus-persistence-kafka</artifactId>
-        </dependency>
-      </dependencies>
-      <activation>
-        <property>
-          <name>quarkus-profile</name>
-          <value>kafka</value>
-        </property>
-      </activation>
-    </profile>
-
-    <profile>
-      <id>mongo</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.kie.kogito</groupId>
-          <artifactId>kogito-addons-quarkus-persistence-mongodb</artifactId>
-        </dependency>
-      </dependencies>
-      <activation>
-        <property>
-          <name>quarkus-profile</name>
-          <value>mongo</value>
-        </property>
-      </activation>
-    </profile>
-
-  </profiles>
-
+  <artifactId>kogito-rnd</artifactId>
+  <name>Kogito rnd project</name>
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -122,12 +41,12 @@
       <artifactId>kogito-quarkus</artifactId>
     </dependency>
     <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-vertx</artifactId>
+      <groupId>org.kie.kogito</groupId>
+      <artifactId>kogito-addons-quarkus-persistence-mongodb</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-smallrye-openapi</artifactId>
+      <artifactId>quarkus-vertx</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -151,7 +70,10 @@
       <groupId>org.kie.kogito</groupId>
       <artifactId>kogito-rest-workitem</artifactId>
     </dependency>
-
+    <dependency>
+      <groupId>org.kie.kogito</groupId>
+      <artifactId>kogito-addons-quarkus-jobs-management</artifactId>
+    </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
@@ -159,15 +81,6 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-openapi</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-smallrye-health</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.kie.kogito</groupId>
-      <artifactId>kogito-addons-quarkus-messaging</artifactId>
     </dependency>
     <dependency>
       <groupId>org.kie.kogito</groupId>
@@ -179,10 +92,6 @@
     </dependency>
     <dependency>
       <groupId>org.kie.kogito</groupId>
-      <artifactId>kogito-addons-quarkus-jobs-management</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.kie.kogito</groupId>
       <artifactId>kogito-addons-quarkus-process-svg</artifactId>
     </dependency>
 
@@ -191,7 +100,6 @@
       <groupId>org.kie.kogito</groupId>
       <artifactId>kogito-addons-quarkus-monitoring-prometheus</artifactId>
     </dependency>
-
   </dependencies>
   <build>
     <finalName>${project.artifactId}</finalName>

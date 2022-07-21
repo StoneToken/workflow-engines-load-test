@@ -78,7 +78,7 @@ To run the generated native executable, generated in `target/`, execute
 ### Build docker image
 
 ```sh
-docker build -f src/main/docker/Dockerfile.jvm -t quarkus/kogito-bpmn-async-jvm .
+docker build -f src/main/docker/Dockerfile.jvm -t quarkus/kogito-rnd-jvm .
 ```
 
 ### OpenAPI (Swagger) documentation
@@ -102,22 +102,10 @@ docker-compose -f docker-compose/docker-compose.yml up -d
 
 If you're using **kafka** persistence profile, create topic *kogito.process* in kafka 
 
-Curl for single
+Curl for test
 
 ```sh
-curl -X POST -H 'Content-Type:application/json' -H 'Accept:application/json' -d '{"username" : "test"}' http://localhost:8080/single
-```
-
-Curl for sequential
-
-```sh
-curl -X POST -H 'Content-Type:application/json' -H 'Accept:application/json' -d '{"username" : "test"}' http://localhost:8080/sequential
-```
-
-Curl for parallel
-
-```sh
-curl -X POST -H 'Content-Type:application/json' -H 'Accept:application/json' -d '{"username" : "test"}' http://localhost:8080/parallel
+curl -X POST -H 'Content-Type:application/json' -H 'Accept:application/json' -d '{"username" : "test"}' http://localhost:8080/test
 ```
 
 Prometheus metrics available at `host/q/metrics`

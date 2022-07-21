@@ -202,7 +202,8 @@ services:
       postgresql:
         condition: service_started
     environment:
-      # JAVA_OPTIONS: -Dquarkus-profile=infinispan
+#      JAVA_OPTIONS: -Dquarkus-profile=infinispan
+#      JAVA_OPTIONS: -Dquarkus-profile=kafka
       JAVA_OPTIONS: -Dquarkus-profile=postgresql
     networks:
       - kogito-network
