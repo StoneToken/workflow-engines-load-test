@@ -8,6 +8,6 @@ scrape_configs:
     metrics_path: /q/metrics
 
     static_configs:
-      - targets: ['kogito-bpmn-async:8080'] 
+      - targets: ['kogito-rnd:8080'] 
         
         #['host.docker.internal:8180']

@@ -7,7 +7,7 @@
     <version>1.24.0.Final</version>
   </parent>
   <artifactId>kogito-rnd</artifactId>
-  <name>Kogito async bpmn load test</name>
+  <name>Kogito rnd project</name>
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -27,82 +27,6 @@
     </dependencies>
   </dependencyManagement>
 
-  <profiles>
-    <!-- Persistence -->
-    <profile>
-      <id>postgresql</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.kie.kogito</groupId>
-          <artifactId>kogito-addons-quarkus-persistence-postgresql</artifactId>
-        </dependency>
-        <dependency>
-          <groupId>io.quarkus</groupId>
-          <artifactId>quarkus-reactive-pg-client</artifactId>
-        </dependency>
-      </dependencies>
-      <activation>
-        <property>
-          <name>quarkus-profile</name>
-          <value>postgresql</value>
-        </property>
-      </activation>
-    </profile>
-
-    <profile>
-      <id>infinispan</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.kie.kogito</groupId>
-          <artifactId>kogito-addons-quarkus-persistence-infinispan</artifactId>
-        </dependency>
-      </dependencies>
-      <activation>
-        <property>
-          <name>quarkus-profile</name>
-          <value>infinispan</value>
-        </property>
-      </activation>
-    </profile>
-
-    <profile>
-      <id>kafka</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.kie.kogito</groupId>
-          <artifactId>kogito-addons-quarkus-persistence-kafka</artifactId>
-        </dependency>
-      </dependencies>
-      <activation>
-        <property>
-          <name>quarkus-profile</name>
-          <value>kafka</value>
-        </property>
-      </activation>
-    </profile>
-
-    <!-- Integration with Jobs Service -->
-    <profile>
-      <id>rest-jobs</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.kie.kogito</groupId>
-          <artifactId>kogito-addons-quarkus-jobs-management</artifactId>
-        </dependency>
-      </dependencies>
-    </profile>
-
-    <profile>
-      <id>kafka-jobs</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.kie.kogito</groupId>
-          <artifactId>kogito-addons-quarkus-jobs-messaging</artifactId>
-        </dependency>
-      </dependencies>
-    </profile>
-  </profiles>
-
   <dependencies>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -115,6 +39,10 @@
     <dependency>
       <groupId>org.kie.kogito</groupId>
       <artifactId>kogito-quarkus</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.kogito</groupId>
+      <artifactId>kogito-addons-quarkus-persistence-mongodb</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -142,7 +70,10 @@
       <groupId>org.kie.kogito</groupId>
       <artifactId>kogito-rest-workitem</artifactId>
     </dependency>
-
+    <dependency>
+      <groupId>org.kie.kogito</groupId>
+      <artifactId>kogito-addons-quarkus-jobs-management</artifactId>
+    </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>

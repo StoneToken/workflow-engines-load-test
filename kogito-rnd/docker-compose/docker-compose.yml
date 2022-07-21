@@ -25,6 +25,17 @@ services:
     networks:
       - kogito-network
 
+  mongodb:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: kogito
+      MONGO_INITDB_ROOT_PASSWORD: kogito
+    networks:
+      - kogito-network
+
   zookeeper:
     container_name: zookeeper
     image: strimzi/kafka:0.20.1-kafka-2.6.0
@@ -110,21 +121,19 @@ services:
 
   data-index:
     container_name: data-index
-    image: quay.io/kiegroup/kogito-data-index-infinispan:${KOGITO_VERSION}
+    image: quay.io/kiegroup/kogito-data-index-mongodb:${KOGITO_VERSION}
     ports:
       - "8180:8080"
     depends_on:
       kafka:
         condition: service_started
-      infinispan:
-        condition: service_healthy
+      mongodb:
+        condition: service_started
     volumes:
       - ./persistence/:/home/kogito/data/protobufs/:z
     environment:
-      QUARKUS_INFINISPAN_CLIENT_SERVER_LIST: infinispan:11222
-      QUARKUS_INFINISPAN_CLIENT_USE_AUTH: "false"
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
-      KOGITO_DATA_INDEX_PROPS: -Dkogito.protobuf.folder=/home/kogito/data/protobufs/
+      KOGITO_DATA_INDEX_PROPS: -Dkogito.persistence.type=mongodb -Dquarkus.mongodb.connection-string=mongodb://kogito:kogito@mongodb:27017 -Dquarkus.mongodb.database=kogito -Dquarkus.mongodb.health.enabled=true -Dquarkus.mongodb.metrics.enabled=true
     networks:
       - kogito-network
 
@@ -213,8 +222,10 @@ services:
         condition: service_started
       api-mock-rest:
         condition: service_started
+      mongodb:
+        condition: service_started
     environment:
-     JAVA_OPTIONS: -Dquarkus-profile=infinispan -Dkogito.service.url=http://localhost:8080
+     JAVA_OPTIONS: -Dquarkus-profile=mongo -Dkogito.service.url=http://localhost:8080
     networks:
       - kogito-network
 
